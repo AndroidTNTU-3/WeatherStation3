@@ -1,0 +1,159 @@
+package com.unrealedz.wstation.fragments;
+
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.Context;
+import android.database.Cursor;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import org.apache.commons.*;
+
+import com.unrealedz.wstation.LocationLoader;
+import com.unrealedz.wstation.MainActivity;
+import com.unrealedz.wstation.NetworkLoader;
+import com.unrealedz.wstation.NetworkLoader.LoaderCallBack;
+import com.unrealedz.wstation.R;
+import com.unrealedz.wstation.R.id;
+import com.unrealedz.wstation.R.layout;
+import com.unrealedz.wstation.bd.DataDayHelper;
+import com.unrealedz.wstation.bd.DataHelper;
+import com.unrealedz.wstation.bd.DbHelper;
+import com.unrealedz.wstation.entity.City;
+import com.unrealedz.wstation.entity.CurrentForecast;
+import com.unrealedz.wstation.fragments.FragmentDayHours.HoursCallBack;
+import com.unrealedz.wstation.utils.Utils;
+import com.unrealedz.wstation.utils.UtilsDB;
+
+public class FragmentCurrent extends Fragment{
+	
+	TextView city;
+	TextView city1;
+	TextView region;
+	TextView temperature;
+	ImageView imageView;
+	
+	NetworkLoader nLoader;
+	Cursor cursorCity;
+	Cursor cursorCurrent;
+	String cityname = "";
+	
+	LocationLoader locationLoader;
+	LoaderCallBack loaderCallBack;
+	
+	Context context;
+	
+	City mCity;
+	CurrentForecast currentForecast;
+			
+	
+	@Override
+	  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	      Bundle savedInstanceState) {
+
+		View v = inflater.inflate(R.layout.current, container, false);
+		
+		city = (TextView) v.findViewById(R.id.tvCity);
+		city1 = (TextView) v.findViewById(R.id.tvCity1);
+		region = (TextView) v.findViewById(R.id.tvRegion);
+		temperature = (TextView) v.findViewById(R.id.tvTemperature);
+		imageView = (ImageView) v.findViewById(R.id.imageCurrent);
+		context = container.getContext();
+		Log.i("DEBUG CUR", "Fragment On Createdview") ;
+		//if (!MainActivity.isOnline(getActivity())) refresh();
+	    return v;
+	  }
+	
+	
+
+	public void onActivityCreated(Bundle savedInstanceState) {
+	    super.onActivityCreated(savedInstanceState);
+
+	    //city1.setText(cityname);
+
+	    DataHelper dh = new DataHelper(this.getActivity());
+	    DataDayHelper dd = new DataDayHelper(this.getActivity());
+	    cursorCity = dh.getCursor(DbHelper.CITY_TABLE);
+		cursorCurrent = dd.getCursor(DbHelper.CURRENT_DAY_TABLE);
+		Log.i("DEBUG CUR", "Fragment On Activity Created") ;
+		//if (!MainActivity.isOnline(getActivity())) refresh();
+		//Log.i("DEBUG CUR", "City:" + String.valueOf(cursorCity.getCount()) + "Current:" + String.valueOf(cursorCurrent.getCount()));
+		loaderCallBack.setLocationInfo();
+		//if (!MainActivity.isOnline(getActivity())){						// check is device online
+		
+			/*if((cursorCity.getCount() != 0) && (cursorCurrent.getCount() != 0)) {
+				setData(UtilsDB.getCity(cursorCity), UtilsDB.getCurrentForecast(cursorCurrent));
+				cursorCity.close();
+				cursorCurrent.close();
+				// check dataBase is not empty 
+			}*/
+			//else Toast.makeText(this.getActivity(), "Network offline, Please check the internet connection", Toast.LENGTH_LONG).show();
+			//else if (!MainActivity.isOnline(getActivity())) Toast.makeText(this.getActivity(), "Network offline, Please check the internet connection", Toast.LENGTH_LONG).show();
+		//}
+
+	  }
+	
+	@Override
+	  public void onAttach(Activity activity) {
+	    super.onAttach(activity);
+	        try {
+	        	loaderCallBack = (LoaderCallBack) activity;
+	        } catch (ClassCastException e) {
+	            throw new ClassCastException(activity.toString() + " must implement LoaderCallBack");
+	        }
+	  }
+	
+	public void onStart() {
+	    super.onStart();
+	  }
+
+	public void setData(City mCity, CurrentForecast currentForecast) {
+		this.mCity = mCity;
+		this.currentForecast = currentForecast;
+		refresh();
+		/*if (cursorCity.moveToFirst()){	
+		city.setText(cursorCity.getString(cursorCity.getColumnIndex(DbHelper.CITY_NAME)));
+		region.setText(cursorCity.getString(cursorCity.getColumnIndex(DbHelper.REGION)));
+		
+		}*/
+
+				
+	/*	if (cursorCurrent.moveToFirst()){
+		Log.i("DEBUG CUR", String.valueOf(cursorCurrent.getColumnIndex(DbHelper.TEMPERATURE)));
+		temperature.setText(cursorCurrent.getString(cursorCurrent.getColumnIndex(DbHelper.TEMPERATURE)) + "°");
+		
+		String pictureName =  cursorCurrent.getString(cursorCurrent.getColumnIndex(DbHelper.PICTURE_NAME));
+		imageView.setImageResource(Utils.getImageId(pictureName, context));*/
+		
+		/*int id = context.getResources().getIdentifier(myString, "drawable", context.getPackageName());
+		Drawable drawable = context.getResources().getDrawable(id);
+		imageView.setImageDrawable(drawable);
+		
+		}*/
+	}
+	
+	public void refresh() {
+		
+		city.setText(mCity.getName());
+		region.setText(mCity.getRegion().getRegion());
+		
+		temperature.setText(currentForecast.getTemperature() + "°");
+		
+		String pictureName =  currentForecast.getPictureName();
+		imageView.setImageResource(Utils.getImageId(pictureName, context));
+	}
+	
+	
+	public void onDestroy() {
+	    super.onDestroy();
+	    //cursorCity.close();
+	    //cursorCurrent.close();
+	  }
+
+}

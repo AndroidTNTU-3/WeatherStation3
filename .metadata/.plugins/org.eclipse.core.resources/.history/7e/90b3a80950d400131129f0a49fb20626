@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <TextView
+        android:id="@+id/tvCity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_small"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="18dp"
+        android:text="TextView" />
+
+    <TextView
+        android:id="@+id/tvRegion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_small"   
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/tvCity"
+        android:text="TextView" />
+    
+    <LinearLayout
+        android:id="@+id/rect_gray"   
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:orientation="vertical" 
+        android:layout_below="@+id/tvRegion"
+        android:background="@drawable/rect_gray">
+    	</LinearLayout>
+
+    <TextView
+        android:id="@+id/tvTemperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/tvCity"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:textSize="@dimen/text_size_large"
+        android:text="TextView" />
+
+    <ImageView
+        android:id="@+id/imageCurrent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/_4_short_rain" />
+
+</RelativeLayout>

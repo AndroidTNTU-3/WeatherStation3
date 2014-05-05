@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        >
+
+        <LinearLayout
+            android:id="@+id/linearLayoutHours"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal" >
+            
+            <LinearLayout
+                android:id="@+id/linearLayout3"
+            	android:layout_width="match_parent"
+            	android:layout_height="match_parent"
+            	android:padding="2dp"
+            	android:layout_weight="0.25"
+            	android:gravity="center"
+            	android:orientation="vertical" >
+            <TextView
+                android:id="@+id/tvHour3"
+        		android:layout_width="wrap_content"
+       			android:layout_height="wrap_content"
+        		android:text="3" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/_0_moon" />
+
+            <TextView
+                android:id="@+id/tvTempMinMax3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView" />            
+        	</LinearLayout>
+        	
+        <LinearLayout
+            android:id="@+id/linearLayout9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="2dp"
+            android:gravity="center"
+            android:layout_weight="0.25"
+            android:orientation="vertical" >
+            <TextView
+                android:id="@+id/tvHour9"
+        		android:layout_width="wrap_content"
+       			android:layout_height="wrap_content"
+        		android:text="TextView" />
+
+            <ImageView
+                android:id="@+id/imageView9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/_0_moon" />
+
+            <TextView
+                android:id="@+id/tvTempMinMax9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView" />            
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/linearLayout15"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="2dp"
+            android:gravity="center"
+                        	android:layout_weight="0.25"
+            android:orientation="vertical" >
+            <TextView
+                android:id="@+id/tvHour15"
+        		android:layout_width="wrap_content"
+       			android:layout_height="wrap_content"
+        		android:text="TextView" />
+
+            <ImageView
+                android:id="@+id/imageView15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/_0_moon" />
+
+            <TextView
+                android:id="@+id/tvTempMinMax15"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView" />            
+        </LinearLayout>
+        
+        <LinearLayout
+            android:id="@+id/linearLayout21"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="2dp"
+            android:gravity="center"
+                        	android:layout_weight="0.25"
+            android:orientation="vertical" >
+            <TextView
+                android:id="@+id/tvHour21"
+        		android:layout_width="wrap_content"
+       			android:layout_height="wrap_content"
+        		android:text="TextView" />
+
+            <ImageView
+                android:id="@+id/imageView21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/_0_moon" />
+
+            <TextView
+                android:id="@+id/tvTempMinMax21"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TextView" />            
+        </LinearLayout>
+            
+        </LinearLayout>
+    </HorizontalScrollView>
+
+</LinearLayout>

@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <FrameLayout android:id="@+id/fragCurrent"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" 
+      tools:context=".FragmentCurrent" >
+
+    </FrameLayout>    
+    
+    <FrameLayout android:id="@+id/fragList"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      android:padding="10dp"
+      tools:context=".FragmentList" >
+   </FrameLayout>
+   
+  <FrameLayout
+      android:id="@+id/fragInfoUpdate"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"  
+      tools:context=".FragmentInfo" >
+  </FrameLayout>
+       
+</LinearLayout>
