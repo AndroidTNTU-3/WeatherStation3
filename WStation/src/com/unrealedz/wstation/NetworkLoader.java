@@ -150,15 +150,15 @@ public class NetworkLoader extends AsyncTask<String, Void, String>{
     	  
     	  if (loaderCallBack != null){
     			 loaderCallBack.onLoadCityDB();
-    	    	}    	          
+    	  }    	          
 
       } else if(result.equals(MainActivity.GET_FORECAST)){
     	  
     	  if (loaderCallBack != null){
         	  loaderCallBack.setLocationInfo();
         	  loaderCallBack.setLastUpdate();
-        	  loaderCallBack.setWeekList();
-          	} 		  
+        	  //loaderCallBack.setWeekList();
+          } 		  
       }
 	}	
 	

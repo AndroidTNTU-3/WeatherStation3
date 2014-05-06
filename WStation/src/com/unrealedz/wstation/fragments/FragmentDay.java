@@ -27,6 +27,7 @@ public class FragmentDay extends Fragment {
 	TextView region;
 	TextView temperatureMin;
 	TextView temperatureMax;
+	TextView cloud;
 	TextView humidity;
 	TextView pressure;
 	TextView wind;
@@ -36,12 +37,14 @@ public class FragmentDay extends Fragment {
 	int tmin;
 	int tmax;
 	int id_image;
+	int cloudID;
 	int humidityMin;
 	int humidityMax;
 	int pressureMin;
 	int pressureMax;
 	int windMin;
 	int windMax;
+	int windRumb;
 	String pictureName;
 	String cityName;
 	String mRegion;
@@ -56,6 +59,7 @@ public class FragmentDay extends Fragment {
 		region = (TextView) v.findViewById(R.id.tvRegionDay);
 		temperatureMin = (TextView) v.findViewById(R.id.tvDayTmin);
 		temperatureMax = (TextView) v.findViewById(R.id.tvDayTmax);
+		cloud = (TextView) v.findViewById(R.id.tvCloudHour);
 		humidity = (TextView) v.findViewById(R.id.tvHumidityHour);
 		pressure = (TextView) v.findViewById(R.id.tvPressureHour);
 		wind = (TextView) v.findViewById(R.id.tvWindHour);
@@ -84,12 +88,14 @@ public class FragmentDay extends Fragment {
 		
 		tmin = forecastDay.getTemperatureMin();
 		tmax = forecastDay.getTemperatureMax();
+		cloudID = forecastDay.getCloudId();
 		humidityMin = forecastDay.getHumidityMin();
-		humidityMin = forecastDay.getHumidityMax();
-		pressureMin = forecastDay.getHumidityMin();
-		pressureMin = forecastDay.getHumidityMax();
+		humidityMax = forecastDay.getHumidityMax();
+		pressureMin = forecastDay.getPressureMin();
+		pressureMax = forecastDay.getPressureMax();
 		windMin = forecastDay.getWindMin();
 		windMax = forecastDay.getWindMax();
+		windRumb = forecastDay.getWindRumb();
 		pictureName = forecastDay.getPictureName();	
 	}
 	
@@ -102,9 +108,10 @@ public class FragmentDay extends Fragment {
 	public void refresh(){
 		temperatureMin.setText(String.valueOf(tmin) + "°");
 		temperatureMax.setText(String.valueOf(tmax) + "°");
-		humidity.setText("Humidity: " + String.valueOf(humidityMin) + "/" + String.valueOf(humidityMax) +  "%");
-		pressure.setText("Pressure: " + String.valueOf(pressureMin) + "/" + String.valueOf(pressureMax) +  getString(R.string.pressureUnit));
-		wind.setText("Wind: " + String.valueOf(windMin) + "/" + String.valueOf(windMax) + getString(R.string.windUnit));
+		cloud.setText(Utils.getCloud(cloudID, context));
+		humidity.setText(getString(R.string.humidity) +  " " + String.valueOf(humidityMin) + "/" + String.valueOf(humidityMax) +  " %");
+		pressure.setText(getString(R.string.pressure) +  " " + String.valueOf(pressureMin) + "/" + String.valueOf(pressureMax) +  " " + getString(R.string.pressureUnit));
+		wind.setText(getString(R.string.wind) + " " + Utils.getWindOrient(windRumb, context) + " " + String.valueOf(windMin) + "/" + String.valueOf(windMax) + " " + getString(R.string.windUnit));
 		imageView.setImageResource(Utils.getBigImageId(pictureName, context));
 	}
 }

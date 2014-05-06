@@ -7,7 +7,8 @@
      android:id="@+id/linearlayoutLocationHour"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content" 
-     android:padding="5dp"   
+     android:paddingTop="10dp" 
+     android:paddingLeft="20dp"  
      android:orientation="horizontal">
      
     <TextView
@@ -16,15 +17,14 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_small"
         android:layout_below="@+id/rect_gray"
-        android:paddingLeft="10dp"
-        android:text="City" />
+        android:text="" />
 
     <TextView
         android:id="@+id/tvRegionDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Region"
-        android:paddingLeft="10dp"
+        android:layout_marginLeft="5dp"
+        android:text=""
         android:textSize="@dimen/text_size_small" />
     
     </LinearLayout>
@@ -33,14 +33,16 @@
      android:id="@+id/linearlayoutDayInfoHour"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
+     android:paddingRight="20dp"
+     android:paddingLeft="20dp"
+     android:paddingTop="20dp"
      android:layout_below="@+id/linearlayoutLocationHour">
     
       <LinearLayout 
         android:id="@+id/linearlayoutInfoHour"
     	android:layout_width="wrap_content"
      	android:layout_height="wrap_content"
-     	android:orientation="vertical"
-     	android:padding="10dp">
+     	android:orientation="vertical">
      	
         <LinearLayout
         android:id="@+id/tempDayLayout"
@@ -58,7 +60,7 @@
             android:layout_alignParentTop="true"
             android:textSize="@dimen/text_size_big"
             android:textStyle="bold"
-            android:text="TextView" />
+            android:text="" />
 
         <LinearLayout
             android:id="@+id/rect"
@@ -76,10 +78,16 @@
             android:layout_below="@+id/rect"
             android:textSize="@dimen/text_size_big"
             android:textStyle="bold"
-            android:text="TextView" />
+            android:text="" />
     </LinearLayout>
 
-
+			<TextView
+        	    android:id="@+id/tvCloudHour"
+        	    android:layout_width="wrap_content"
+        	    android:layout_height="wrap_content"
+        	    android:layout_marginTop="10dp"
+        	    android:text=""
+        	    android:textSize="@dimen/text_size_normal" />
 
         	<TextView
         	    android:id="@+id/tvHumidityHour"

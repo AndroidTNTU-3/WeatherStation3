@@ -37,6 +37,7 @@ public class FragmentCurrent extends Fragment{
 	TextView region;
 	TextView temperature;
 	TextView temperatureFlik;
+	TextView cloud;
 	TextView humidity;
 	TextView pressure;
 	TextView wind;
@@ -66,6 +67,7 @@ public class FragmentCurrent extends Fragment{
 		region = (TextView) v.findViewById(R.id.tvRegion);
 		temperature = (TextView) v.findViewById(R.id.tvTemperature);
 		temperatureFlik = (TextView) v.findViewById(R.id.tvTemperatureFlik);
+		cloud = (TextView) v.findViewById(R.id.tvCloud);
 		humidity = (TextView) v.findViewById(R.id.tvHumidity);
 		pressure = (TextView) v.findViewById(R.id.tvPressure);
 		wind = (TextView) v.findViewById(R.id.tvWind);
@@ -84,7 +86,7 @@ public class FragmentCurrent extends Fragment{
 	    cursorCity = dh.getCursor(DbHelper.CITY_TABLE);
 		cursorCurrent = dd.getCursor(DbHelper.CURRENT_DAY_TABLE);*/
 		
-		loaderCallBack.setLocationInfo();		
+		//loaderCallBack.setLocationInfo();		
 
 	  }
 	
@@ -115,10 +117,11 @@ public class FragmentCurrent extends Fragment{
 		region.setText(mCity.getRegion().getRegion());
 		
 		temperature.setText(currentForecast.getTemperature() + "°");
-		temperatureFlik.setText("Real feel: " + currentForecast.getTemperatureFlik() + "°");
-		humidity.setText("Humidity: " + currentForecast.getHumidity() + "%");
-		pressure.setText("Pressure: " + currentForecast.getPressure() + getString(R.string.pressureUnit));
-		wind.setText("Wind: " + currentForecast.getWind() + getString(R.string.windUnit));
+		temperatureFlik.setText(getString(R.string.temperatureFlik) + currentForecast.getTemperatureFlik() + "°");
+		cloud.setText(Utils.getCloud(currentForecast.getCloudId(), context));
+		humidity.setText(getString(R.string.humidity) + " " + currentForecast.getHumidity() + " %");
+		pressure.setText(getString(R.string.pressure) + " " + currentForecast.getPressure() + " " + getString(R.string.pressureUnit));
+		wind.setText(getString(R.string.wind) + " " +  Utils.getWindOrient(currentForecast.getWindRumb(), context) + " " + currentForecast.getWind() + " " + getString(R.string.windUnit));
 		String pictureName =  currentForecast.getPictureName();
 		imageView.setImageResource(Utils.getBigImageId(pictureName, context));
 	}

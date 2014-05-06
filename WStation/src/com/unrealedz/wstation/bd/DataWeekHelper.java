@@ -61,9 +61,10 @@ public class DataWeekHelper {
 				DbHelper.PICTURE_NAME + ", " + DbHelper.HOUR + " FROM " + tableName + " WHERE " + DbHelper.HOUR + " = 15 GROUP BY " + DbHelper.DATE + ")";
 		Cursor c = db.rawQuery(sql, null);*/
 		
-		String sql = "SELECT T1._id AS _id, T1.date AS date, T1.temperatureMin AS temperatureMin, T1.temperatureMax AS temperatureMax, T2.pictureName AS pictureName FROM "
+		String sql = "SELECT T1._id AS _id, T1.date AS date, T1.temperatureMin AS temperatureMin, T1.temperatureMax AS temperatureMax, "
+				+ "T2.pictureName AS pictureName, T2.cloudId AS cloudId FROM "
 				+ "(SELECT _id, date, temperatureMin, temperatureMax FROM (SELECT _id, date, MIN(temperatureMin) AS temperatureMin, MAX(temperatureMax) "
-				+ "AS temperatureMax FROM week GROUP BY date)) T1,  (SELECT date,  pictureName FROM week WHERE hour = 15) T2 WHERE T1.date = T2.date";
+				+ "AS temperatureMax FROM week GROUP BY date)) T1,  (SELECT date, pictureName, cloudId FROM week WHERE hour = 15) T2 WHERE T1.date = T2.date";
 		
 		Cursor c = db.rawQuery(sql, null);
 		if (c != null) {

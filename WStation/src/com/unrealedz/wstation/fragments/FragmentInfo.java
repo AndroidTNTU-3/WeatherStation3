@@ -39,7 +39,7 @@ public class FragmentInfo extends Fragment {
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
 	    super.onActivityCreated(savedInstanceState);
-	    loaderCallBack.setLastUpdate(); 
+	    //loaderCallBack.setLastUpdate(); 
 	//DataDayHelper ddh = new DataDayHelper(this.getActivity());
 	//cursor = ddh.getCursor(DbHelper.CURRENT_DAY_TABLE);
 

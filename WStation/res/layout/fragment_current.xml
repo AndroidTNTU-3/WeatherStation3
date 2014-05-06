@@ -7,7 +7,8 @@
      android:id="@+id/linearlayoutLocation"
      android:layout_width="wrap_content"
      android:layout_height="wrap_content"  
-     android:padding="5dp" 
+     android:paddingTop="10dp" 
+     android:paddingLeft="20dp" 
      android:orientation="horizontal">
      
        <TextView
@@ -15,16 +16,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_small"
-        android:layout_marginLeft="10dp"
-        android:text="TextView" /> 
+        android:text="" /> 
         
         <TextView
         android:id="@+id/tvRegion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
         android:textSize="@dimen/text_size_small"   
-        android:layout_marginLeft="10dp"
-        android:text="TextView" />
+        android:text="" />
         
     </LinearLayout>
 
@@ -32,7 +32,9 @@
      android:id="@+id/linearlayoutCurrentInfo"
      android:layout_width="match_parent"
      android:layout_height="wrap_content"
-     android:layout_below="@+id/linearlayoutLocation"   
+     android:layout_below="@+id/linearlayoutLocation"
+     android:paddingRight="20dp"
+     android:paddingBottom="10dp"   
         >
         
         <LinearLayout 
@@ -40,14 +42,16 @@
     	android:layout_width="wrap_content"
      	android:layout_height="wrap_content"
      	android:orientation="vertical"
-     	android:padding="10dp">
+     	android:paddingTop="10dp" 
+     	android:paddingLeft="20dp">
+     	             
      	  
         	<TextView
         	    android:id="@+id/tvTemperature"
         	    android:layout_width="wrap_content"
         	    android:layout_height="wrap_content"
         	    android:layout_marginRight="20dp"
-        	    android:text="TextView"
+        	    android:text=""
         	    android:textStyle="bold"
         	    android:textSize="@dimen/text_size_big" />
         	
@@ -59,15 +63,24 @@
         		android:background="@drawable/rect_gray">
         		</LinearLayout>
         		
+        		
         	 <TextView
         	    android:id="@+id/tvTemperatureFlik"
         	    android:layout_width="wrap_content"
         	    android:layout_height="wrap_content"
         	    android:text="@string/temperatureFlik" />
+        	 
+        	 <TextView
+        	    android:id="@+id/tvCloud"
+        	    android:layout_width="wrap_content"
+        	    android:layout_height="wrap_content"
+        	    android:layout_marginTop="5dp"
+        	    android:text=""
+        	    android:textSize="@dimen/text_size_normal" />
 
         	<TextView
         	    android:id="@+id/tvHumidity"
-        	    android:layout_marginTop="20dp"
+        	    android:layout_marginTop="10dp"
         	    android:layout_width="wrap_content"
         	    android:layout_height="wrap_content"
         	    android:text="@string/humidity" />

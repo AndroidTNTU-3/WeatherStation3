@@ -77,12 +77,12 @@ public class FragmentList extends Fragment{
 	@Override 
     public void onActivityCreated(Bundle savedInstanceState) {  
         super.onActivityCreated(savedInstanceState);  
-        DataWeekHelper dataWeekHelper = new DataWeekHelper(this.getActivity());
-		Cursor cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
+       // DataWeekHelper dataWeekHelper = new DataWeekHelper(this.getActivity());
+		//Cursor cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
 		//if (!MainActivity.isOnline(getActivity())){						// check is device online
 			//if(cursor.getCount() != 0) setCursor(cursor);				// check dataBase is not empty 
 		//}
-		loaderCallBack.setWeekList();
+		//loaderCallBack.setWeekList();
 	}
 
 	public void setCursor(Cursor c) {

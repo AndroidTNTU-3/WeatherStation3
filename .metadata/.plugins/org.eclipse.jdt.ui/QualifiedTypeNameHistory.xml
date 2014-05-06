@@ -21,4 +21,5 @@
 <fullyQualifiedTypeName name="android.widget.ImageView"/>
 <fullyQualifiedTypeName name="com.unrealedz.wstation.fragments.FragmentDayHours.hourClickListener"/>
 <fullyQualifiedTypeName name="com.unrealedz.wstation.NetworkLoader.LoaderCallBack"/>
+<fullyQualifiedTypeName name="com.unrealedz.wstation.utils.Utils"/>
 </qualifiedTypeNameHistroy>

@@ -15,6 +15,24 @@
     <string name="wpi">Wpi: </string>
     <string name="temperatureFlik">Real fill: </string>
     <string name="pressureUnit">mb</string>
-    <string name="windUnit">km/h</string>
-
+    <string name="windUnit">m/s</string>
+    <string name="north">north</string>
+    <string name="northeast">northeast</string>
+	<string name="east">east</string>
+	<string name="southeast">southeast</string>
+	<string name="sout">south</string>
+	<string name="southwest">southwest</string>
+	<string name="west">west</string>
+	<string name="northwest">nortwest</string>
+	<string name="sunny">sunny</string>
+	<string name="partly_cloudy">partly cloudy</string>
+	<string name="cloudy">cloudy</string>
+	<string name="havy_cloudy">cloudy</string>
+	<string name="short_rain">short rain</string>
+	<string name="rain">rain</string>
+	<string name="storm_rain">storm rain</string>
+	<string name="hail">hail</string>
+	<string name="rainy_snow">rainy-snow</string>
+	<string name="snow">snow</string>
+	<string name="snowstorm">snowstorm</string>
 </resources>

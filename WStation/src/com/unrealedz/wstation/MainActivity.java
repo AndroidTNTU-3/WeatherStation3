@@ -136,7 +136,10 @@ public class MainActivity extends Activity implements LoaderCallBack, LoaderCall
 	    city = UtilsDB.getCity(cursorCity);
 	    currentForecast = UtilsDB.getCurrentForecast(cursorCurrent);	    
 		fragCurrent.setData(city, currentForecast);
-
+		DataWeekHelper dataWeekHelper = new DataWeekHelper(this);
+		Cursor cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
+		Log.i("DEBUG CUR", "In setlocatiob: " + cursor.getCount()) ;
+		setWeekList();
 	    }
 		cursorCity.close();
 		cursorCurrent.close();
@@ -163,16 +166,19 @@ public class MainActivity extends Activity implements LoaderCallBack, LoaderCall
 
 	@Override
 	public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1) {
-		Log.i("DEBUG CUR", "In loader creat") ;
-		return new MyCursorLoader(getApplicationContext());
+		Loader<Cursor> loader = null;
+		Log.i("DEBUG CUR", "On loader createdd") ;
+		loader = new MyCursorLoader(getApplicationContext());
+		return loader;
 	}
 
 	@Override
 	public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor) {
+		Log.i("DEBUG CUR", "On loader finished: " + cursor.getCount()) ;
 		if (cursor.getCount() != 0){
 		fragList.setCity(city);
 		fragList.setCursor(cursor);
-		}
+		} else onLoaderReset(arg0);
 	}
 	
 

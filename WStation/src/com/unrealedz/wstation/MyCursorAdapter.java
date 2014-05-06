@@ -36,18 +36,19 @@ public class MyCursorAdapter extends SimpleCursorAdapter {
 		String tMax = cursor.getString(cursor.getColumnIndex(DbHelper.TEMPERATURE_MAX));
 		String pictureName = cursor.getString(cursor.getColumnIndex(DbHelper.PICTURE_NAME));
 		String date = cursor.getString(cursor.getColumnIndex(DbHelper.DATE));
+		int cloudId = cursor.getInt(cursor.getColumnIndex(DbHelper.CLOUD_ID));
 		//String hour = cursor.getString(cursor.getColumnIndex(DbHelper.HOUR));
 		
 		TextView textViewTMin = (TextView) view.findViewById(R.id.textTmin);
 		TextView textViewTMax = (TextView) view.findViewById(R.id.textTmax);
 		TextView textViewDate = (TextView) view.findViewById(R.id.textDate);
-		//TextView textViewHour = (TextView) view.findViewById(R.id.textHour);
+		TextView textViewCloud = (TextView) view.findViewById(R.id.textCloud);
 		ImageView imageView = (ImageView) view.findViewById(R.id.imageList);
 		
 		textViewTMin.setText(tMin + "∞");
 		textViewTMax.setText(tMax + "∞");
 		textViewDate.setText(Utils.getStringDate(date));
-		//textViewHour.setText(hour + " „Ó‰");
+		textViewCloud.setText(Utils.getCloud(cloudId, _context));
 		imageView.setImageResource(Utils.getImageId(pictureName, _context));
 		
 		
