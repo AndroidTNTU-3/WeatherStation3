@@ -128,7 +128,7 @@ public class FragmentList extends Fragment{
 	
 	public void onDestroy() {
 	    super.onDestroy();
-	    ((MyCursorAdapter) listView.getAdapter()).getCursor().close();
+	    //((MyCursorAdapter) listView.getAdapter()).getCursor().close();
 	    
 	  }
 

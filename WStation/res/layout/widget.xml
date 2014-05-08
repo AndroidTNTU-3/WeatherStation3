@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:alpha="30"
+    android:background="@drawable/back" >
+    
+   <RelativeLayout
+        android:id="@+id/rLCurrent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <TextView
+            android:id="@+id/tvwCity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingTop="5dp"
+            android:paddingLeft="5dp"
+            android:text="City"
+            android:textColor="@color/white" 
+            android:textSize="@dimen/text_size_small"/>
+
+        <TextView
+            android:id="@+id/tvwRegion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:layout_below="@+id/tvwCity"
+            android:text="Region"
+            android:textColor="@color/white" 
+            android:textSize="@dimen/text_size_small"/>
+        
+        <TextView
+            android:id="@+id/tvwCloud"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="5dp"
+            android:paddingTop="5dp"
+            android:layout_below="@+id/tvwRegion"
+            android:text="Cloud"
+            android:textColor="@color/white" 
+            android:textSize="@dimen/text_size_normal"/>
+
+       
+        
+        <LinearLayout
+            android:id="@+id/tvwTempInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tvwTemperatura"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_big"
+                android:text="temp" />
+
+            <LinearLayout
+                android:id="@+id/rect_gray1"
+                android:layout_width="40dp"
+                android:layout_height="1dp"
+                android:background="@drawable/rect_gray"
+                android:orientation="vertical" >
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvwTemperaturaFlik"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/text_size_normal"
+                android:text="tempF" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivwCurrent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:src="@drawable/_0_sun" />
+
+    </RelativeLayout>
+    
+  
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rLCurrent"
+            android:layout_centerHorizontal="true"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/linerLayoutDay1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center"
+                android:layout_weight = "0.2"
+                android:padding="2dp" >
+
+                <TextView
+                    android:id="@+id/tvDay1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/imageViewDay1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/_0_moon" />
+
+                <TextView
+                    android:id="@+id/tvTempMinMaxDay1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/linerLayoutDay2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight = "0.2"
+                android:layout_gravity="center"
+                android:padding="2dp" >
+
+                <TextView
+                    android:id="@+id/tvDay2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/imageViewDay2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/_0_moon" />
+
+                <TextView
+                    android:id="@+id/tvTempMinMaxDay2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+            
+            <LinearLayout
+                android:id="@+id/linerLayoutDay3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                                android:layout_gravity="center"
+                android:layout_weight = "0.2"
+                android:padding="2dp" >
+
+                <TextView
+                    android:id="@+id/tvDay3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/imageViewDay3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/_0_moon" />
+
+                <TextView
+                    android:id="@+id/tvTempMinMaxDay3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+            
+            <LinearLayout
+                android:id="@+id/linerLayoutDay4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                                android:layout_gravity="center"
+                android:layout_weight = "0.2"
+                android:padding="2dp" >
+
+                <TextView
+                    android:id="@+id/tvDay4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/imageViewDay4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/_0_moon" />
+
+                <TextView
+                    android:id="@+id/tvTempMinMaxDay4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/linerLayoutDay5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight = "0.2"
+                                android:layout_gravity="center"
+                android:padding="2dp" >
+
+                <TextView
+                    android:id="@+id/tvDay5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="@dimen/text_size_small" />
+
+                <ImageView
+                    android:id="@+id/imageViewDay5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/_0_moon" />
+
+                <TextView
+                    android:id="@+id/tvTempMinMaxDay5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="TextView"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+        </LinearLayout>
+
+</RelativeLayout>

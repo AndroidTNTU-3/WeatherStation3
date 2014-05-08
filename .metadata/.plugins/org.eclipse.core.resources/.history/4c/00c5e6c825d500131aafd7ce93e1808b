@@ -1,0 +1,8 @@
+package com.unrealedz.wstation.utils;
+
+public class Contract {
+	
+	public static final String GET_CITY_DB = "getCityDB";
+	public static final String GET_FORECAST = "getForecast";
+
+}

@@ -1,0 +1,7 @@
+package com.unrealedz.wstation;
+
+import WidgetProvider;
+
+public class ForecastWidget extends WidgetProvider {
+
+}

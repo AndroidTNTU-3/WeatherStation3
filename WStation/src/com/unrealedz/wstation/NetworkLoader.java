@@ -25,9 +25,14 @@ import com.unrealedz.wstation.parsers.CityDbParser;
 import com.unrealedz.wstation.parsers.WeatherParser;
 
 
+import com.unrealedz.wstation.utils.Contract;
+
+import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
+import android.content.Loader;
 import android.database.Cursor;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.util.Log;
 
 public class NetworkLoader extends AsyncTask<String, Void, String>{
@@ -43,7 +48,6 @@ public class NetworkLoader extends AsyncTask<String, Void, String>{
 	public static interface LoaderCallBack{
 		public void setLocationInfo();
 		public void setLastUpdate();
-		public void setCurrentDay();
 		public void setWeekList();
 		public void onLoadCityDB();
 	}
@@ -76,13 +80,13 @@ public class NetworkLoader extends AsyncTask<String, Void, String>{
 			
 			stream = entity.getContent();
 			try {
-				if (keyLoader.equals(MainActivity.GET_CITY_DB)) {
+				if (keyLoader.equals(Contract.GET_CITY_DB)) {							// Get data and store a database of cities
 					
-				CitiesDB citiesDB= new CityDbParser().parse(stream);	
+					CitiesDB citiesDB= new CityDbParser().parse(stream);	
 				
-				DataCityDbInfoHelper dbInfoHelper = new DataCityDbInfoHelper(context);
-		    	  DataCityHelper dataCity = new DataCityHelper(context);
-		    	  Cursor cursor = dbInfoHelper.getCursor(DbHelper.CITY_DB_INFO_TABLE);
+					DataCityDbInfoHelper dbInfoHelper = new DataCityDbInfoHelper(context);
+					DataCityHelper dataCity = new DataCityHelper(context);
+					Cursor cursor = dbInfoHelper.getCursor(DbHelper.CITY_DB_INFO_TABLE);
 		    	  
 		    	  if (cursor.getCount() != 0){
 		    		  cursor.moveToFirst();
@@ -103,7 +107,7 @@ public class NetworkLoader extends AsyncTask<String, Void, String>{
 		    	  }
 				  Log.i("DEBUG INFO", "Not update");
 								
-				} else if(keyLoader.equals(MainActivity.GET_FORECAST)){
+				} else if(keyLoader.equals(Contract.GET_FORECAST)){						// Get data and store to a database of forecast
 					
 					Forecast forecast = new WeatherParser().parse(stream);
 					
@@ -146,24 +150,25 @@ public class NetworkLoader extends AsyncTask<String, Void, String>{
     protected void onPostExecute(String result) {
       super.onPostExecute(result);
       
-      if (result.equals(MainActivity.GET_CITY_DB)){
+      if (result.equals(Contract.GET_CITY_DB)){
     	  
     	  if (loaderCallBack != null){
     			 loaderCallBack.onLoadCityDB();
     	  }    	          
 
-      } else if(result.equals(MainActivity.GET_FORECAST)){
+      } else if(result.equals(Contract.GET_FORECAST)){
     	  
     	  if (loaderCallBack != null){
         	  loaderCallBack.setLocationInfo();
         	  loaderCallBack.setLastUpdate();
-        	  //loaderCallBack.setWeekList();
+        	  loaderCallBack.setWeekList();
           } 		  
       }
 	}	
 	
 	public void setLoaderCallBack(LoaderCallBack loaderCallBack) {
 		this.loaderCallBack = loaderCallBack;
-	}	     
+	}	
+	
 
 }

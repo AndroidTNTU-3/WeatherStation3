@@ -2,7 +2,6 @@
 <qualifiedTypeNameHistroy>
 <fullyQualifiedTypeName name="android.database.Cursor"/>
 <fullyQualifiedTypeName name="com.unrealedz.wstation.entity.ForecastDayShort"/>
-<fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="android.widget.LinearLayout"/>
 <fullyQualifiedTypeName name="android.view.View.OnClickListener"/>
@@ -10,7 +9,6 @@
 <fullyQualifiedTypeName name="com.unrealedz.wstation.fragments.FragmentDayHours.HoursCallBack"/>
 <fullyQualifiedTypeName name="com.unrealedz.wstation.entity.City"/>
 <fullyQualifiedTypeName name="com.unrealedz.wstation.utils.UtilsDB"/>
-<fullyQualifiedTypeName name="com.unrealedz.wstation.R.id"/>
 <fullyQualifiedTypeName name="com.unrealedz.wstation.entity.CurrentForecast"/>
 <fullyQualifiedTypeName name="com.unrealedz.wstation.MainActivity"/>
 <fullyQualifiedTypeName name="java.util.regex.Pattern"/>
@@ -22,4 +20,25 @@
 <fullyQualifiedTypeName name="com.unrealedz.wstation.fragments.FragmentDayHours.hourClickListener"/>
 <fullyQualifiedTypeName name="com.unrealedz.wstation.NetworkLoader.LoaderCallBack"/>
 <fullyQualifiedTypeName name="com.unrealedz.wstation.utils.Utils"/>
+<fullyQualifiedTypeName name="android.appwidget.AppWidgetProvider"/>
+<fullyQualifiedTypeName name="android.app.PendingIntent"/>
+<fullyQualifiedTypeName name="android.app.AlarmManager"/>
+<fullyQualifiedTypeName name="android.content.Intent"/>
+<fullyQualifiedTypeName name="java.util.Calendar"/>
+<fullyQualifiedTypeName name="com.unrealedz.wstation.utils.UtilsNet"/>
+<fullyQualifiedTypeName name="android.app.ActivityManager"/>
+<fullyQualifiedTypeName name="android.app.ActivityManager.RunningServiceInfo"/>
+<fullyQualifiedTypeName name="com.unrealedz.wstation.utils.Contract"/>
+<fullyQualifiedTypeName name="android.content.Loader"/>
+<fullyQualifiedTypeName name="android.content.Context"/>
+<fullyQualifiedTypeName name="com.unrealedz.wstation.UpdateService.IUpdateServiceCallBack"/>
+<fullyQualifiedTypeName name="android.os.Binder"/>
+<fullyQualifiedTypeName name="android.content.ServiceConnection"/>
+<fullyQualifiedTypeName name="android.appwidget.AppWidgetManager"/>
+<fullyQualifiedTypeName name="android.content.ComponentName"/>
+<fullyQualifiedTypeName name="android.widget.RemoteViews"/>
+<fullyQualifiedTypeName name="android.app.IntentService"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="com.unrealedz.wstation.R.id"/>
 </qualifiedTypeNameHistroy>

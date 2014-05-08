@@ -61,7 +61,7 @@
         		android:layout_height="1dp"
         		android:orientation="vertical" 
         		android:background="@drawable/rect_gray">
-        		</LinearLayout>
+        	</LinearLayout>
         		
         		
         	 <TextView

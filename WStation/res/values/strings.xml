@@ -35,4 +35,5 @@
 	<string name="rainy_snow">rainy-snow</string>
 	<string name="snow">snow</string>
 	<string name="snowstorm">snowstorm</string>
+	<string name="widget_name">forecast</string>
 </resources>

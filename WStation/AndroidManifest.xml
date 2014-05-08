@@ -55,6 +55,29 @@
             android:name="com.unrealedz.wstation.DetailDayActivity"
             android:label="@string/title_activity_detail_day" >
         </activity>
+        <service android:name="UpdateService">
+            <intent-filter>
+				<action android:name="com.unrealedz.wstation.FROM_WIDGET" />
+			</intent-filter>  
+            
+        </service>
+        
+        <receiver
+            android:name="ForecastWidget"
+            android:logo="@string/widget_name">
+            
+            <intent-filter>
+				<action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>			   
+            </intent-filter>
+            
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_metadata" 
+>
+            </meta-data>
+
+        </receiver>
+        
     </application>
 
 </manifest>

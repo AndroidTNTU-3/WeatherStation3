@@ -32,6 +32,22 @@ public class Utils {
 		return dateWeek;
 	}
 	
+	public static String getStringDayWeekShort(String date){
+		
+		Date mdate = null;
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat newFormatter = new SimpleDateFormat("EE");
+		try {
+			mdate = formatter.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+				
+		String dateWeek = newFormatter.format(mdate);
+		return dateWeek;
+	}
+	
 	public static int getImageId(String pictureName, Context context){
 		
 		pictureName = pictureName.substring(0, pictureName.lastIndexOf("."));
@@ -43,6 +59,14 @@ public class Utils {
 	public static int getBigImageId(String pictureName, Context context){
 		
 		pictureName = pictureName.substring(0, pictureName.lastIndexOf(".")) + "_big";
+		int id_image = context.getResources().getIdentifier((context.getPackageName() + ":drawable/" + pictureName), null, null);
+		return id_image;
+		
+	}
+	
+public static int getNormalImageId(String pictureName, Context context){
+		
+		pictureName = pictureName.substring(0, pictureName.lastIndexOf("."));
 		int id_image = context.getResources().getIdentifier((context.getPackageName() + ":drawable/" + pictureName), null, null);
 		return id_image;
 		
