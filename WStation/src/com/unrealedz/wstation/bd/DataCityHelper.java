@@ -85,5 +85,9 @@ public class DataCityHelper {
 	public void cleanOldRecords() {
         db.delete(DbHelper.CITY_DB_TABLE, null, null);
     }
+	
+	public void closeDB() {
+        db.close();     
+    }
 
 }

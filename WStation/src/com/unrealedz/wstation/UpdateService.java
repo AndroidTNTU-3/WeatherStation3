@@ -62,7 +62,9 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	City city;
 	CurrentForecast currentForecast;
 	
-	
+	DataWeekHelper dataWeekHelper;
+	DataHelper dh;
+	DataDayHelper dd;
 	
 	@Override  
     public void onCreate()  
@@ -80,20 +82,17 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 			String action = intent.getAction();	
 			if (FROM_WIDGET.equals(action)) {
 				Log.i("DEBUG:", "In startCommand");
-				isWidget = true;			
+				isWidget = true;	
+				setLocationInfo();
+				setWeekList();
 			}
     	}
-    	
-        buildUpdate();  
-        cityLoad();
+    	context = getApplicationContext();
+		//setWeekList();    	 
+       // cityLoad();
         Log.i("DEBUG SERV:", "In startCommand");
         return super.onStartCommand(intent, flags, startId);  
     }
-
-	private void buildUpdate() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	@Override
 	public IBinder onBind(Intent arg0) {
@@ -111,41 +110,89 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
         }
  
     }
- 
-	
-	
+ 		
     // 1 // Loader of DataBase cities //
 	public void cityLoad(){
-	       boolean flag = UtilsNet.isOnline(getApplicationContext());
-	       flag = false;
 	   		cLoader = new NetworkLoader(this);
 	   		cLoader.setLoaderCallBack(this);
-	   		Log.i("DEBUG SERV:", "In cityLoad");
 	    	if (UtilsNet.isOnline(getApplicationContext())) cLoader.execute(Contract.GET_CITY_DB, Contract.CITY_URL);
+	}
+	
 
-	    	//else setLocationInfo();
+
+	// 2 //CallBack from NetworkLoader if the citiesDB is loaded
+	@Override
+	public void onLoadCityDB() {
+		locationLoader = new LocationLoader(getApplicationContext());
+		locationLoader.setLoaderCallBack(this);
+		locationLoader.getLocation();	
 	}
 	
 	
-
+	// 3 //CallBack from LocationLoader if a current city code is get
+	@Override
+	public void setLocation(String cityId) {
+		//int cityId = 23; //Kyiv code from dummy
+		Log.i("DEBUG CUR", "COD:" + cityId); 
+		url = "http://xml.weather.co.ua/1.2/forecast/" + cityId + "?dayf=5&lang=uk";
+		refresh();		
+	}
+	
+	
+	// 4 // Loader DataBase forecast //
+	private void refresh() {
+		nLoader = new NetworkLoader(this);
+        nLoader.setLoaderCallBack(this); 
+    	if (UtilsNet.isOnline(getApplicationContext())) nLoader.execute(Contract.GET_FORECAST, url);
+	}
+	
+	// 5 // Get object of city location and current forecast //
+	//      Send data to activity fragments and widget       // 
 	@Override
 	public void setLocationInfo() {
 		
-		DataHelper dh = new DataHelper(this);
-	    DataDayHelper dd = new DataDayHelper(this);
+		dh = new DataHelper(this);
+	    dd = new DataDayHelper(this);
 	    
 	    Cursor cursorCity = dh.getCursor(DbHelper.CITY_TABLE);
 	    Cursor cursorCurrent = dd.getCursor(DbHelper.CURRENT_DAY_TABLE);
 		
 	    if (cursorCity.getCount() !=0 & cursorCurrent.getCount() !=0){
-	    city = UtilsDB.getCity(cursorCity);
-	    currentForecast = UtilsDB.getCurrentForecast(cursorCurrent);
+	    	city = UtilsDB.getCity(cursorCity);
+	    	currentForecast = UtilsDB.getCurrentForecast(cursorCurrent);
 	    if (!isWidget) usCallBack.onLocationCurrentPrepared(city, currentForecast);
 	    else sendInfoWidget(city, currentForecast);
 	    }
-	    		
+	    
+	    cursorCity.close();		
+	    cursorCurrent.close();
+	    
 	}
 	
+	// 5.1 // Send last update info to activity fragments //
+	
+	@Override
+	public void setLastUpdate() {
+		if (currentForecast != null){
+		if (!isWidget) usCallBack.onLastUpdatePrepared(currentForecast);
+		//else sendLastWidget(currentForecast);
+		}
+	}
+	
+	// 5.2 // Get cursor week forecast                    //
+	//        Send data to activity fragments and widget  // 
+	
+	@Override
+	public void setWeekList() {
+		dataWeekHelper = new DataWeekHelper(this);
+		Cursor cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
+		if (cursor.getCount() !=0){
+		if (!isWidget) usCallBack.onForecastPrepared(cursor);
+		else setWeekToWidget(cursor);
+		}
+	}
+	
+	// 6 // Send current forecast data to views of widget //
 	private void sendInfoWidget(City city, CurrentForecast currentForecast){
 		 
 		 AppWidgetManager manager = AppWidgetManager.getInstance(this.getApplicationContext());
@@ -161,22 +208,9 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 		 String pictureName =  currentForecast.getPictureName();
 		 remoteView.setImageViewResource(R.id.ivwCurrent, Utils.getNormalImageId(pictureName, getApplicationContext()));
 		 manager.updateAppWidget(thisWidget, remoteView);
-	 }
+	 }	
 
-	@Override
-	public void setLastUpdate() {
-		if (!isWidget) usCallBack.onLastUpdatePrepared(currentForecast);
-		//else sendLastWidget(currentForecast);
-	}	
-
-	@Override
-	public void setWeekList() {
-		DataWeekHelper dataWeekHelper = new DataWeekHelper(this);
-		Cursor cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
-		if (!isWidget) usCallBack.onForecastPrepared(cursor);
-		else setWeekToWidget(cursor);
-	}
-	
+	// 7 // Send week forecast data to views of widget //
 	public void setWeekToWidget(Cursor cursor){
 		
 		 AppWidgetManager manager = AppWidgetManager.getInstance(this.getApplicationContext());
@@ -200,45 +234,30 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 		 listTextViewTemp.add(R.id.tvTempMinMaxDay4);
 		 listTextViewTemp.add(R.id.tvTempMinMaxDay5);
 		 
+		 List<Integer> imageViewWeekDay = new ArrayList<Integer>();
+			
+		 imageViewWeekDay.add(R.id.imageViewDay1);
+		 imageViewWeekDay.add(R.id.imageViewDay2);
+		 imageViewWeekDay.add(R.id.imageViewDay3);
+		 imageViewWeekDay.add(R.id.imageViewDay4);
+		 imageViewWeekDay.add(R.id.imageViewDay5);
+		 
 		 String tempMainMax = "";
 		 String weekDay = "";
+		 String pictureName = "";
 		 
-		for(int i = 0; i < listTextView.size(); i++){
-			 tempMainMax = String.valueOf(cursor.getInt(cursor.getColumnIndex(DbHelper.TEMPERATURE_MIN))) + "/" + 
-			 			String.valueOf(cursor.getInt(cursor.getColumnIndex(DbHelper.TEMPERATURE_MAX)));
+		for(int i = 0; i < imageViewWeekDay.size(); i++){
+			 tempMainMax = String.valueOf(cursor.getInt(cursor.getColumnIndex(DbHelper.TEMPERATURE_MIN))) + "°/" + 
+			 			String.valueOf(cursor.getInt(cursor.getColumnIndex(DbHelper.TEMPERATURE_MAX))) + "°";
 			 weekDay = Utils.getStringDayWeekShort(cursor.getString(cursor.getColumnIndex(DbHelper.DATE)));
+			 pictureName =  cursor.getString(cursor.getColumnIndex(DbHelper.PICTURE_NAME));
 			 remoteView.setTextViewText(listTextView.get(i), weekDay);
 			 remoteView.setTextViewText(listTextViewTemp.get(i), tempMainMax);
+			 remoteView.setImageViewResource(imageViewWeekDay.get(i), Utils.getImageId(pictureName, getApplicationContext()));
 			 cursor.moveToNext();
 		 }		 				 
 		 manager.updateAppWidget(thisWidget, remoteView);
 	}
-
-	// 2 //CallBack when the citiesDB is loaded
-	@Override
-	public void onLoadCityDB() {
-		locationLoader = new LocationLoader(getApplicationContext());
-		locationLoader.setLoaderCallBack(this);
-		locationLoader.getLocation();	
-	}
-	
-	
-	// 3 //CallBack when a current city code is get
-	@Override
-	public void setLocation(String nameLocation) {
-		int cityId = 23; //Kyiv code from dummy
-		Log.i("DEBUG CUR", "COD:" + cityId); 
-		url = "http://xml.weather.co.ua/1.2/forecast/" + cityId + "?dayf=5&lang=uk";
-		refresh();		
-	}
-	
-	
-	// 4 // Loader DataBase forecast //
-	private void refresh() {
-		nLoader = new NetworkLoader(this);
-        nLoader.setLoaderCallBack(this); 
-    	if (UtilsNet.isOnline(getApplicationContext())) nLoader.execute(Contract.GET_FORECAST, url);
-	}	
 	
 	public void setOnUpdateServiceCallBack(IUpdateServiceCallBack usCallBack) {		
 		this.usCallBack = usCallBack;
@@ -249,5 +268,12 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void onDestroy() {
+	    super.onDestroy();
+	    dh.closeDB();
+	    dd.closeDB();
+	    dataWeekHelper.closeDB();
+	  }
 
 }

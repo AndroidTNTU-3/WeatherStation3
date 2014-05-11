@@ -51,5 +51,9 @@ public class DataCityDbInfoHelper {
 	public void cleanOldRecords() {
         db.delete(DbHelper.CITY_DB_INFO_TABLE, null, null);
     }
+	
+	public void closeDB() {
+        db.close();     
+    }
 
 }

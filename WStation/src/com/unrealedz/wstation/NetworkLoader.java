@@ -106,6 +106,10 @@ public class NetworkLoader extends AsyncTask<String, Void, String>{
 					  Log.i("DEBUG INFO", "update");
 		    	  }
 				  Log.i("DEBUG INFO", "Not update");
+				  
+				  cursor.close();
+				  dbInfoHelper.closeDB();
+				  dataCity.closeDB();
 								
 				} else if(keyLoader.equals(Contract.GET_FORECAST)){						// Get data and store to a database of forecast
 					
@@ -122,6 +126,10 @@ public class NetworkLoader extends AsyncTask<String, Void, String>{
 					dh.insertCityItem(forecast);
 					ddh.insertDayItem(forecast);
 					dwh.insertDayItem(forecast);
+					
+					dh.closeDB();
+					ddh.closeDB();
+					dwh.closeDB();
 				}
 							
 			} catch (XmlPullParserException e) {

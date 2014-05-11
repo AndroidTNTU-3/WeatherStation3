@@ -66,11 +66,11 @@ public class FragmentList extends Fragment{
 	@Override
     public void onAttach( Activity activity ) {
 		super.onAttach(activity);
-        try {
+      /*  try {
         	loaderCallBack = (LoaderCallBack) activity;
         } catch (ClassCastException e) {
             throw new ClassCastException(activity.toString() + " must implement LoaderCallBack");
-        }
+        }*/
 	}
 	
 	
@@ -96,6 +96,7 @@ public class FragmentList extends Fragment{
 				0);	
         listView.setAdapter(adapter);
         ForecastDaysShort = UtilsDB.getForecastListMain(cursor);
+        adapter.swapCursor(cursor);
 	}
 	
 	public void setCity(City city){

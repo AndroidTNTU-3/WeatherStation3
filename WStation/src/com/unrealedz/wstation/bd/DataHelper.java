@@ -82,5 +82,8 @@ public class DataHelper {
         		//DbHelper.CITY_NAME_EN, DbHelper.REGION, DbHelper.REGION_EN, DbHelper.COUNTRY, DbHelper.COUNTRY_EN}, null, null, null, null, null);
         return cursor;
     }
-
+    
+	public void closeDB() {
+        db.close();     
+    }
 }

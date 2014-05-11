@@ -119,4 +119,8 @@ public class DataWeekHelper {
 		
 	}
 	
+	public void closeDB() {
+        db.close();     
+    }
+	
 }

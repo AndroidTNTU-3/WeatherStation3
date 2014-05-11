@@ -57,20 +57,26 @@ private SQLiteDatabase db;
 	        return db.insert(DbHelper.CURRENT_DAY_TABLE, null, values);
 	    }
 
-	    private ContentValues getCurrentDayValues(CurrentForecast currentForecast) {
-	        ContentValues values = new ContentValues();
-	        values.put(DbHelper.LAST_UPDATED, currentForecast.getLastUpdated());
-	        values.put(DbHelper.EXPIRES, currentForecast.getExpires());
-	        values.put(DbHelper.TIME, currentForecast.getTime());
-	        values.put(DbHelper.CLOUD_ID, currentForecast.getCloudId());
-	        values.put(DbHelper.PICTURE_NAME, currentForecast.getPictureName().toLowerCase());
-	        values.put(DbHelper.TEMPERATURE, currentForecast.getTemperature());
-	        values.put(DbHelper.TEMPERATURE_FLIK, currentForecast.getTemperatureFlik());
-	        values.put(DbHelper.PRESSURE, currentForecast.getPressure());
-	        values.put(DbHelper.WIND, currentForecast.getWind());
-	        values.put(DbHelper.WIND_GUST, currentForecast.getWindGust());
-	        values.put(DbHelper.WIND_RUMB, currentForecast.getWindRumb());
-	        values.put(DbHelper.HUMIDITY, currentForecast.getHumidity());
-	        return values;
-	    }
+	private ContentValues getCurrentDayValues(CurrentForecast currentForecast) {
+		ContentValues values = new ContentValues();
+		values.put(DbHelper.LAST_UPDATED, currentForecast.getLastUpdated());
+		values.put(DbHelper.EXPIRES, currentForecast.getExpires());
+		values.put(DbHelper.TIME, currentForecast.getTime());
+		values.put(DbHelper.CLOUD_ID, currentForecast.getCloudId());
+		values.put(DbHelper.PICTURE_NAME, currentForecast.getPictureName()
+				.toLowerCase());
+		values.put(DbHelper.TEMPERATURE, currentForecast.getTemperature());
+		values.put(DbHelper.TEMPERATURE_FLIK,
+				currentForecast.getTemperatureFlik());
+		values.put(DbHelper.PRESSURE, currentForecast.getPressure());
+		values.put(DbHelper.WIND, currentForecast.getWind());
+		values.put(DbHelper.WIND_GUST, currentForecast.getWindGust());
+		values.put(DbHelper.WIND_RUMB, currentForecast.getWindRumb());
+		values.put(DbHelper.HUMIDITY, currentForecast.getHumidity());
+		return values;
+	}
+
+	public void closeDB() {
+		db.close();
+	}
 }

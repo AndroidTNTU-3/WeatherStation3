@@ -25,9 +25,9 @@ public class ForecastWidget extends AppWidgetProvider {
 	    ComponentName service = new ComponentName(context, UpdateService.class);	
 	    
 		Intent intentStart = new Intent(UpdateService.FROM_WIDGET).setComponent(service);
-		PendingIntent pIntentStop = PendingIntent.getService(context, 0, intentStart, 0);	   
+		PendingIntent pIntentStart = PendingIntent.getService(context, 0, intentStart, 0);	   
 		try {
-			pIntentStop.send();
+			pIntentStart.send();
 		} catch (CanceledException e) {
 			e.printStackTrace();
 		}
@@ -40,10 +40,11 @@ public class ForecastWidget extends AppWidgetProvider {
       
     	super.onUpdate(context, appWidgetManager, appWidgetIds);
 	    
-	   /* for (int i : appWidgetIds) {
+	    for (int i : appWidgetIds) {
 	        updateWidget(context, appWidgetManager, i);
-	      }	  */
-		  
+	      }	 
+    	
+    	
     	final AlarmManager m = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);   
         
         final Calendar TIME = Calendar.getInstance();  
@@ -65,7 +66,15 @@ public class ForecastWidget extends AppWidgetProvider {
     }
     
     static void updateWidget(Context context, AppWidgetManager appWidgetManager, int widgetID){
+    	RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
+    	Intent mainIntent = new Intent(context, MainActivity.class);
+    	//mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    	PendingIntent pIntentMainStart = PendingIntent.getActivity(context, 0, mainIntent, 0);
     	
+
+    	remoteViews.setOnClickPendingIntent(R.id.widget, pIntentMainStart);
+    	
+    	appWidgetManager.updateAppWidget(widgetID, remoteViews);
     }
     
     @Override  

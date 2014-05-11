@@ -170,7 +170,11 @@ public class LocationLoader implements LocationListener {
 			} else codeLocation = oldCodeLocation;	
 		} else codeLocation = newCodeLocation;
 
-	      locationLoaderCallBack.setLocation(codeLocation);
+	    locationLoaderCallBack.setLocation(codeLocation);
+	    cursorCityDB.close();
+	    cursorCity.close();
+	    dh.closeDB();
+	    dch.closeDB();
 		return codeLocation;
 	}
 	

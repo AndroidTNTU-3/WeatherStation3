@@ -80,24 +80,17 @@ public class FragmentCurrent extends Fragment{
 
 	public void onActivityCreated(Bundle savedInstanceState) {
 	    super.onActivityCreated(savedInstanceState);
-
-	   /* DataHelper dh = new DataHelper(this.getActivity());
-	    DataDayHelper dd = new DataDayHelper(this.getActivity());
-	    cursorCity = dh.getCursor(DbHelper.CITY_TABLE);
-		cursorCurrent = dd.getCursor(DbHelper.CURRENT_DAY_TABLE);*/
-		
-		//loaderCallBack.setLocationInfo();		
-
+	    
 	  }
 	
 	@Override
 	  public void onAttach(Activity activity) {
 	    super.onAttach(activity);
-	        try {
+	        /*try {
 	        	loaderCallBack = (LoaderCallBack) activity;
 	        } catch (ClassCastException e) {
 	            throw new ClassCastException(activity.toString() + " must implement LoaderCallBack");
-	        }
+	        }*/
 	  }
 	
 	public void onStart() {
@@ -129,8 +122,6 @@ public class FragmentCurrent extends Fragment{
 	
 	public void onDestroy() {
 	    super.onDestroy();
-	    //cursorCity.close();
-	    //cursorCurrent.close();
 	  }
 
 }

@@ -39,22 +39,17 @@ public class FragmentInfo extends Fragment {
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
 	    super.onActivityCreated(savedInstanceState);
-	    //loaderCallBack.setLastUpdate(); 
-	//DataDayHelper ddh = new DataDayHelper(this.getActivity());
-	//cursor = ddh.getCursor(DbHelper.CURRENT_DAY_TABLE);
-
-	//if(cursor.getCount() != 0) setData(cursor);
 	
 	}
 	
 	@Override
 	  public void onAttach(Activity activity) {
 	    super.onAttach(activity);
-	        try {
+	     /*   try {
 	        	loaderCallBack = (LoaderCallBack) activity;
 	        } catch (ClassCastException e) {
 	            throw new ClassCastException(activity.toString() + " must implement LoaderCallBack");
-	        }
+	        }*/
 	  }
 	
 	public void setData(CurrentForecast currentForecast) {

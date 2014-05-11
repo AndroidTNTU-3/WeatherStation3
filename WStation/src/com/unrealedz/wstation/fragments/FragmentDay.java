@@ -4,15 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.unrealedz.wstation.R;
-import com.unrealedz.wstation.bd.DataWeekHelper;
-import com.unrealedz.wstation.bd.DbHelper;
 import com.unrealedz.wstation.entity.ForecastDay;
 import com.unrealedz.wstation.utils.Utils;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
