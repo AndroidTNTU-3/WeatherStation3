@@ -93,6 +93,12 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
         Log.i("DEBUG SERV:", "In startCommand");
         return super.onStartCommand(intent, flags, startId);  
     }
+    
+    public void setOrientationChanged(){
+    	Log.i("DEBUG:", "In otientation");
+		setLocationInfo();
+		setWeekList();
+    }
 
 	@Override
 	public IBinder onBind(Intent arg0) {

@@ -40,5 +40,8 @@
 <fullyQualifiedTypeName name="android.app.IntentService"/>
 <fullyQualifiedTypeName name="java.util.List"/>
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="android.widget.Toast"/>
+<fullyQualifiedTypeName name="android.content.res.Configuration"/>
 <fullyQualifiedTypeName name="com.unrealedz.wstation.R.id"/>
+<fullyQualifiedTypeName name="android.widget.FrameLayout"/>
 </qualifiedTypeNameHistroy>

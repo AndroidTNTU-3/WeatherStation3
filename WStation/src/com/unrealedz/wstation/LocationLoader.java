@@ -27,7 +27,7 @@ import android.widget.Toast;
 public class LocationLoader implements LocationListener {
 	
 	public static interface LocationLoaderCallBack{
-		public void setLocation(String nameLocation);
+		public void setLocation(String cityId);
 	}
 	
 	LocationLoaderCallBack locationLoaderCallBack;
@@ -142,7 +142,6 @@ public class LocationLoader implements LocationListener {
 		@Override
 	    protected void onPostExecute(String result) {
 	      super.onPostExecute(result);
-	      
 	      getCode(result);
 		}
 		
@@ -171,10 +170,10 @@ public class LocationLoader implements LocationListener {
 		} else codeLocation = newCodeLocation;
 
 	    locationLoaderCallBack.setLocation(codeLocation);
-	    cursorCityDB.close();
+	    /*cursorCityDB.close();
 	    cursorCity.close();
 	    dh.closeDB();
-	    dch.closeDB();
+	    dch.closeDB();*/
 		return codeLocation;
 	}
 	
