@@ -55,7 +55,7 @@ public class FragmentDayHours extends Fragment {
 		
 		context = container.getContext();
 
-		setInfo();
+		
 		
 	    return v;
 	  }
@@ -64,7 +64,7 @@ public class FragmentDayHours extends Fragment {
 		
 		LayoutParams textParams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		LinearLayout.LayoutParams linLayoutParam = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, 0.25f);
-		
+		if (forecastDays != null){
 		for(int i = 0; i < forecastDays.size(); i++){
 			LinearLayout linearl = new LinearLayout(context);
 			
@@ -90,8 +90,14 @@ public class FragmentDayHours extends Fragment {
 			im.setImageResource(Utils.getImageId(forecastDays.get(i).getPictureName(), context));
 			String tempMinMax = forecastDays.get(i).getTemperatureMin() + "°" + "/" + forecastDays.get(i).getTemperatureMax() + "°";
 			tvm.setText(tempMinMax);
-			}							
+			}		
+		}
 		
+	}
+	
+	public void onActivityCreated(Bundle savedInstanceState) {
+	    super.onActivityCreated(savedInstanceState);
+	    setInfo();
 	}
 
 	public void setData(List<ForecastDay> forecastDays) {

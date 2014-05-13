@@ -11,6 +11,7 @@ import com.unrealedz.wstation.utils.UtilsNet;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -18,8 +19,10 @@ import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -30,6 +33,8 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	FragmentList fragList;
 	FragmentInfo fragInfo;
 	FragmentTransaction fTrans;
+	
+	LinearLayout linearLayout;
 
 	City city;
 	CurrentForecast currentForecast;
@@ -39,6 +44,7 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	boolean bound = false; 			//check if activity connected to service
 	boolean isRunning = false;
 	boolean orientationChanged = false;
+	int screenOrienrtation = 0;
 		
 	String url = "http://xml.weather.co.ua/1.2/forecast/23?dayf=5&lang=uk";
 
@@ -52,6 +58,10 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
         fragList =  new FragmentList();
         fragInfo = new FragmentInfo();
         
+        LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+        //inflater.inflate(R.layout.activity_main, false);
+     //   linearLayout = (LinearLayout) this.getLayoutInflater()findViewById(R.layout.activity_main); 
+        
        // fragCurrent.setRetainInstance(true);
        // fragList.setRetainInstance(true); 
        // fragInfo.setRetainInstance(true); 
@@ -61,8 +71,10 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
         fTrans.add(R.id.fragList, fragList);
         fTrans.add(R.id.fragInfoUpdate, fragInfo);
         fTrans.commit();
-        
+     
         Log.i("DEBUG CUR", "Main On Activity Created") ;
+        
+       // linearLayout.setVisibility(View.INVISIBLE);
         
         sConn = new ServiceConnection() {
         	
@@ -73,10 +85,17 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 		        updateService.setOnUpdateServiceCallBack(MainActivity.this);
 		        bound = true;		
 		        //if (isRunning) {
+		        if (screenOrienrtation == 0){
 		        	updateService.setLocationInfo();
 		        	updateService.setLastUpdate();
 		        	updateService.setWeekList();
-		        	updateService.cityLoad();  
+		        	updateService.cityLoad();
+		        	fragInfo.setProgressBar(true);
+		        } else {
+		        	updateService.setLocationInfo();
+		        	updateService.setLastUpdate();
+		        	updateService.setWeekList();
+		        }
 		        //}
 			}
 		      		    
@@ -134,6 +153,7 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 		if (cursor.getCount() != 0){
 			fragList.setCursor(cursor);
 		}
+		fragInfo.setProgressBar(false);
 	}	
 		
 	@Override
@@ -156,30 +176,19 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
         return super.onOptionsItemSelected(item);
     }
 	
-	public void onConfigurationChanged(Configuration config) {
-		super.onConfigurationChanged(config);
-		
-		FrameLayout frameCurrent = (FrameLayout) findViewById(R.id.fragCurrent);
-		FrameLayout frameList = (FrameLayout) findViewById(R.id.fragList);
-		
-
-
-		// Checks the orientation
-		if (config.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-			FrameLayout.LayoutParams linLayoutParam = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.MATCH_PARENT, (int) 0.25f);
-			frameCurrent.setLayoutParams(linLayoutParam);
-			frameList.setLayoutParams(linLayoutParam);
-			updateService.setOrientationChanged();
-	      /*  fTrans = getFragmentManager().beginTransaction();
-	        fTrans.replace(R.id.fragCurrent, fragCurrent);
-	        fTrans.replace(R.id.fragList, fragList);
-	        fTrans.replace(R.id.fragInfoUpdate, fragInfo);
-	        fTrans.commit();*/
-			Toast.makeText(this, "landscape mode", Toast.LENGTH_SHORT).show();
-		} else if (config.orientation == Configuration.ORIENTATION_PORTRAIT){
-		    Toast.makeText(this, "portrait mode", Toast.LENGTH_SHORT).show();
-		  }
-		}
+	@Override
+	protected void onSaveInstanceState(Bundle state) {
+	    super.onSaveInstanceState(state);
+	    screenOrienrtation = getResources().getConfiguration().orientation;
+	    state.putInt("screenOrienrtation", screenOrienrtation);
+	}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+	    super.onRestoreInstanceState(savedInstanceState);
+	    if (savedInstanceState != null)
+	    screenOrienrtation = savedInstanceState.getInt("screenOrienrtation");
+	}
 
 	@Override
 	  protected void onStop() {

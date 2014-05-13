@@ -72,6 +72,7 @@ public class FragmentCurrent extends Fragment{
 		pressure = (TextView) v.findViewById(R.id.tvPressure);
 		wind = (TextView) v.findViewById(R.id.tvWind);
 		imageView = (ImageView) v.findViewById(R.id.imageCurrent);
+		imageView.setVisibility(ImageView.INVISIBLE);
 		context = container.getContext();
 	    return v;
 	  }
@@ -105,10 +106,9 @@ public class FragmentCurrent extends Fragment{
 	}
 	
 	public void refresh() {
-		
+
 		city.setText(mCity.getName());
-		region.setText(mCity.getRegion().getRegion());
-		
+		region.setText(mCity.getRegion().getRegion());		
 		temperature.setText(currentForecast.getTemperature() + "°");
 		temperatureFlik.setText(getString(R.string.temperatureFlik) + currentForecast.getTemperatureFlik() + "°");
 		cloud.setText(Utils.getCloud(currentForecast.getCloudId(), context));
@@ -116,6 +116,7 @@ public class FragmentCurrent extends Fragment{
 		pressure.setText(getString(R.string.pressure) + " " + currentForecast.getPressure() + " " + getString(R.string.pressureUnit));
 		wind.setText(getString(R.string.wind) + " " +  Utils.getWindOrient(currentForecast.getWindRumb(), context) + " " + currentForecast.getWind() + " " + getString(R.string.windUnit));
 		String pictureName =  currentForecast.getPictureName();
+		imageView.setVisibility(ImageView.VISIBLE);
 		imageView.setImageResource(Utils.getBigImageId(pictureName, context));
 	}
 	

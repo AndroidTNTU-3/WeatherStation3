@@ -5,7 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="action_refresh">Refresh</string>
     <string name="hello_world">Hello world!</string>
-    <string name="last_updated">оновлено</string>
 	<string name="humidity">вологість:</string>
     <string name="pressure">тиск:</string>
     <string name="wind">вітер:</string>
@@ -32,5 +31,6 @@
 	<string name="rainy_snow">сніг з дощем</string>
 	<string name="snow">сніг</string>
 	<string name="snowstorm">сильний сніг</string>
+	<string name="last_update">поновлено</string>
 	
 </resources>

@@ -10,6 +10,7 @@ import com.unrealedz.wstation.R.layout;
 import com.unrealedz.wstation.bd.DataDayHelper;
 import com.unrealedz.wstation.bd.DbHelper;
 import com.unrealedz.wstation.entity.CurrentForecast;
+import com.unrealedz.wstation.utils.Utils;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -19,6 +20,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class FragmentInfo extends Fragment {
@@ -27,12 +29,13 @@ public class FragmentInfo extends Fragment {
 	Cursor cursor;
 	CurrentForecast currentForecast;
 	LoaderCallBack loaderCallBack;
+	View view;
 	
 	@Override
 	  public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	      Bundle savedInstanceState) {
 		
-		View view = inflater.inflate(R.layout.fragment_info, container, false);
+		view = inflater.inflate(R.layout.fragment_info, container, false);
 		tvLastUpdate = (TextView) view.findViewById(R.id.tvLastUpdate);
 		return view;
 	}
@@ -58,12 +61,19 @@ public class FragmentInfo extends Fragment {
 	}
 	
 	private void refresh(){
-		tvLastUpdate.setText(currentForecast.getLastUpdated());
+		String lastUpdate = getString(R.string.last_update)  + ": " + Utils.getStringLastUpDate(currentForecast.getLastUpdated());
+		tvLastUpdate.setText(lastUpdate);
 	}
 	
 	public void onDestroy() {
 	    super.onDestroy();
 		//cursor.close();;
 	  }
+	
+	public void setProgressBar(boolean visible){
+		ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.mainProgressBar);
+		if(visible) progressBar.setVisibility(View.VISIBLE);
+		else if(!visible) progressBar.setVisibility(View.INVISIBLE);
+	}
 
 }

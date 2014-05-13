@@ -3,22 +3,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" 
-    android:background="@android:color/black"
-    android:gravity="center_horizontal" >
+   	android:background="@android:color/black"
+   	android:gravity="center_horizontal" >
+
+
 
         <TextView
         android:id="@+id/tvLastUpdate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_small"
-        android:textColor="@android:color/darker_gray" 
+        android:textColor="@android:color/darker_gray"
         android:text="TextView" />
-        
-         <ProgressBar
+
+        <ProgressBar
             android:id="@+id/mainProgressBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="1dp"
             android:visibility="invisible" 
             style="@android:style/Widget.ProgressBar.Small" />
 

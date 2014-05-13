@@ -37,11 +37,13 @@ public class DetailDayActivity extends Activity implements HoursCallBack{
 	int hour = 0;
 	String cityName;
 	String region;
-	
 	String date;
+	
+	int screenOrienrtation = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		Log.i("DEBUG:", "Day activity onCreate: ");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detail_day);
 		
@@ -53,19 +55,25 @@ public class DetailDayActivity extends Activity implements HoursCallBack{
         fTrans.add(R.id.fragDayHours, fragDayHours);
         fTrans.commit();
         
-
-        date = getIntent().getExtras().getString("date");
-        cityName = getIntent().getExtras().getString("city");
-        
-        region = getIntent().getExtras().getString("region");
-        
+        if (screenOrienrtation == 0){
+        	date = getIntent().getExtras().getString("date");
+        	cityName = getIntent().getExtras().getString("city");        
+        	region = getIntent().getExtras().getString("region");
+        	refresh();
+        }		
+	}
+	
+	private void refresh(){
 		DataWeekHelper dataWeekHelper = new DataWeekHelper(this);
 		Cursor cursor = dataWeekHelper.getCursorDay(date);
+		Log.i("DEBUG:", "cursor: " + cursor.getCount());
 		forecastDays = UtilsDB.getForecastList(cursor);
+
         fragDay.setData(forecastDays.get(hour));
         fragDay.setCity(cityName, region);
         fragDayHours.setData(forecastDays);
         cursor.close();
+        dataWeekHelper.closeDB();
 	}
 
 	@Override
@@ -92,6 +100,25 @@ public class DetailDayActivity extends Activity implements HoursCallBack{
 		fragDay.setData(forecastDays.get(hour));
 		fragDay.refresh();
 		
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle state) {
+	    super.onSaveInstanceState(state);
+	    screenOrienrtation = getResources().getConfiguration().orientation;
+	    state.putString("date", date);
+	    state.putString("cityName", cityName);
+	    state.putString("region", region);
+	}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+	    super.onRestoreInstanceState(savedInstanceState);
+	    if (savedInstanceState != null)
+	    	date = savedInstanceState.getString("date");
+	    	cityName = savedInstanceState.getString("cityName");
+	    	region = savedInstanceState.getString("region");
+	    	refresh();
 	}
 
 }

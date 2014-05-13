@@ -8,6 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="horizontal" >
 
         <FrameLayout
@@ -31,6 +32,7 @@
       android:id="@+id/fragInfoUpdate"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"  
+      android:layout_weight="0"
       tools:context=".FragmentInfo" >
   </FrameLayout>
        

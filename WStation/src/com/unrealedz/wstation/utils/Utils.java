@@ -48,6 +48,22 @@ public class Utils {
 		return dateWeek;
 	}
 	
+	public static String getStringLastUpDate(String date){
+		
+		Date mdate = null;
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMMM yyyy HH:mm:SS Z");
+		SimpleDateFormat newFormatter = new SimpleDateFormat("HH:mm");
+		try {
+			mdate = formatter.parse(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+				
+		String dateWeek = newFormatter.format(mdate);
+		return dateWeek;
+	}
+	
 	public static int getImageId(String pictureName, Context context){
 		
 		pictureName = pictureName.substring(0, pictureName.lastIndexOf("."));

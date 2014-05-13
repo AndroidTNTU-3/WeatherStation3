@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    
+   <LinearLayout  
+     android:id="@+id/linearlayoutLocationHour"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content" 
+     android:paddingTop="10dp" 
+     android:paddingLeft="20dp"  
+     android:orientation="horizontal">
+     
+    <TextView
+        android:id="@+id/tvCityDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_small"
+        android:layout_below="@+id/rect_gray"
+        android:text="" />
+
+    <TextView
+        android:id="@+id/tvRegionDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:text=""
+        android:textSize="@dimen/text_size_small" />
+    
+    </LinearLayout>
+    
+   <RelativeLayout 
+     android:id="@+id/linearlayoutDayInfoHour"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:paddingRight="20dp"
+     android:paddingLeft="20dp"
+     android:paddingTop="20dp"
+     android:layout_below="@+id/linearlayoutLocationHour">
+    
+      <LinearLayout 
+        android:id="@+id/linearlayoutInfoHour"
+    	android:layout_width="wrap_content"
+     	android:layout_height="wrap_content"
+     	android:orientation="vertical">
+     	
+        <LinearLayout
+        android:id="@+id/tempDayLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingRight="6dp" >
+
+        <TextView
+            android:id="@+id/tvDayTmin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:textSize="@dimen/text_size_big"
+            android:textStyle="bold"
+            android:text="" />
+
+        <LinearLayout
+            android:id="@+id/rect"
+            android:layout_width="40dp"
+            android:layout_height="1dp"
+            android:layout_below="@+id/textTmin"
+            android:background="@drawable/rect"
+            android:orientation="vertical" >
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvDayTmax"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rect"
+            android:textSize="@dimen/text_size_big"
+            android:textStyle="bold"
+            android:text="" />
+    </LinearLayout>
+
+			<TextView
+        	    android:id="@+id/tvCloudHour"
+        	    android:layout_width="wrap_content"
+        	    android:layout_height="wrap_content"
+        	    android:layout_marginTop="10dp"
+        	    android:text=""
+        	    android:textSize="@dimen/text_size_normal" />
+
+        	<TextView
+        	    android:id="@+id/tvHumidityHour"
+        	    android:layout_marginTop="20dp"
+        	    android:layout_width="wrap_content"
+        	    android:layout_height="wrap_content"
+        	    android:text="@string/humidity" />
+        	
+        	<TextView
+        	    android:id="@+id/tvPressureHour"
+        	    android:layout_width="wrap_content"
+        	    android:layout_height="wrap_content"
+        	    android:text="@string/pressure" />
+        	
+        	<TextView
+        	    android:id="@+id/tvWindHour"
+        	    android:layout_width="wrap_content"
+        	    android:layout_height="wrap_content"
+        	    android:text="@string/wind" />
+        	
+		</LinearLayout>
+		
+          <ImageView
+        android:id="@+id/imageDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/_4_short_rain_big"/>
+    
+    </RelativeLayout>
+
+
+    
+
+    
+   
+
+    
+
+</RelativeLayout>

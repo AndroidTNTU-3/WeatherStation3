@@ -16,10 +16,8 @@
 <fullyQualifiedTypeName name="android.widget.TextView"/>
 <fullyQualifiedTypeName name="android.view.ViewGroup.LayoutParams"/>
 <fullyQualifiedTypeName name="android.view.Gravity"/>
-<fullyQualifiedTypeName name="android.widget.ImageView"/>
 <fullyQualifiedTypeName name="com.unrealedz.wstation.fragments.FragmentDayHours.hourClickListener"/>
 <fullyQualifiedTypeName name="com.unrealedz.wstation.NetworkLoader.LoaderCallBack"/>
-<fullyQualifiedTypeName name="com.unrealedz.wstation.utils.Utils"/>
 <fullyQualifiedTypeName name="android.appwidget.AppWidgetProvider"/>
 <fullyQualifiedTypeName name="android.app.PendingIntent"/>
 <fullyQualifiedTypeName name="android.app.AlarmManager"/>
@@ -42,6 +40,14 @@
 <fullyQualifiedTypeName name="java.util.ArrayList"/>
 <fullyQualifiedTypeName name="android.widget.Toast"/>
 <fullyQualifiedTypeName name="android.content.res.Configuration"/>
-<fullyQualifiedTypeName name="com.unrealedz.wstation.R.id"/>
 <fullyQualifiedTypeName name="android.widget.FrameLayout"/>
+<fullyQualifiedTypeName name="android.widget.ImageView"/>
+<fullyQualifiedTypeName name="com.unrealedz.wstation.bd.DbHelper"/>
+<fullyQualifiedTypeName name="android.view.View"/>
+<fullyQualifiedTypeName name="com.unrealedz.wstation.utils.Utils"/>
+<fullyQualifiedTypeName name="android.app.Fragment"/>
+<fullyQualifiedTypeName name="android.widget.ProgressBar"/>
+<fullyQualifiedTypeName name="com.unrealedz.wstation.R.id"/>
+<fullyQualifiedTypeName name="com.unrealedz.wstation.R.layout"/>
+<fullyQualifiedTypeName name="android.view.LayoutInflater"/>
 </qualifiedTypeNameHistroy>

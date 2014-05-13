@@ -49,7 +49,6 @@ public class FragmentDay extends Fragment {
 	@Override
 	  public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	      Bundle savedInstanceState) {
-
 		View v = inflater.inflate(R.layout.fragment_day, container, false);
 		
 		city = (TextView) v.findViewById(R.id.tvCityDay);
@@ -61,28 +60,24 @@ public class FragmentDay extends Fragment {
 		pressure = (TextView) v.findViewById(R.id.tvPressureHour);
 		wind = (TextView) v.findViewById(R.id.tvWindHour);
 		imageView = (ImageView) v.findViewById(R.id.imageDay);
+		imageView.setVisibility(ImageView.INVISIBLE);
 		context = container.getContext();
-		
-		city.setText(cityName);
-		region.setText(mRegion);
-		
-		refresh();
+
 	    return v;
 	  }
 	
 	public void onActivityCreated(Bundle savedInstanceState) {
-	    super.onActivityCreated(savedInstanceState);{
-	    }
+	    super.onActivityCreated(savedInstanceState);
+		refresh();
 	}
 	
 	@Override
 	public void onAttach(Activity a) {
 	    super.onAttach(a);
-	    
+
 	}	
 
 	public void setData(ForecastDay forecastDay) {
-		
 		tmin = forecastDay.getTemperatureMin();
 		tmax = forecastDay.getTemperatureMax();
 		cloudID = forecastDay.getCloudId();
@@ -99,16 +94,30 @@ public class FragmentDay extends Fragment {
 	public void setCity(String cityName, String region) {
 		this.cityName = cityName;
 		mRegion = region;
-		
+
 	}
 	
-	public void refresh(){
-		temperatureMin.setText(String.valueOf(tmin) + "°");
-		temperatureMax.setText(String.valueOf(tmax) + "°");
-		cloud.setText(Utils.getCloud(cloudID, context));
-		humidity.setText(getString(R.string.humidity) +  " " + String.valueOf(humidityMin) + "/" + String.valueOf(humidityMax) +  " %");
-		pressure.setText(getString(R.string.pressure) +  " " + String.valueOf(pressureMin) + "/" + String.valueOf(pressureMax) +  " " + getString(R.string.pressureUnit));
-		wind.setText(getString(R.string.wind) + " " + Utils.getWindOrient(windRumb, context) + " " + String.valueOf(windMin) + "/" + String.valueOf(windMax) + " " + getString(R.string.windUnit));
-		imageView.setImageResource(Utils.getBigImageId(pictureName, context));
+	public void refresh() {
+		if (cityName != null) {
+			city.setText(cityName);
+			region.setText(mRegion);
+			temperatureMin.setText(String.valueOf(tmin) + "°");
+			temperatureMax.setText(String.valueOf(tmax) + "°");
+			cloud.setText(Utils.getCloud(cloudID, context));
+			humidity.setText(getString(R.string.humidity) + " "
+					+ String.valueOf(humidityMin) + "/"
+					+ String.valueOf(humidityMax) + " %");
+			pressure.setText(getString(R.string.pressure) + " "
+					+ String.valueOf(pressureMin) + "/"
+					+ String.valueOf(pressureMax) + " "
+					+ getString(R.string.pressureUnit));
+			wind.setText(getString(R.string.wind) + " "
+					+ Utils.getWindOrient(windRumb, context) + " "
+					+ String.valueOf(windMin) + "/" + String.valueOf(windMax)
+					+ " " + getString(R.string.windUnit));
+			imageView.setImageResource(Utils
+					.getBigImageId(pictureName, context));
+			imageView.setVisibility(ImageView.VISIBLE);
+		}
 	}
 }
