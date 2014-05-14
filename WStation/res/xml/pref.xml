@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    
+    <CheckBoxPreference
+        android:key="units_temp"
+        android:summary="@string/summary_units_temperature"
+        android:title="@string/units_temperature" >
+    </CheckBoxPreference>
+    
+   	<CheckBoxPreference
+        android:key="manual_location"
+        android:summary="@string/summary_set_location"
+        android:title="@string/set_location_onoff" >
+    </CheckBoxPreference>
+
+    <EditTextPreference
+        android:dependency="manual_location"
+        android:key="address"
+        android:summary="Address for notifications"
+        android:title="@string/set_location" >
+    </EditTextPreference>
+
+</PreferenceScreen>

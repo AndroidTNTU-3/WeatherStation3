@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 import java.util.TimeZone;
 
 import com.unrealedz.wstation.R;
@@ -52,8 +53,8 @@ public class Utils {
 		
 		Date mdate = null;
 		
-		SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMMM yyyy HH:mm:SS Z");
-		SimpleDateFormat newFormatter = new SimpleDateFormat("HH:mm");
+		SimpleDateFormat formatter = new SimpleDateFormat("EEE, dd MMMM yyyy HH:mm:SS Z", Locale.UK);
+		SimpleDateFormat newFormatter = new SimpleDateFormat("HH:mm", Locale.UK);
 		try {
 			mdate = formatter.parse(date);
 		} catch (ParseException e) {

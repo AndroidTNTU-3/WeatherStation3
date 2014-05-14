@@ -16,6 +16,8 @@ import com.unrealedz.wstation.utils.Utils;
 import com.unrealedz.wstation.utils.UtilsDB;
 import com.unrealedz.wstation.utils.UtilsNet;
 
+import android.app.ActivityManager;
+import android.app.ActivityManager.RunningTaskInfo;
 import android.app.IntentService;
 import android.app.Service;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -166,7 +168,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	    if (cursorCity.getCount() !=0 & cursorCurrent.getCount() !=0){
 	    	city = UtilsDB.getCity(cursorCity);
 	    	currentForecast = UtilsDB.getCurrentForecast(cursorCurrent);
-	    if (!isWidget) usCallBack.onLocationCurrentPrepared(city, currentForecast);
+	    if (!isWidget & isRunning(context)) usCallBack.onLocationCurrentPrepared(city, currentForecast);
 	    else sendInfoWidget(city, currentForecast);
 	    }
 	    
@@ -180,7 +182,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	@Override
 	public void setLastUpdate() {
 		if (currentForecast != null){
-		if (!isWidget) usCallBack.onLastUpdatePrepared(currentForecast);
+		if (!isWidget & isRunning(context)) usCallBack.onLastUpdatePrepared(currentForecast);
 		//else sendLastWidget(currentForecast);
 		}
 	}
@@ -193,7 +195,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 		dataWeekHelper = new DataWeekHelper(this);
 		Cursor cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
 		if (cursor.getCount() !=0){
-		if (!isWidget) usCallBack.onForecastPrepared(cursor);
+		if (!isWidget & isRunning(context)) usCallBack.onForecastPrepared(cursor);
 		else setWeekToWidget(cursor);
 		}
 	}
@@ -281,5 +283,31 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	    dd.closeDB();
 	    dataWeekHelper.closeDB();
 	  }
+	
+	public static boolean isApplicationSentToBackground(final Context context) {
+	    ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+	    List<RunningTaskInfo> tasks = am.getRunningTasks(1);
+	    if (!tasks.isEmpty()) {
+	      ComponentName topActivity = tasks.get(0).topActivity;
+	      if (!topActivity.getPackageName().equals(context.getPackageName())) {
+	        return true;
+	      }
+	    }
+
+	    return false;
+	  }
+	
+	public boolean isRunning(Context ctx) {
+        ActivityManager activityManager = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
+        List<RunningTaskInfo> tasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
+
+        for (RunningTaskInfo task : tasks) {
+            if (ctx.getPackageName().equalsIgnoreCase(task.baseActivity.getPackageName()))
+                return true;    
+           
+        }
+    	Log.i("DEBUG", "Activity is closed");
+        return false;
+    }
 
 }

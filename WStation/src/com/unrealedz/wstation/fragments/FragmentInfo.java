@@ -2,13 +2,8 @@
 
 package com.unrealedz.wstation.fragments;
 
-import com.unrealedz.wstation.MainActivity;
 import com.unrealedz.wstation.R;
 import com.unrealedz.wstation.NetworkLoader.LoaderCallBack;
-import com.unrealedz.wstation.R.id;
-import com.unrealedz.wstation.R.layout;
-import com.unrealedz.wstation.bd.DataDayHelper;
-import com.unrealedz.wstation.bd.DbHelper;
 import com.unrealedz.wstation.entity.CurrentForecast;
 import com.unrealedz.wstation.utils.Utils;
 
@@ -67,7 +62,6 @@ public class FragmentInfo extends Fragment {
 	
 	public void onDestroy() {
 	    super.onDestroy();
-		//cursor.close();;
 	  }
 	
 	public void setProgressBar(boolean visible){

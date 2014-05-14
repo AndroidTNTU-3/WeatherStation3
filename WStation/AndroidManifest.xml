@@ -16,8 +16,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" >
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" >       
     </uses-permission>
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
         android:allowBackup="true"
@@ -43,10 +44,6 @@
             android:value="@integer/google_play_services_version" >
         </meta-data>
 
-        <activity
-            android:name="com.unrealedz.wstation.TestActivity"
-            android:label="@string/title_activity_geo" >
-        </activity>
         <activity
             android:name="com.unrealedz.wstation.CityActivity"
             android:label="@string/title_activity_city" >
@@ -77,6 +74,7 @@
             </meta-data>
 
         </receiver>
+        <activity android:name=".preferences.PrefActivity"></activity>
         
     </application>
 

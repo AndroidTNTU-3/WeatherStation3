@@ -24,7 +24,6 @@
 <fullyQualifiedTypeName name="android.content.Intent"/>
 <fullyQualifiedTypeName name="java.util.Calendar"/>
 <fullyQualifiedTypeName name="com.unrealedz.wstation.utils.UtilsNet"/>
-<fullyQualifiedTypeName name="android.app.ActivityManager"/>
 <fullyQualifiedTypeName name="android.app.ActivityManager.RunningServiceInfo"/>
 <fullyQualifiedTypeName name="com.unrealedz.wstation.utils.Contract"/>
 <fullyQualifiedTypeName name="android.content.Loader"/>
@@ -50,4 +49,13 @@
 <fullyQualifiedTypeName name="com.unrealedz.wstation.R.id"/>
 <fullyQualifiedTypeName name="com.unrealedz.wstation.R.layout"/>
 <fullyQualifiedTypeName name="android.view.LayoutInflater"/>
+<fullyQualifiedTypeName name="java.util.Locale"/>
+<fullyQualifiedTypeName name="android.app.ActivityManager"/>
+<fullyQualifiedTypeName name="android.app.ActivityManager.RunningTaskInfo"/>
+<fullyQualifiedTypeName name="android.os.Bundle"/>
+<fullyQualifiedTypeName name="android.R"/>
+<fullyQualifiedTypeName name="com.unrealedz.wstation.R"/>
+<fullyQualifiedTypeName name="com.unrealedz.wstation.preferences.PrefActivity"/>
+<fullyQualifiedTypeName name="android.content.SharedPreferences"/>
+<fullyQualifiedTypeName name="android.preference.PreferenceManager"/>
 </qualifiedTypeNameHistroy>

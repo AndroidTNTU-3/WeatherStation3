@@ -6,16 +6,19 @@ import com.unrealedz.wstation.entity.CurrentForecast;
 import com.unrealedz.wstation.fragments.FragmentCurrent;
 import com.unrealedz.wstation.fragments.FragmentInfo;
 import com.unrealedz.wstation.fragments.FragmentList;
+import com.unrealedz.wstation.preferences.PrefActivity;
 import com.unrealedz.wstation.utils.UtilsNet;
 
 import android.os.Bundle;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.util.Log;
@@ -47,12 +50,15 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	int screenOrienrtation = 0;
 		
 	String url = "http://xml.weather.co.ua/1.2/forecast/23?dayf=5&lang=uk";
+	SharedPreferences sp;
 
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);               
+        setContentView(R.layout.activity_main);  
+        
+        sp = PreferenceManager.getDefaultSharedPreferences(this);
 
         fragCurrent = new FragmentCurrent();
         fragList =  new FragmentList();
@@ -127,6 +133,12 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
         }
  
     }   	
+    
+	protected void onResume() {
+	    Boolean celsius = sp.getBoolean("units_temp", true);
+	    String address = sp.getString("address", "");
+	    super.onResume();
+	  }
 
 	@Override
 	public void onLocationCurrentPrepared(City city,
@@ -135,10 +147,6 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 		fragCurrent.setData(city, currentForecast);
 		fragList.setCity(city);
 		
-	}
-	
-	public void Tested(String nameLocation){
-		Toast.makeText(this, nameLocation, Toast.LENGTH_SHORT).show();
 	}
 	
 	@Override
@@ -167,8 +175,10 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         
-        case R.id.action_refresh:
-        	//refresh();       	
+        case R.id.action_settings:
+        	//refresh();  
+        	Intent intentPref = new Intent(this, PrefActivity.class);
+        	startActivity(intentPref);
             return true;       
         default:
 
@@ -197,6 +207,12 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	    unbindService(sConn);		//Disconnect from the service
 	    bound = false;
 	  }
+	
+	@Override
+	public void onBackPressed() {
+		this.finish();
+	}
+	
 
     
 }

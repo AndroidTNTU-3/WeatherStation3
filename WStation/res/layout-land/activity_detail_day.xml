@@ -1,0 +1,22 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".DetailDayActivity" >
+
+    <FrameLayout android:id="@+id/fragDay"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" 
+      android:layout_weight="2"
+      tools:context=".FragmentDay" >
+    </FrameLayout>    
+    
+    <FrameLayout android:id="@+id/fragDayHours"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_weight="3"
+      tools:context=".FragmentDayHours" >
+   </FrameLayout>    
+       
+</LinearLayout>
