@@ -3,8 +3,8 @@
 package com.unrealedz.wstation.fragments;
 
 import com.unrealedz.wstation.R;
-import com.unrealedz.wstation.NetworkLoader.LoaderCallBack;
 import com.unrealedz.wstation.entity.CurrentForecast;
+import com.unrealedz.wstation.loaders.NetworkLoader.LoaderCallBack;
 import com.unrealedz.wstation.utils.Utils;
 
 import android.app.Activity;

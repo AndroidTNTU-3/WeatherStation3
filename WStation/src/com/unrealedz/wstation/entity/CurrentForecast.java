@@ -1,5 +1,9 @@
 package com.unrealedz.wstation.entity;
 
+////////////////////////////////////////////////
+//Object current forecast for parsing xml data//	
+////////////////////////////////////////////////
+
 public class CurrentForecast {
 	private String lastUpdated;
 	private String expires;

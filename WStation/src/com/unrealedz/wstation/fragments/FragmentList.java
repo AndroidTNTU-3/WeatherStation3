@@ -5,7 +5,6 @@ import java.util.List;
 import com.unrealedz.wstation.DetailDayActivity;
 import com.unrealedz.wstation.MyCursorAdapter;
 import com.unrealedz.wstation.R;
-import com.unrealedz.wstation.NetworkLoader.LoaderCallBack;
 import com.unrealedz.wstation.R.id;
 import com.unrealedz.wstation.R.layout;
 import com.unrealedz.wstation.bd.DataHelper;
@@ -13,6 +12,7 @@ import com.unrealedz.wstation.bd.DataWeekHelper;
 import com.unrealedz.wstation.bd.DbHelper;
 import com.unrealedz.wstation.entity.City;
 import com.unrealedz.wstation.entity.ForecastDayShort;
+import com.unrealedz.wstation.loaders.NetworkLoader.LoaderCallBack;
 import com.unrealedz.wstation.utils.UtilsDB;
 
 import android.app.Activity;
@@ -77,12 +77,6 @@ public class FragmentList extends Fragment{
 	@Override 
     public void onActivityCreated(Bundle savedInstanceState) {  
         super.onActivityCreated(savedInstanceState);  
-       // DataWeekHelper dataWeekHelper = new DataWeekHelper(this.getActivity());
-		//Cursor cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
-		//if (!MainActivity.isOnline(getActivity())){						// check is device online
-			//if(cursor.getCount() != 0) setCursor(cursor);				// check dataBase is not empty 
-		//}
-		//loaderCallBack.setWeekList();
 	}
 
 	public void setCursor(Cursor c) {

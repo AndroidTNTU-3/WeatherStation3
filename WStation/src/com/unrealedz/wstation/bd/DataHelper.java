@@ -1,5 +1,10 @@
 package com.unrealedz.wstation.bd;
 
+/////////////////////////////////
+//Helper: info of location city//
+//for save to cities DB		   //	
+/////////////////////////////////
+
 import com.unrealedz.wstation.entity.City;
 import com.unrealedz.wstation.entity.City.Country;
 import com.unrealedz.wstation.entity.City.Region;
@@ -30,8 +35,6 @@ public class DataHelper {
 		city.setCountry(readCountry(forecast.getCity().getCountry()));
         return insertCity(city);
     }
-
-
 
 	private Region readRegion(Region reg) {
     	Region region = new Region();
@@ -78,8 +81,6 @@ public class DataHelper {
     public Cursor getCursor(String tableName) {
     	
     	Cursor cursor = db.query(tableName, null, null, null, null, null, null);
-        //Cursor cursor = db.query(tableName, new String[] { DbHelper.CITY_ID,DbHelper.CITY_NAME, 
-        		//DbHelper.CITY_NAME_EN, DbHelper.REGION, DbHelper.REGION_EN, DbHelper.COUNTRY, DbHelper.COUNTRY_EN}, null, null, null, null, null);
         return cursor;
     }
     

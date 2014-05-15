@@ -45,13 +45,10 @@
         </meta-data>
 
         <activity
-            android:name="com.unrealedz.wstation.CityActivity"
-            android:label="@string/title_activity_city" >
-        </activity>
-        <activity
             android:name="com.unrealedz.wstation.DetailDayActivity"
             android:label="@string/title_activity_detail_day" >
         </activity>
+        
         <service android:name="UpdateService">
             <intent-filter>
 				<action android:name="com.unrealedz.wstation.FROM_WIDGET" />

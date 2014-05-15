@@ -1,12 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-
     
-    <CheckBoxPreference
-        android:key="units_temp"
-        android:summary="@string/summary_units_temperature"
-        android:title="@string/units_temperature" >
-    </CheckBoxPreference>
+    <PreferenceCategory
+        android:key="units"
+        android:summary="@string/summary_toggle_units"
+        android:title="@string/toggle_units" >
+        
+        <CheckBoxPreference
+            android:key="units_temp"
+            android:summary="@string/summary_units_temperature"
+            android:title="@string/units_temperature" >
+        </CheckBoxPreference>
+        
+        <ListPreference 
+            android:entries="@array/wind_units_speed"
+ 			android:entryValues="@array/wind_units_speed_value"
+            android:key="units_wind" 
+            android:summary="@string/summary_units_wind"
+            android:title="@string/units_wind"/>
+        
+    </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:key="location"
+        android:summary="@string/summary_cat_location"
+        android:title="@string/cat_location" >
     
    	<CheckBoxPreference
         android:key="manual_location"
@@ -20,5 +38,6 @@
         android:summary="Address for notifications"
         android:title="@string/set_location" >
     </EditTextPreference>
+     </PreferenceCategory>
 
 </PreferenceScreen>

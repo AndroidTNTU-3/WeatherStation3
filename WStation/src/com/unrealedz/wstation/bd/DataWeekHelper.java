@@ -2,7 +2,6 @@ package com.unrealedz.wstation.bd;
 
 import java.util.List;
 
-import com.unrealedz.wstation.entity.CurrentForecast;
 import com.unrealedz.wstation.entity.Forecast;
 import com.unrealedz.wstation.entity.ForecastDay;
 
@@ -11,6 +10,11 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
+/////////////////////////////////
+//Helper: info of week forecast//
+//for save to week forecast DB //	
+/////////////////////////////////
 
 public class DataWeekHelper {
 

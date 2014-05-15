@@ -67,7 +67,7 @@
         	    android:id="@+id/tvTemperatureFlik"
         	    android:layout_width="wrap_content"
         	    android:layout_height="wrap_content"
-        	    android:text="@string/temperatureFlik" />
+        	    android:text="" />
         	 
         	 <TextView
         	    android:id="@+id/tvCloud"
@@ -82,19 +82,19 @@
         	    android:layout_marginTop="10dp"
         	    android:layout_width="wrap_content"
         	    android:layout_height="wrap_content"
-        	    android:text="@string/humidity" />
+        	    android:text="" />
         	
         	<TextView
         	    android:id="@+id/tvPressure"
         	    android:layout_width="wrap_content"
         	    android:layout_height="wrap_content"
-        	    android:text="@string/pressure" />
+        	    android:text="" />
         	
         	<TextView
         	    android:id="@+id/tvWind"
         	    android:layout_width="wrap_content"
         	    android:layout_height="wrap_content"
-        	    android:text="@string/wind" />
+        	    android:text="" />
         	
 		</LinearLayout>
 
@@ -119,5 +119,4 @@
    </LinearLayout>
 
     
-
 </RelativeLayout>

@@ -1,5 +1,11 @@
 package com.unrealedz.wstation.entity;
 
+
+//////////////////////////////////////////////////////////
+//Child class for listView on (FragmentList) MainActivity/
+//contains only required filed for listView				//
+//////////////////////////////////////////////////////////
+
 public class ForecastDayShort extends ForecastDay{
 
 	private long id;

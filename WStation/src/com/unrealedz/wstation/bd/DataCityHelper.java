@@ -1,17 +1,18 @@
 package com.unrealedz.wstation.bd;
 
+/////////////////////////////////////////
+//Helper: info of current city location//
+/////////////////////////////////////////
+
 import java.util.List;
 
 import com.unrealedz.wstation.entity.CitiesDB;
-import com.unrealedz.wstation.entity.City;
 import com.unrealedz.wstation.entity.CityDB;
-import com.unrealedz.wstation.entity.ForecastDay;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 public class DataCityHelper {
 	
@@ -51,7 +52,7 @@ public class DataCityHelper {
 	}
 	
 	public Cursor getCode(String cityName) {
-		String where = DbHelper.CITY_DB_NAME_EN + " = " + "Ternopil";
+		//String where = DbHelper.CITY_DB_NAME_EN + " = " + "Ternopil";
 		String[] selectionArgs = new String[] { cityName };
 		Cursor c = 	db.query(DbHelper.CITY_DB_TABLE, ALL_KEYS, 
 				DbHelper.CITY_DB_NAME_EN + "=?", selectionArgs, null, null, null, null);

@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:textSize="@dimen/text_size_small"
         android:textColor="@android:color/darker_gray"
-        android:text="TextView" />
+        android:text="@string/download" />
 
         <ProgressBar
             android:id="@+id/mainProgressBar"

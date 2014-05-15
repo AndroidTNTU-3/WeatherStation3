@@ -1,5 +1,9 @@
 package com.unrealedz.wstation.bd;
 
+////////////////////////////////////
+//Helper: info of current forecast//
+////////////////////////////////////
+
 import com.unrealedz.wstation.entity.CurrentForecast;
 import com.unrealedz.wstation.entity.Forecast;
 

@@ -3,32 +3,28 @@ package com.unrealedz.wstation;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.unrealedz.wstation.LocationLoader.LocationLoaderCallBack;
-import com.unrealedz.wstation.NetworkLoader.LoaderCallBack;
 import com.unrealedz.wstation.bd.DataDayHelper;
 import com.unrealedz.wstation.bd.DataHelper;
 import com.unrealedz.wstation.bd.DataWeekHelper;
 import com.unrealedz.wstation.bd.DbHelper;
 import com.unrealedz.wstation.entity.City;
 import com.unrealedz.wstation.entity.CurrentForecast;
+import com.unrealedz.wstation.loaders.LocationLoader;
+import com.unrealedz.wstation.loaders.NetworkLoader;
+import com.unrealedz.wstation.loaders.LocationLoader.LocationLoaderCallBack;
+import com.unrealedz.wstation.loaders.NetworkLoader.LoaderCallBack;
 import com.unrealedz.wstation.utils.Contract;
 import com.unrealedz.wstation.utils.Utils;
 import com.unrealedz.wstation.utils.UtilsDB;
 import com.unrealedz.wstation.utils.UtilsNet;
 
-import android.app.ActivityManager;
-import android.app.ActivityManager.RunningTaskInfo;
 import android.app.IntentService;
-import android.app.Service;
-import android.app.LoaderManager.LoaderCallbacks;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.Loader;
 import android.database.Cursor;
 import android.os.Binder;
-import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.RemoteViews;
@@ -82,24 +78,15 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
     	
     	if (intent != null) {			 
 			String action = intent.getAction();	
-			if (FROM_WIDGET.equals(action)) {
-				Log.i("DEBUG:", "In startCommand");
+			if (FROM_WIDGET.equals(action)) {			//Checking if the service was calling the widget  
 				isWidget = true;	
 				setLocationInfo();
 				setWeekList();
 			}
     	}
-    	context = getApplicationContext();
-		//setWeekList();    	 
+    	context = getApplicationContext();  	 
        // cityLoad();
-        Log.i("DEBUG SERV:", "In startCommand");
         return super.onStartCommand(intent, flags, startId);  
-    }
-    
-    public void setOrientationChanged(){
-    	Log.i("DEBUG:", "In otientation");
-		setLocationInfo();
-		setWeekList();
     }
 
 	@Override
@@ -140,8 +127,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	// 3 //CallBack from LocationLoader if a current city code is get
 	@Override
 	public void setLocation(String cityId) {
-		//int cityId = 23; //Kyiv code from dummy
-		Log.i("DEBUG CUR", "COD:" + cityId); 
+		//int cityId = 23; //Kyiv code from dummy 
 		url = "http://xml.weather.co.ua/1.2/forecast/" + cityId + "?dayf=5&lang=uk";
 		refresh();		
 	}
@@ -168,8 +154,12 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	    if (cursorCity.getCount() !=0 & cursorCurrent.getCount() !=0){
 	    	city = UtilsDB.getCity(cursorCity);
 	    	currentForecast = UtilsDB.getCurrentForecast(cursorCurrent);
-	    if (!isWidget & isRunning(context)) usCallBack.onLocationCurrentPrepared(city, currentForecast);
-	    else sendInfoWidget(city, currentForecast);
+	    	
+	    	if (!isWidget){														//if it activity - sent data to MainActivity
+	    		if (UtilsNet.isRunning(context)){
+	    			usCallBack.onLocationCurrentPrepared(city, currentForecast);	
+	    		}
+	    	} else sendInfoWidget(city, currentForecast);						//if widget - sent data to widget
 	    }
 	    
 	    cursorCity.close();		
@@ -182,8 +172,11 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	@Override
 	public void setLastUpdate() {
 		if (currentForecast != null){
-		if (!isWidget & isRunning(context)) usCallBack.onLastUpdatePrepared(currentForecast);
-		//else sendLastWidget(currentForecast);
+			if (!isWidget){														//if it activity - sent data to MainActivity
+	    		if (UtilsNet.isRunning(context)){
+	    			usCallBack.onLastUpdatePrepared(currentForecast);	
+	    		}
+	    	}				
 		}
 	}
 	
@@ -195,8 +188,11 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 		dataWeekHelper = new DataWeekHelper(this);
 		Cursor cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
 		if (cursor.getCount() !=0){
-		if (!isWidget & isRunning(context)) usCallBack.onForecastPrepared(cursor);
-		else setWeekToWidget(cursor);
+			if (!isWidget){														//if it activity - sent data to MainActivity
+	    		if (UtilsNet.isRunning(context)){
+	    			usCallBack.onForecastPrepared(cursor);	
+	    		}
+	    	} else setWeekToWidget(cursor);										//if widget - sent data to widget
 		}
 	}
 	
@@ -267,6 +263,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 		 manager.updateAppWidget(thisWidget, remoteView);
 	}
 	
+	//registered observers
 	public void setOnUpdateServiceCallBack(IUpdateServiceCallBack usCallBack) {		
 		this.usCallBack = usCallBack;
 	}
@@ -284,30 +281,6 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	    dataWeekHelper.closeDB();
 	  }
 	
-	public static boolean isApplicationSentToBackground(final Context context) {
-	    ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-	    List<RunningTaskInfo> tasks = am.getRunningTasks(1);
-	    if (!tasks.isEmpty()) {
-	      ComponentName topActivity = tasks.get(0).topActivity;
-	      if (!topActivity.getPackageName().equals(context.getPackageName())) {
-	        return true;
-	      }
-	    }
-
-	    return false;
-	  }
 	
-	public boolean isRunning(Context ctx) {
-        ActivityManager activityManager = (ActivityManager) ctx.getSystemService(Context.ACTIVITY_SERVICE);
-        List<RunningTaskInfo> tasks = activityManager.getRunningTasks(Integer.MAX_VALUE);
-
-        for (RunningTaskInfo task : tasks) {
-            if (ctx.getPackageName().equalsIgnoreCase(task.baseActivity.getPackageName()))
-                return true;    
-           
-        }
-    	Log.i("DEBUG", "Activity is closed");
-        return false;
-    }
 
 }

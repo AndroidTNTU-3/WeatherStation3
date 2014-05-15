@@ -1,6 +1,5 @@
 package com.unrealedz.wstation.bd;
 
-import java.util.List;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -8,7 +7,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.unrealedz.wstation.entity.CitiesDB;
-import com.unrealedz.wstation.entity.CityDB;
+
+/////////////////////////////////////////////////////////
+//Info of version and last updated time cities database//
+/////////////////////////////////////////////////////////
 
 public class DataCityDbInfoHelper {
 	

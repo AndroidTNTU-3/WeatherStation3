@@ -2,6 +2,10 @@ package com.unrealedz.wstation.entity;
 
 import java.util.List;
 
+/////////////////////////////////
+//Object for cities DB			//	
+/////////////////////////////////
+
 public class CitiesDB {
 	
 	private String lastUpdated;

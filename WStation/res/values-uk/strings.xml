@@ -5,6 +5,7 @@
     <string name="title_activity_detail_day">Погода на день</string>
     <string name="action_settings">Settings</string>
     <string name="action_refresh">Refresh</string>
+    <string name="download">завантаження...</string>
     <string name="hello_world">Hello world!</string>
 	<string name="humidity">вологість:</string>
     <string name="pressure">тиск:</string>
@@ -35,4 +36,23 @@
 	<string name="last_update">оновлено</string>
 	<string name="units_temperature">Одиниці температури</string>
 	<string name="summary_units_temperature">Цельсій/Фаренгейт</string>
+	<string name="units_wind">Одиниці швидкості вітру</string>
+	<string name="summary_units_wind">Вибір одиниць швидкості вітру</string>
+	<string name="toggle_units">Одиниці виміру</string>
+	<string name="summary_toggle_units">Вибір одиниці виміру</string>
+	<string name="cat_location">Роташування</string>
+	<string name="summary_cat_location">Параметри визначення розташування</string>
+	
+	<string-array name="wind_units_speed">
+		<item>миль/г</item>
+		<item>км/г</item>
+		<item>м/с</item>
+		<item>фт/с</item>
+	</string-array>
+	<string-array name="wind_units_speed_value">
+		<item>"миль/г"</item>
+		<item>"км/г"</item>
+		<item>"м/с"</item>
+		<item>"фт/с"</item>
+	</string-array>
 </resources>

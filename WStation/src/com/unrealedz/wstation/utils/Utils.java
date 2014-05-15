@@ -2,21 +2,16 @@ package com.unrealedz.wstation.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.Locale;
-import java.util.TimeZone;
 
 import com.unrealedz.wstation.R;
 
 import android.content.Context;
-import android.text.format.DateFormat;
-import android.text.format.DateUtils;
 
 public class Utils {
 	
-		
+	//get format data for listView(FragmentList)	
 	public static String getStringDate(String date){
 		
 		Date mdate = null;
@@ -33,6 +28,7 @@ public class Utils {
 		return dateWeek;
 	}
 	
+	//get short week format for listView(FragmentList)	
 	public static String getStringDayWeekShort(String date){
 		
 		Date mdate = null;
@@ -49,6 +45,7 @@ public class Utils {
 		return dateWeek;
 	}
 	
+	//get short last upDate time format for (FragmentInfo)	
 	public static String getStringLastUpDate(String date){
 		
 		Date mdate = null;
@@ -65,6 +62,7 @@ public class Utils {
 		return dateWeek;
 	}
 	
+	//get image id from resource	
 	public static int getImageId(String pictureName, Context context){
 		
 		pictureName = pictureName.substring(0, pictureName.lastIndexOf("."));
@@ -73,6 +71,7 @@ public class Utils {
 		
 	}
 	
+	//get big size image id from resource for some fragments (FragmentCurrent, FragmentDay)
 	public static int getBigImageId(String pictureName, Context context){
 		
 		pictureName = pictureName.substring(0, pictureName.lastIndexOf(".")) + "_big";
@@ -81,7 +80,7 @@ public class Utils {
 		
 	}
 	
-public static int getNormalImageId(String pictureName, Context context){
+	public static int getNormalImageId(String pictureName, Context context){
 		
 		pictureName = pictureName.substring(0, pictureName.lastIndexOf("."));
 		int id_image = context.getResources().getIdentifier((context.getPackageName() + ":drawable/" + pictureName), null, null);
@@ -89,6 +88,7 @@ public static int getNormalImageId(String pictureName, Context context){
 		
 	}
 	
+	//get orientation wind 
 	public static String getWindOrient(int windRumb, Context context){
 		String orient = "";
 		if((windRumb <= 21) & (windRumb >=337)) orient = context.getString(R.string.north);
@@ -102,6 +102,7 @@ public static int getNormalImageId(String pictureName, Context context){
 		return orient;		
 	}
 	
+	//get orientation Cloud forecast 
 	public static String getCloud(int cloudID, Context context){
 		String cloud = "";
 		if ((cloudID >= 0) & (cloudID <= 9)) cloud = context.getString(R.string.sunny);
@@ -116,6 +117,25 @@ public static int getNormalImageId(String pictureName, Context context){
 		else if ((cloudID >= 90) & (cloudID <= 99)) cloud = context.getString(R.string.snow);
 		else if ((cloudID >= 100) & (cloudID <= 109)) cloud = context.getString(R.string.snowstorm);
 		return cloud;		
+	}
+	
+	public static String getFahrenheit(String temp){				//return temperature to current fragment
+		if (temp.length() > 2) temp = temp.substring(2);			//if temperature as "+10" concat string to "10" 
+		return String.valueOf(Integer.valueOf(temp)*9/5 + 32);
+		
+	}
+	
+	public static int getFahrenheit(int temp){						//return temperature to day fragment
+		return temp*9/5 + 32;		
+	}
+
+	public static int getwindUnitSpeed(int windSpeed, String windUnitSpeed) {
+		
+		if(windUnitSpeed.equals("miles/h")) windSpeed = windSpeed/1609;
+		else if (windUnitSpeed.equals("km/h")) windSpeed = windSpeed/1000;
+		else if(windUnitSpeed.equals("ft/s")) windSpeed = (int) (windSpeed*3.28);
+					
+		return windSpeed;
 	}
 		
 

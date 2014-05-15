@@ -2,6 +2,10 @@ package com.unrealedz.wstation.entity;
 
 import java.util.List;
 
+/////////////////////////////////////////////////
+//Main object forecast for parsing all xml data//	
+////////////////////////////////////////////////
+
 
 public class Forecast {
 	private String lastUpdated;

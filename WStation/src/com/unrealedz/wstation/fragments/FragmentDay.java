@@ -1,7 +1,5 @@
 package com.unrealedz.wstation.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import com.unrealedz.wstation.R;
 import com.unrealedz.wstation.entity.ForecastDay;
@@ -10,8 +8,9 @@ import com.unrealedz.wstation.utils.Utils;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +45,10 @@ public class FragmentDay extends Fragment {
 	String cityName;
 	String mRegion;
 	
+	SharedPreferences preferences;
+	Boolean fahrenheit;
+	String windUnitSpeed;
+	
 	@Override
 	  public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	      Bundle savedInstanceState) {
@@ -72,10 +75,17 @@ public class FragmentDay extends Fragment {
 	}
 	
 	@Override
-	public void onAttach(Activity a) {
-	    super.onAttach(a);
-
+	public void onAttach(Activity activity) {
+	    super.onAttach(activity);
+	    loadPreferences(activity);	
 	}	
+	
+	//loading preferences
+	private void loadPreferences(Activity activity) {
+		preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+		fahrenheit = preferences.getBoolean("units_temp", false);
+		windUnitSpeed = preferences.getString("units_wind", getString(R.string.windUnit));
+	}
 
 	public void setData(ForecastDay forecastDay) {
 		tmin = forecastDay.getTemperatureMin();
@@ -99,6 +109,18 @@ public class FragmentDay extends Fragment {
 	
 	public void refresh() {
 		if (cityName != null) {
+			
+			
+			//check if preference units do not equals to the default values(metric units)
+			if (fahrenheit) {
+				tmin = Utils.getFahrenheit(tmin);
+				tmax =  Utils.getFahrenheit(tmax);
+			}
+			if (!windUnitSpeed.equals(getString(R.string.windUnit))) {
+				windMin = Utils.getwindUnitSpeed(windMin, windUnitSpeed);
+				windMax = Utils.getwindUnitSpeed(windMax, windUnitSpeed);
+			}
+			
 			city.setText(cityName);
 			region.setText(mRegion);
 			temperatureMin.setText(String.valueOf(tmin) + "°");
@@ -114,7 +136,7 @@ public class FragmentDay extends Fragment {
 			wind.setText(getString(R.string.wind) + " "
 					+ Utils.getWindOrient(windRumb, context) + " "
 					+ String.valueOf(windMin) + "/" + String.valueOf(windMax)
-					+ " " + getString(R.string.windUnit));
+					+ " " + windUnitSpeed);
 			imageView.setImageResource(Utils
 					.getBigImageId(pictureName, context));
 			imageView.setVisibility(ImageView.VISIBLE);

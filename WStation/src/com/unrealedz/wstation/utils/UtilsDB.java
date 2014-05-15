@@ -14,7 +14,8 @@ import com.unrealedz.wstation.entity.City.Country;
 import com.unrealedz.wstation.entity.City.Region;
 
 public class UtilsDB {
-		
+	
+	//Get list of day forecast 	
 	public static List<ForecastDay> getForecastList(Cursor cursor){
 		List<ForecastDay> forecastDays = new ArrayList<ForecastDay>();
 		do {
@@ -39,6 +40,7 @@ public class UtilsDB {
 		return forecastDays;
 	}
 	
+	//Get list of 5 day forecast in short format(date, picture name, tMin, tMax)
 	public static List<ForecastDayShort> getForecastListMain(Cursor cursor){
 		List<ForecastDayShort> forecastDaysShort = new ArrayList<ForecastDayShort>();
 		cursor.moveToFirst();
@@ -54,6 +56,8 @@ public class UtilsDB {
 		return forecastDaysShort;
 	}
 	
+	
+	//Get city info
 	public static City getCity(Cursor cursor){
 		City city = new City();
 		Country country = new Country();
@@ -73,6 +77,7 @@ public class UtilsDB {
 		return city;
 	}
 	
+	//Get current forecast info
 	public static CurrentForecast getCurrentForecast(Cursor cursor){
 		CurrentForecast currentForecast= new CurrentForecast();
 		

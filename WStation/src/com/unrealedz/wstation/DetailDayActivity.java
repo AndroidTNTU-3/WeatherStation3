@@ -1,10 +1,8 @@
 package com.unrealedz.wstation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.unrealedz.wstation.bd.DataWeekHelper;
-import com.unrealedz.wstation.bd.DbHelper;
 import com.unrealedz.wstation.entity.ForecastDay;
 import com.unrealedz.wstation.fragments.FragmentDay;
 import com.unrealedz.wstation.fragments.FragmentDayHours;
@@ -12,20 +10,13 @@ import com.unrealedz.wstation.fragments.FragmentDayHours.HoursCallBack;
 import com.unrealedz.wstation.utils.UtilsDB;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.os.Build;
+
 
 public class DetailDayActivity extends Activity implements HoursCallBack{
 	
@@ -55,7 +46,7 @@ public class DetailDayActivity extends Activity implements HoursCallBack{
         fTrans.add(R.id.fragDayHours, fragDayHours);
         fTrans.commit();
         
-        if (screenOrienrtation == 0){
+        if (screenOrienrtation == 0){						    //loading data if the orientation has not been changed
         	date = getIntent().getExtras().getString("date");
         	cityName = getIntent().getExtras().getString("city");        
         	region = getIntent().getExtras().getString("region");
@@ -65,13 +56,11 @@ public class DetailDayActivity extends Activity implements HoursCallBack{
 	
 	private void refresh(){
 		DataWeekHelper dataWeekHelper = new DataWeekHelper(this);
-		Cursor cursor = dataWeekHelper.getCursorDay(date);
-		Log.i("DEBUG:", "cursor: " + cursor.getCount());
+		Cursor cursor = dataWeekHelper.getCursorDay(date);       //Get current day with hours forecast
 		forecastDays = UtilsDB.getForecastList(cursor);
-
-        fragDay.setData(forecastDays.get(hour));
-        fragDay.setCity(cityName, region);
-        fragDayHours.setData(forecastDays);
+        fragDay.setData(forecastDays.get(hour));				//Set fragment info of 15 hours;
+        fragDay.setCity(cityName, region);						//Set fragment location(city,region) info
+        fragDayHours.setData(forecastDays);						//Set fragment list of hours forecast
         cursor.close();
         dataWeekHelper.closeDB();
 	}
@@ -90,11 +79,8 @@ public class DetailDayActivity extends Activity implements HoursCallBack{
 		}
 		return super.onOptionsItemSelected(item);
 	}
-
-	public String getDate(){
-		return date;
-	}
-
+	
+	//Send to fragment selected hours forecast
 	@Override
 	public void setHourInfo(int hour) {
 		fragDay.setData(forecastDays.get(hour));
@@ -105,14 +91,14 @@ public class DetailDayActivity extends Activity implements HoursCallBack{
 	@Override
 	protected void onSaveInstanceState(Bundle state) {
 	    super.onSaveInstanceState(state);
-	    screenOrienrtation = getResources().getConfiguration().orientation;
+	    screenOrienrtation = getResources().getConfiguration().orientation; //save new screen orientation
 	    state.putString("date", date);
 	    state.putString("cityName", cityName);
 	    state.putString("region", region);
 	}
 	
 	@Override
-	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {		//get screen orientation
 	    super.onRestoreInstanceState(savedInstanceState);
 	    if (savedInstanceState != null)
 	    	date = savedInstanceState.getString("date");

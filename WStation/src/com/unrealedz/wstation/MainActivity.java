@@ -11,24 +11,17 @@ import com.unrealedz.wstation.utils.UtilsNet;
 
 import android.os.Bundle;
 import android.os.IBinder;
-import android.preference.PreferenceManager;
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	
@@ -44,29 +37,22 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	
 	ServiceConnection sConn;
 	UpdateService updateService;
-	boolean bound = false; 			//check if activity connected to service
+	boolean bound = false; 			
 	boolean isRunning = false;
 	boolean orientationChanged = false;
 	int screenOrienrtation = 0;
 		
 	String url = "http://xml.weather.co.ua/1.2/forecast/23?dayf=5&lang=uk";
-	SharedPreferences sp;
 
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);  
-        
-        sp = PreferenceManager.getDefaultSharedPreferences(this);
+        setContentView(R.layout.activity_main);          
 
         fragCurrent = new FragmentCurrent();
         fragList =  new FragmentList();
-        fragInfo = new FragmentInfo();
-        
-        LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
-        //inflater.inflate(R.layout.activity_main, false);
-     //   linearLayout = (LinearLayout) this.getLayoutInflater()findViewById(R.layout.activity_main); 
+        fragInfo = new FragmentInfo();             
         
        // fragCurrent.setRetainInstance(true);
        // fragList.setRetainInstance(true); 
@@ -91,13 +77,13 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 		        updateService.setOnUpdateServiceCallBack(MainActivity.this);
 		        bound = true;		
 		        //if (isRunning) {
-		        if (screenOrienrtation == 0){
+		        if (screenOrienrtation == 0){			//loading data if the orientation has not been changed
 		        	updateService.setLocationInfo();
 		        	updateService.setLastUpdate();
 		        	updateService.setWeekList();
 		        	updateService.cityLoad();
-		        	fragInfo.setProgressBar(true);
-		        } else {
+		        	fragInfo.setProgressBar(true);    	//show progress while loading data
+		        } else {								//loading data if the orientation has been changed
 		        	updateService.setLocationInfo();
 		        	updateService.setLastUpdate();
 		        	updateService.setWeekList();
@@ -115,7 +101,8 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
     
     public void bindToService() {
     	Intent intentService = new Intent(getApplicationContext(), UpdateService.class);
-
+    	
+    	//check if service is running (no for IntentServise)
         if (UtilsNet.IsServiceRunning(this)) {
             // Bind to LocalService
         	Log.i("DEBUG:", "Service is running");
@@ -135,20 +122,20 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
     }   	
     
 	protected void onResume() {
-	    Boolean celsius = sp.getBoolean("units_temp", true);
-	    String address = sp.getString("address", "");
 	    super.onResume();
-	  }
+	}
 
+	//CallBack: set data to fragments (Current forecast and the city location info)
 	@Override
 	public void onLocationCurrentPrepared(City city,
 			CurrentForecast currentForecast) {
 		
-		fragCurrent.setData(city, currentForecast);
-		fragList.setCity(city);
+		fragCurrent.setData(city, currentForecast); //Current forecast
+		fragList.setCity(city);						//send the city location info to ListView (for open activity_detail_day)
 		
 	}
 	
+	//CallBack: set data to fragment (last updated time)
 	@Override
 	public void onLastUpdatePrepared(CurrentForecast currentForecast) {
 
@@ -156,12 +143,14 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 		
 	}
 	
+	
+	//CallBack: set data to fragment (a forecast on 5 day)
 	@Override
 	public void onForecastPrepared(Cursor cursor) {
 		if (cursor.getCount() != 0){
 			fragList.setCursor(cursor);
 		}
-		fragInfo.setProgressBar(false);
+		fragInfo.setProgressBar(false); //hide progress while loading data
 	}	
 		
 	@Override
@@ -174,9 +163,8 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	@Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        
+        //call preference activity
         case R.id.action_settings:
-        	//refresh();  
         	Intent intentPref = new Intent(this, PrefActivity.class);
         	startActivity(intentPref);
             return true;       
@@ -189,7 +177,7 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	@Override
 	protected void onSaveInstanceState(Bundle state) {
 	    super.onSaveInstanceState(state);
-	    screenOrienrtation = getResources().getConfiguration().orientation;
+	    screenOrienrtation = getResources().getConfiguration().orientation; //save new screen orientation
 	    state.putInt("screenOrienrtation", screenOrienrtation);
 	}
 	
@@ -197,7 +185,7 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	protected void onRestoreInstanceState(Bundle savedInstanceState) {
 	    super.onRestoreInstanceState(savedInstanceState);
 	    if (savedInstanceState != null)
-	    screenOrienrtation = savedInstanceState.getInt("screenOrienrtation");
+	    screenOrienrtation = savedInstanceState.getInt("screenOrienrtation"); //get screen orientation
 	}
 
 	@Override

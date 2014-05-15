@@ -2,8 +2,6 @@ package com.unrealedz.wstation.fragments;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import com.unrealedz.wstation.R;
 import com.unrealedz.wstation.entity.ForecastDay;
@@ -12,8 +10,9 @@ import com.unrealedz.wstation.utils.Utils;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.database.Cursor;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,6 +24,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
+//////////////////////////////////////////////////////
+//Fragment show short view the current hour forecast//	
+/////////////////////////////////////////////////////
 
 public class FragmentDayHours extends Fragment {
 	
@@ -46,6 +49,9 @@ public class FragmentDayHours extends Fragment {
 	View v;
 	LinearLayout linearLayout;
 	
+	SharedPreferences preferences;
+	Boolean fahrenheit;
+	
 	@Override
 	  public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	      Bundle savedInstanceState) {
@@ -54,10 +60,19 @@ public class FragmentDayHours extends Fragment {
 		linearLayout = (LinearLayout) v.findViewById(R.id.linearLayoutHours);
 		
 		context = container.getContext();
-
-		
-		
+				
 	    return v;
+	  }
+	
+	@Override
+	  public void onAttach(Activity activity) {
+	    super.onAttach(activity);
+	    loadPreferences(activity);
+	        try {
+	        	hoursCallBack = (HoursCallBack) activity;
+	        } catch (ClassCastException e) {
+	            throw new ClassCastException(activity.toString() + " must implement HoursCallBack");
+	        }
 	  }
 
 	private void setInfo() {
@@ -85,10 +100,19 @@ public class FragmentDayHours extends Fragment {
 			linearl.addView(im);
 			linearl.addView(tvm);
 			linearLayout.addView(linearl);
+						
+			//check if preference units do not equals to the default values(metric units)
+			tmin = forecastDays.get(i).getTemperatureMin();
+			tmax = forecastDays.get(i).getTemperatureMax();
+			
+			if (fahrenheit) {
+				tmin = Utils.getFahrenheit(tmin);
+				tmax =  Utils.getFahrenheit(tmax);
+			}
 							
 			tv.setText(String.valueOf(forecastDays.get(i).getHour()) + ".00");
 			im.setImageResource(Utils.getImageId(forecastDays.get(i).getPictureName(), context));
-			String tempMinMax = forecastDays.get(i).getTemperatureMin() + "°" + "/" + forecastDays.get(i).getTemperatureMax() + "°";
+			String tempMinMax = tmin + "°" + "/" + tmax + "°";
 			tvm.setText(tempMinMax);
 			}		
 		}
@@ -126,15 +150,11 @@ public class FragmentDayHours extends Fragment {
 			
 		}
 	}
-
-	@Override
-	  public void onAttach(Activity activity) {
-	    super.onAttach(activity);
-	        try {
-	        	hoursCallBack = (HoursCallBack) activity;
-	        } catch (ClassCastException e) {
-	            throw new ClassCastException(activity.toString() + " must implement HoursCallBack");
-	        }
-	  }
+	
+	//loading preferences
+	private void loadPreferences(Activity activity) {
+		preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+		fahrenheit = preferences.getBoolean("units_temp", false);
+	}
 
 }

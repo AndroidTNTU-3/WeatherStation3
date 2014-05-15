@@ -1,5 +1,9 @@
 package com.unrealedz.wstation.entity;
 
+////////////////////////////////////
+//Object city for parsing xml data//	
+////////////////////////////////////
+
 public class City {
 	private int id;
 	private String name;

@@ -1,5 +1,9 @@
 package com.unrealedz.wstation.entity;
 
+////////////////////////////////////////////
+//Object day forecast for parsing xml data//	
+////////////////////////////////////////////
+
 public class ForecastDay {
 	private String date;
 	private int hour;

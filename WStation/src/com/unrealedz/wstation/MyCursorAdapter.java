@@ -4,8 +4,9 @@ import com.unrealedz.wstation.bd.DbHelper;
 import com.unrealedz.wstation.utils.Utils;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.util.Log;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,10 @@ public class MyCursorAdapter extends SimpleCursorAdapter {
 	private Context context;
 	private LayoutInflater inflater;
 	
+	SharedPreferences preferences;
+	Boolean fahrenheit;
+	String windUnitSpeed;
+	
 
 	public MyCursorAdapter(Context _context, int _layout, Cursor cursor,
 			String[] from, int[] to, int flags) {
@@ -26,18 +31,31 @@ public class MyCursorAdapter extends SimpleCursorAdapter {
 		layout = _layout;
 		context = _context;
 		inflater = LayoutInflater.from(_context);
+		loadPreferences(context);
 	}
+	
+	//loading preferences
+		private void loadPreferences(Context context) {
+			preferences = PreferenceManager.getDefaultSharedPreferences(context);
+			fahrenheit = preferences.getBoolean("units_temp", false);
+			windUnitSpeed = preferences.getString("units_wind", context.getString(R.string.windUnit));
+		}
 	
 	@Override
 	 public void bindView(View view, Context _context, Cursor cursor) {
 		super.bindView(view, _context, cursor);
-		
+				
 		String tMin = cursor.getString(cursor.getColumnIndex(DbHelper.TEMPERATURE_MIN));
 		String tMax = cursor.getString(cursor.getColumnIndex(DbHelper.TEMPERATURE_MAX));
 		String pictureName = cursor.getString(cursor.getColumnIndex(DbHelper.PICTURE_NAME));
 		String date = cursor.getString(cursor.getColumnIndex(DbHelper.DATE));
 		int cloudId = cursor.getInt(cursor.getColumnIndex(DbHelper.CLOUD_ID));
-		//String hour = cursor.getString(cursor.getColumnIndex(DbHelper.HOUR));
+
+		//check if preference units do not equals to the default values(metric units)
+		if (fahrenheit) {
+			tMin = Utils.getFahrenheit(tMin);
+			tMax =  Utils.getFahrenheit(tMax);
+		}
 		
 		TextView textViewTMin = (TextView) view.findViewById(R.id.textTmin);
 		TextView textViewTMax = (TextView) view.findViewById(R.id.textTmax);
