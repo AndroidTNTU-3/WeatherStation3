@@ -34,6 +34,14 @@
                 android:layout_marginLeft="5dp"
                 android:text=""
                 android:textSize="@dimen/text_size_small" />
+            
+             <TextView
+                android:id="@+id/tvSelectedHour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text=""
+                android:textSize="@dimen/text_size_small" />
         </LinearLayout>
     
       <LinearLayout
@@ -127,7 +135,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
         android:src="@drawable/_4_short_rain_big"/>
-          
+
+
     
     </RelativeLayout>   
 
