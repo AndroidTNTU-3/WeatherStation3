@@ -48,6 +48,8 @@
 	<string name="summary_toggle_units">Toggle units</string>
 	<string name="cat_location">Location</string>
 	<string name="summary_cat_location">Select Location</string>
+	<string name="providers">Providers</string>
+	<string name="summary_providers">Selection of provider</string>
 	
 	<string-array name="wind_units_speed">
 		<item>miles/h</item>
@@ -60,6 +62,17 @@
 		<item>"km/h"</item>
 		<item>"m/s"</item>
 		<item>"ft/s"</item>
+	</string-array>
+	
+	<string-array name="location_provider">
+		<item>GPS</item>
+		<item>Network</item>
+		<item>Best provider</item>
+	</string-array>
+	<string-array name="location_provider_value">
+		<item>"GPS"</item>
+		<item>"Network"</item>
+		<item>"Best provider"</item>
 	</string-array>
 	
 </resources>

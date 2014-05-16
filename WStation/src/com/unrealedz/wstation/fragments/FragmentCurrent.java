@@ -36,7 +36,8 @@ public class FragmentCurrent extends Fragment{
 	ImageView imageView;
 	
 	RelativeLayout rl;
-	LinearLayout linearLayout;
+	LinearLayout separator_temperature;
+	LinearLayout separator_current;
 	
 	NetworkLoader nLoader;
 	Cursor cursorCity;
@@ -73,8 +74,10 @@ public class FragmentCurrent extends Fragment{
 		wind = (TextView) v.findViewById(R.id.tvWind);
 		imageView = (ImageView) v.findViewById(R.id.imageCurrent);
 		imageView.setVisibility(ImageView.INVISIBLE);
-		linearLayout = (LinearLayout) v.findViewById(R.id.rect_gray1);
-		linearLayout.setVisibility(ImageView.INVISIBLE);
+		separator_temperature = (LinearLayout) v.findViewById(R.id.rect_gray1);
+		separator_temperature.setVisibility(ImageView.INVISIBLE);
+		separator_current = (LinearLayout) v.findViewById(R.id.rect_gray);
+		separator_current.setVisibility(ImageView.INVISIBLE);
 		context = container.getContext();
 	    return v;
 	  }
@@ -147,7 +150,8 @@ public class FragmentCurrent extends Fragment{
 		String pictureName = currentForecast.getPictureName();
 		imageView.setVisibility(ImageView.VISIBLE);
 		imageView.setImageResource(Utils.getBigImageId(pictureName, context));
-		linearLayout.setVisibility(ImageView.VISIBLE);
+		separator_temperature.setVisibility(ImageView.VISIBLE);
+		separator_current.setVisibility(ImageView.VISIBLE);
 	}
 	
 	

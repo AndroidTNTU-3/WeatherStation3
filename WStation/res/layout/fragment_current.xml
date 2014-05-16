@@ -52,7 +52,7 @@
         	    android:layout_marginRight="20dp"
         	    android:text=""
         	    android:textStyle="bold"
-        	    android:textSize="@dimen/text_size_big" />
+        	    android:textSize="@dimen/text_size_biggest" />
         	
         	<LinearLayout
         		android:id="@+id/rect_gray1"   
@@ -67,6 +67,7 @@
         	    android:id="@+id/tvTemperatureFlik"
         	    android:layout_width="wrap_content"
         	    android:layout_height="wrap_content"
+        	    android:textSize="@dimen/text_size_small"
         	    android:text="" />
         	 
         	 <TextView
@@ -75,7 +76,8 @@
         	    android:layout_height="wrap_content"
         	    android:layout_marginTop="3dp"
         	    android:text=""
-        	    android:textSize="@dimen/text_size_normal" />
+        	    android:textStyle="bold"
+        	    android:textSize="@dimen/text_size_large" />
 
         	<TextView
         	    android:id="@+id/tvHumidity"
@@ -104,6 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:paddingBottom="2dp"
             android:src="@drawable/_0_sun_big" />
 
     </RelativeLayout>

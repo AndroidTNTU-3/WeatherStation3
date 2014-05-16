@@ -38,10 +38,14 @@
 	<string name="summary_units_temperature">Цельсій/Фаренгейт</string>
 	<string name="units_wind">Одиниці швидкості вітру</string>
 	<string name="summary_units_wind">Вибір одиниць швидкості вітру</string>
+	<string name="set_location_onoff">Розташування</string>
+	<string name="summary_set_location">Задати розташування</string>
 	<string name="toggle_units">Одиниці виміру</string>
 	<string name="summary_toggle_units">Вибір одиниці виміру</string>
 	<string name="cat_location">Роташування</string>
 	<string name="summary_cat_location">Параметри визначення розташування</string>
+	<string name="providers">Провайдер</string>
+	<string name="summary_providers">Вибір провайдера розташування</string>
 	
 	<string-array name="wind_units_speed">
 		<item>миль/г</item>
@@ -54,5 +58,16 @@
 		<item>"км/г"</item>
 		<item>"м/с"</item>
 		<item>"фт/с"</item>
+	</string-array>	
+	<string-array name="location_provider">
+		<item>GPS</item>
+		<item>Мережа</item>
+		<item>Кращій провайдер</item>
 	</string-array>
+	<string-array name="location_provider_value">
+		<item>"GPS"</item>
+		<item>"Network"</item>
+		<item>"Best provider"</item>
+	</string-array>
+	
 </resources>

@@ -10,6 +10,7 @@ import com.unrealedz.wstation.bd.DataHelper;
 import com.unrealedz.wstation.bd.DbHelper;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.location.Address;
 import android.location.Criteria;
@@ -19,6 +20,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class LocationLoader implements LocationListener {
@@ -35,18 +37,28 @@ public class LocationLoader implements LocationListener {
 	  private Location location;
 	  double latitude;
 	  double longitude; 
+	  private SharedPreferences preferences;
 	  	
 	public LocationLoader(Context context){
 		this.context = context;
+		preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
 	}
 	
+	private void setProvider(String providers) {
+		locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);	
+		if (providers.equals("GPS")) provider = locationManager.GPS_PROVIDER;
+		else if (providers.equals("Network")) provider = locationManager.NETWORK_PROVIDER;
+		else if (providers.equals("Best provider")){
+			Criteria criteria = new Criteria();
+		    provider = locationManager.getBestProvider(criteria, false);
+		}
+	}
+
 	public void getLocation(){
 		 // Get the location manager
 		
-	    locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
-
-	    Criteria criteria = new Criteria();
-	    provider = locationManager.getBestProvider(criteria, false);;
+		setProvider(preferences.getString("providers", "Best provider"));   
 	    locationManager.requestLocationUpdates(provider, 0, 0, this);
 	    
 	    if (locationManager != null) {

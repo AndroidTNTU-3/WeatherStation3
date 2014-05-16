@@ -25,6 +25,13 @@
         android:key="location"
         android:summary="@string/summary_cat_location"
         android:title="@string/cat_location" >
+        
+        <ListPreference
+            android:entries="@array/location_provider"
+            android:entryValues="@array/location_provider_value"
+            android:key="providers"
+            android:summary="@string/summary_providers"
+            android:title="@string/providers" />
     
    	<CheckBoxPreference
         android:key="manual_location"

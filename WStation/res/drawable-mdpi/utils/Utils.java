@@ -80,14 +80,6 @@ public class Utils {
 		
 	}
 	
-	public static int getBigestImageId(String pictureName, Context context){
-		
-		pictureName = pictureName.substring(0, pictureName.lastIndexOf(".")) + "_bigest";
-		int id_image = context.getResources().getIdentifier((context.getPackageName() + ":drawable/" + pictureName), null, null);
-		return id_image;
-		
-	}
-	
 	public static int getNormalImageId(String pictureName, Context context){
 		
 		pictureName = pictureName.substring(0, pictureName.lastIndexOf("."));

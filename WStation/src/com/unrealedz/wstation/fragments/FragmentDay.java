@@ -21,6 +21,7 @@ public class FragmentDay extends Fragment {
 	
 	TextView city;
 	TextView region;
+	TextView selectedHour;
 	TextView temperatureMin;
 	TextView temperatureMax;
 	TextView cloud;
@@ -30,6 +31,7 @@ public class FragmentDay extends Fragment {
 	ImageView imageView;
 	Context context;
 		
+	int hours;
 	int tmin;
 	int tmax;
 	int id_image;
@@ -56,6 +58,7 @@ public class FragmentDay extends Fragment {
 		
 		city = (TextView) v.findViewById(R.id.tvCityDay);
 		region = (TextView) v.findViewById(R.id.tvRegionDay);
+		selectedHour = (TextView) v.findViewById(R.id.tvSelectedHour);
 		temperatureMin = (TextView) v.findViewById(R.id.tvDayTmin);
 		temperatureMax = (TextView) v.findViewById(R.id.tvDayTmax);
 		cloud = (TextView) v.findViewById(R.id.tvCloudHour);
@@ -88,6 +91,7 @@ public class FragmentDay extends Fragment {
 	}
 
 	public void setData(ForecastDay forecastDay) {
+		hours = forecastDay.getHour();
 		tmin = forecastDay.getTemperatureMin();
 		tmax = forecastDay.getTemperatureMax();
 		cloudID = forecastDay.getCloudId();
@@ -123,6 +127,7 @@ public class FragmentDay extends Fragment {
 			
 			city.setText(cityName);
 			region.setText(mRegion);
+			selectedHour.setText(String.valueOf(hours) + ":00");
 			temperatureMin.setText(String.valueOf(tmin) + "°");
 			temperatureMax.setText(String.valueOf(tmax) + "°");
 			cloud.setText(Utils.getCloud(cloudID, context));
@@ -138,7 +143,7 @@ public class FragmentDay extends Fragment {
 					+ String.valueOf(windMin) + "/" + String.valueOf(windMax)
 					+ " " + windUnitSpeed);
 			imageView.setImageResource(Utils
-					.getBigImageId(pictureName, context));
+					.getBigestImageId(pictureName, context));
 			imageView.setVisibility(ImageView.VISIBLE);
 		}
 	}
