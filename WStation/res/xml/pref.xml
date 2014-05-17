@@ -46,5 +46,12 @@
         android:title="@string/set_location" >
     </EditTextPreference>
      </PreferenceCategory>
+     
+    <PreferenceScreen android:key="KEY" android:title="DOYOURWORK">
+    <intent android:targetClass="com.unrealedz.wstation.LocationActivity"
+        android:targetPackage="com.unrealedz.wstation">
+        <extra android:name="EXTRA_KEY" android:value="yourValue" />
+    </intent>
+</PreferenceScreen>
 
 </PreferenceScreen>

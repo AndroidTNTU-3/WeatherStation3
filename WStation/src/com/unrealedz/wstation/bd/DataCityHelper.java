@@ -61,6 +61,17 @@ public class DataCityHelper {
 		}
 		return c;
 	}
+	
+	public Cursor getLocation(String cityName) {
+		//String where = DbHelper.CITY_DB_NAME_EN + " = " + "Ternopil";
+		String[] selectionArgs = new String[] { cityName };
+		Cursor c = 	db.query(DbHelper.CITY_DB_TABLE, ALL_KEYS, 
+				DbHelper.CITY_DB_NAME_EN + "=?", selectionArgs, null, null, null, null);
+		if (c != null) {
+			c.moveToFirst();
+		}
+		return c;
+	}
 
     private long insertCity(CityDB cityDB) {   
         ContentValues values = getCityValues(cityDB);
