@@ -111,15 +111,7 @@
 
     </RelativeLayout>
    
-    
-    <LinearLayout
-        android:id="@+id/rect_gray"   
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:orientation="vertical" 
-        android:layout_below="@+id/linearlayoutCurrentInfo"
-        android:background="@drawable/rect_gray">
-   </LinearLayout>
+
 
     
 </RelativeLayout>

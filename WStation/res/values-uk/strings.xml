@@ -42,7 +42,7 @@
 	<string name="summary_set_location">Задати розташування</string>
 	<string name="toggle_units">Одиниці виміру</string>
 	<string name="summary_toggle_units">Вибір одиниці виміру</string>
-	<string name="cat_location">Роташування</string>
+	<string name="cat_location">Розташування</string>
 	<string name="summary_cat_location">Параметри визначення розташування</string>
 	<string name="providers">Провайдер</string>
 	<string name="summary_providers">Вибір провайдера розташування</string>

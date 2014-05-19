@@ -37,7 +37,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
-            android:paddingTop="5dp"
+            android:paddingTop="20dp"
             android:layout_below="@+id/tvwRegion"
             android:text="Cloud"
             android:textColor="@color/white" 
