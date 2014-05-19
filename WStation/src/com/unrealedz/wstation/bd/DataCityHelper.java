@@ -65,8 +65,19 @@ public class DataCityHelper {
 	public Cursor getLocation(String cityName) {
 		//String where = DbHelper.CITY_DB_NAME_EN + " = " + "Ternopil";
 		String[] selectionArgs = new String[] { cityName };
-		Cursor c = 	db.query(DbHelper.CITY_DB_TABLE, ALL_KEYS, 
+		Cursor c = 	db.query(DbHelper.CITY_DB_TABLE, null, 
 				DbHelper.CITY_DB_NAME_EN + "=?", selectionArgs, null, null, null, null);
+		if (c != null) {
+			c.moveToFirst();
+		}
+		return c;
+	}
+	
+	public Cursor getCodeFromId(int id) {
+		//String where = DbHelper.CITY_DB_NAME_EN + " = " + "Ternopil";
+		String[] selectionArgs = new String[] { String.valueOf(id) };
+		Cursor c = 	db.query(DbHelper.CITY_DB_TABLE, null, 
+				"_id" + "=?", selectionArgs, null, null, null, null);
 		if (c != null) {
 			c.moveToFirst();
 		}

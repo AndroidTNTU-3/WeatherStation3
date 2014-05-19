@@ -23,9 +23,11 @@ import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Binder;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
 
@@ -64,6 +66,8 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	DataHelper dh;
 	DataDayHelper dd;
 	
+	SharedPreferences preferences;
+	
 	@Override  
     public void onCreate()  
     {  
@@ -75,6 +79,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
     @Override  
     public int onStartCommand(Intent intent, int flags, int startId)  
     {
+    	preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     	
     	if (intent != null) {			 
 			String action = intent.getAction();	
@@ -120,7 +125,14 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	public void onLoadCityDB() {
 		locationLoader = new LocationLoader(getApplicationContext());
 		locationLoader.setLoaderCallBack(this);
-		locationLoader.getLocation();	
+    	String cityIdManual = preferences.getString("cityId", "");
+		Log.i("DEBUG", "city IDin serv:" + cityIdManual);
+    	if (cityIdManual.equalsIgnoreCase(""))locationLoader.getLocation();	
+    	else {
+
+    		setLocation(cityIdManual);
+    	}
+    	
 	}
 	
 	
