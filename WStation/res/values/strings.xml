@@ -52,6 +52,7 @@
     <string name="summary_providers">Selection of provider</string>
     <string name="search_hint">Set location</string>
 	<string name="search_label">Search Location</string>
+	
     <string-array name="wind_units_speed">
         <item>miles/h</item>
         <item>km/h</item>
@@ -75,6 +76,6 @@
         <item>"Best provider"</item>
     </string-array>
 
-    <string name="title_activity_location">LocationActivity</string>
+    <string name="title_activity_location">Location</string>
 
 </resources>

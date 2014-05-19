@@ -137,7 +137,7 @@ public class Utils {
 		return temp*9/5 + 32;		
 	}
 
-	public static int getwindUnitSpeed(int windSpeed, String windUnitSpeed) {
+	public static int getwindUnitSpeed(int windSpeed, String windUnitSpeed) {	//return forecast parameters
 		
 		if(windUnitSpeed.equals("miles/h")) windSpeed = windSpeed/1609;
 		else if (windUnitSpeed.equals("km/h")) windSpeed = windSpeed/1000;

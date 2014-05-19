@@ -97,11 +97,11 @@
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:gravity="center_horizontal"
-           android:layout_weight="2"
+           android:layout_weight="3"
            android:orientation="vertical">
 
            <TextView
-               android:id="@+id/tvDayTmin"
+               android:id="@+id/tvDayTmax"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:text=""
@@ -117,10 +117,11 @@
            </LinearLayout>
 
            <TextView
-               android:id="@+id/tvDayTmax"
+               android:id="@+id/tvDayTmin"
                android:layout_width="wrap_content"
                android:layout_height="wrap_content"
                android:text=""
+               android:textColor="@color/darkgray"
                android:textSize="@dimen/text_size_big"/>
        </LinearLayout>
 

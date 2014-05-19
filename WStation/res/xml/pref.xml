@@ -38,20 +38,20 @@
         android:summary="@string/summary_set_location"
         android:title="@string/set_location_onoff" >
     </CheckBoxPreference>
+    
+    <PreferenceScreen
+            android:dependency="manual_location"
+            android:key="address"
+            android:title="@string/set_location" >
+            <intent
+                android:targetClass="com.unrealedz.wstation.LocationActivity"
+                android:targetPackage="com.unrealedz.wstation" >
+                <extra
+                    android:name="EXTRA_KEY"
+                    android:value="yourValue" />
+            </intent>
+     </PreferenceScreen>
 
-    <EditTextPreference
-        android:dependency="manual_location"
-        android:key="address"
-        android:summary="Address for notifications"
-        android:title="@string/set_location" >
-    </EditTextPreference>
      </PreferenceCategory>
-     
-    <PreferenceScreen android:key="KEY" android:title="DOYOURWORK">
-    <intent android:targetClass="com.unrealedz.wstation.LocationActivity"
-        android:targetPackage="com.unrealedz.wstation">
-        <extra android:name="EXTRA_KEY" android:value="yourValue" />
-    </intent>
-</PreferenceScreen>
 
 </PreferenceScreen>

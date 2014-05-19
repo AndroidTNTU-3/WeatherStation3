@@ -16,8 +16,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:paddingTop="5dp"
-            android:paddingLeft="5dp"
+            android:paddingTop="10dp"
+            android:paddingLeft="10dp"
             android:text="City"
             android:textColor="@color/white" 
             android:textSize="@dimen/text_size_mini"/>
@@ -26,7 +26,7 @@
             android:id="@+id/tvwRegion"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
+            android:paddingLeft="10dp"
             android:layout_below="@+id/tvwCity"
             android:text="Region"
             android:textColor="@color/white" 
@@ -36,7 +36,7 @@
             android:id="@+id/tvwCloud"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="5dp"
+            android:paddingLeft="10dp"
             android:paddingTop="5dp"
             android:layout_below="@+id/tvwRegion"
             android:text="Cloud"
@@ -59,6 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
+               	android:textColor="@color/white" 
                 android:textSize="@dimen/text_size_big"
                 android:text="temp" />
 

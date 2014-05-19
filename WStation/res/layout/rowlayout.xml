@@ -14,11 +14,9 @@
         android:paddingRight="6dp" >
 
         <TextView
-            android:id="@+id/textTmin"
+            android:id="@+id/textTmax"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
             android:textSize="@dimen/text_size_medium"
             android:text="TextView" />
 
@@ -32,10 +30,11 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textTmax"
+            android:id="@+id/textTmin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/rect"
+            android:textColor="@color/darkgray"
             android:textSize="@dimen/text_size_medium"
             android:text="TextView" />
     </LinearLayout>

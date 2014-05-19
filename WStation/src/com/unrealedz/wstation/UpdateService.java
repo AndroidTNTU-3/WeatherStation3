@@ -126,10 +126,9 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 		locationLoader = new LocationLoader(getApplicationContext());
 		locationLoader.setLoaderCallBack(this);
     	String cityIdManual = preferences.getString("cityId", "");
-		Log.i("DEBUG", "city IDin serv:" + cityIdManual);
-    	if (cityIdManual.equalsIgnoreCase(""))locationLoader.getLocation();	
-    	else {
-
+    	
+    	if (cityIdManual.equalsIgnoreCase("")) locationLoader.getLocation();	// check if a was set manual location 
+    	else { 
     		setLocation(cityIdManual);
     	}
     	

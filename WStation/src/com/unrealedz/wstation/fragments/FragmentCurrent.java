@@ -76,8 +76,8 @@ public class FragmentCurrent extends Fragment{
 		imageView.setVisibility(ImageView.INVISIBLE);
 		separator_temperature = (LinearLayout) v.findViewById(R.id.rect_gray1);
 		separator_temperature.setVisibility(ImageView.INVISIBLE);
-		//separator_current = (LinearLayout) v.findViewById(R.id.rect_gray);
-		//separator_current.setVisibility(ImageView.INVISIBLE);
+		separator_current = (LinearLayout) v.findViewById(R.id.rect_gray);
+		separator_current.setVisibility(View.INVISIBLE);
 		context = container.getContext();
 	    return v;
 	  }
@@ -151,7 +151,7 @@ public class FragmentCurrent extends Fragment{
 		imageView.setVisibility(ImageView.VISIBLE);
 		imageView.setImageResource(Utils.getBigImageId(pictureName, context));
 		separator_temperature.setVisibility(ImageView.VISIBLE);
-		//separator_current.setVisibility(ImageView.VISIBLE);
+		separator_current.setVisibility(View.VISIBLE);
 	}
 	
 	
