@@ -79,12 +79,16 @@ public class LocationActivity extends Activity {
 				long id) {
 			DataCityHelper dch = new DataCityHelper(getApplicationContext());
 			Cursor cursorCityDB = dch.getCodeFromId((int)id);
+			dch.closeCursorGetCodeFromId();
+			
 			String cid = cursorCityDB.getString(cursorCityDB.getColumnIndex(DbHelper.CITY_DB_ID));
 			Log.i("DEBUG", "city ID:" + cid);
 			preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		    Editor ed = preferences.edit();
 		    ed.putString("cityId", cid);
 		    ed.commit();
+		    cursorCityDB.close();
+		    dch.closeDB();	    
 		}
 	}
 

@@ -20,6 +20,10 @@ public class DataWeekHelper {
 
 	private SQLiteDatabase db;
 	private List<ForecastDay> forecastDays;
+	Cursor cursorGetTemperatureDay;
+	Cursor cursorGetCursor;
+	Cursor cursorGetCursorDay;
+	
 	public static final String[] KEYS_TEMPERATURE_DAY = {DbHelper.DATE, 
 												"MIN(" + DbHelper.TEMPERATURE_MIN + ") AS " +  DbHelper.TEMPERATURE_MIN,
 												"MAX(" + DbHelper.TEMPERATURE_MAX + ") AS " +  DbHelper.TEMPERATURE_MAX};
@@ -70,11 +74,11 @@ public class DataWeekHelper {
 				+ "(SELECT _id, date, temperatureMin, temperatureMax FROM (SELECT _id, date, MIN(temperatureMin) AS temperatureMin, MAX(temperatureMax) "
 				+ "AS temperatureMax FROM week GROUP BY date)) T1,  (SELECT date, pictureName, cloudId FROM week WHERE hour = 15) T2 WHERE T1.date = T2.date";
 		
-		Cursor c = db.rawQuery(sql, null);
-		if (c != null) {
-			c.moveToFirst();
+		cursorGetTemperatureDay = db.rawQuery(sql, null);
+		if (cursorGetTemperatureDay != null) {
+			cursorGetTemperatureDay.moveToFirst();
 		}
-		return c;
+		return cursorGetTemperatureDay;
 	}
 	
 	public void cleanOldRecords() {
@@ -88,8 +92,8 @@ public class DataWeekHelper {
 	    }
 	
 	 public Cursor getCursor(String tableName) {	    	
-	    	Cursor cursor = db.query(tableName, null, null, null, null, null, null);
-	        return cursor;
+	    	cursorGetCursor = db.query(tableName, null, null, null, null, null, null);
+	        return cursorGetCursor;
 	    }
 	
 	 private ContentValues getDayValues(ForecastDay forecastDay) {
@@ -114,14 +118,26 @@ public class DataWeekHelper {
 
 	public Cursor getCursorDay(String date) {
 		String[] selectionArgs = new String[] { date };
-		Cursor c = 	db.query(DbHelper.WEEK_TABLE, null, 
+		Cursor cursorGetCursorDay = 	db.query(DbHelper.WEEK_TABLE, null, 
 				DbHelper.DATE + "=?", selectionArgs, null, null, null, null);
-		if (c != null) {
-			c.moveToFirst();
+		if (cursorGetCursorDay != null) {
+			cursorGetCursorDay.moveToFirst();
 		}
-		return c;
+		return cursorGetCursorDay;
 		
 	}
+	
+	public void closecursorGetTemperatureDay() {
+		if (cursorGetTemperatureDay != null) cursorGetTemperatureDay.close();     
+    }
+	
+	public void closeCursorGetCursor() {
+		if(cursorGetCursor != null) cursorGetCursor.close();     
+    }
+	
+	public void closeCursorGetCursorDay() {
+		if(cursorGetCursorDay != null) cursorGetCursorDay.close();     
+    }
 	
 	public void closeDB() {
         db.close();     

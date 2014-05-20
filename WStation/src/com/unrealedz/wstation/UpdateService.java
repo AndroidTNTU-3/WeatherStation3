@@ -87,6 +87,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 				isWidget = true;	
 				setLocationInfo();
 				setWeekList();
+				cityLoad();
 			}
     	}
     	context = getApplicationContext();  	 
@@ -161,6 +162,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	    
 	    Cursor cursorCity = dh.getCursor(DbHelper.CITY_TABLE);
 	    Cursor cursorCurrent = dd.getCursor(DbHelper.CURRENT_DAY_TABLE);
+
 		
 	    if (cursorCity.getCount() !=0 & cursorCurrent.getCount() !=0){
 	    	city = UtilsDB.getCity(cursorCity);
@@ -175,6 +177,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	    
 	    cursorCity.close();		
 	    cursorCurrent.close();
+
 	    
 	}
 	
@@ -198,6 +201,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	public void setWeekList() {
 		dataWeekHelper = new DataWeekHelper(this);
 		Cursor cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
+		
 		if (cursor.getCount() !=0){
 			if (!isWidget){														//if it activity - sent data to MainActivity
 	    		if (UtilsNet.isRunning(context)){
@@ -205,6 +209,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	    		}
 	    	} else setWeekToWidget(cursor);										//if widget - sent data to widget
 		}
+
 	}
 	
 	// 6 // Send current forecast data to views of widget //
@@ -287,8 +292,11 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	
 	public void onDestroy() {
 	    super.onDestroy();
+		dd.closeCursorGetCursor();
+		dh.closeCursorGetCursor();
 	    dh.closeDB();
 	    dd.closeDB();
+		dataWeekHelper.closecursorGetTemperatureDay();
 	    dataWeekHelper.closeDB();
 	  }
 	

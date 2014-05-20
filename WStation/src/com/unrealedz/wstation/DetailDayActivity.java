@@ -57,11 +57,13 @@ public class DetailDayActivity extends Activity implements HoursCallBack{
 	private void refresh(){
 		DataWeekHelper dataWeekHelper = new DataWeekHelper(this);
 		Cursor cursor = dataWeekHelper.getCursorDay(date);       //Get current day with hours forecast
+		
 		forecastDays = UtilsDB.getForecastList(cursor);
         fragDay.setData(forecastDays.get(hour));				//Set fragment info of 15 hours;
         fragDay.setCity(cityName, region);						//Set fragment location(city,region) info
         fragDayHours.setData(forecastDays);						//Set fragment list of hours forecast
         cursor.close();
+        dataWeekHelper.closeCursorGetCursorDay();
         dataWeekHelper.closeDB();
 	}
 

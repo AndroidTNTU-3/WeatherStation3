@@ -184,7 +184,9 @@ public class LocationLoader implements LocationListener {
 	    
 	    cursorCityDB.close();
 	    cursorCity.close();
+	    dh.closeCursorGetCursor();
 	    dh.closeDB();
+	    dch.closeCursorGetCode();
 	    dch.closeDB();
 		return codeLocation;
 	}

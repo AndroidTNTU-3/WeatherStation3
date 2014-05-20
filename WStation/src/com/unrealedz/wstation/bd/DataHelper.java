@@ -19,6 +19,7 @@ import android.util.Log;
 public class DataHelper {
 	
 	private SQLiteDatabase db;
+	private Cursor cursor;
 		
 	public DataHelper(Context context) {
         DbHelper openHelper = new DbHelper(context);
@@ -80,8 +81,12 @@ public class DataHelper {
     
     public Cursor getCursor(String tableName) {
     	
-    	Cursor cursor = db.query(tableName, null, null, null, null, null, null);
+    	cursor = db.query(tableName, null, null, null, null, null, null);
         return cursor;
+    }
+    
+	public void closeCursorGetCursor() {
+		if (cursor != null) cursor.close();     
     }
     
 	public void closeDB() {

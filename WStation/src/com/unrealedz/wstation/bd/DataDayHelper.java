@@ -16,6 +16,8 @@ import android.util.Log;
 public class DataDayHelper {
 	
 private SQLiteDatabase db;
+
+private Cursor cursor;
 			
 	public DataDayHelper(Context context) {
         DbHelper openHelper = new DbHelper(context);
@@ -47,7 +49,7 @@ private SQLiteDatabase db;
     }
 	
 	 public Cursor getCursor(String tableName) {	    	
-	    	Cursor cursor = db.query(tableName, null, null, null, null, null, null);
+	    	cursor = db.query(tableName, null, null, null, null, null, null);
 	        return cursor;
 	    }
 		
@@ -79,6 +81,10 @@ private SQLiteDatabase db;
 		values.put(DbHelper.HUMIDITY, currentForecast.getHumidity());
 		return values;
 	}
+	
+	public void closeCursorGetCursor() {
+		if (cursor != null) cursor.close();     
+    }
 
 	public void closeDB() {
 		db.close();

@@ -16,6 +16,7 @@ public class DataCityDbInfoHelper {
 	
 	private SQLiteDatabase db;
 	private CitiesDB citiesDB;
+	private Cursor cursor;
 	
 	public DataCityDbInfoHelper(Context context) {
         DbHelper openHelper = new DbHelper(context);
@@ -46,9 +47,9 @@ public class DataCityDbInfoHelper {
     }
     
 	 public Cursor getCursor(String tableName) {	    	
-	    	Cursor cursor = db.query(tableName, null, null, null, null, null, null);
+	    	cursor = db.query(tableName, null, null, null, null, null, null);
 	        return cursor;
-	    }
+	 }
     
 	public void cleanOldRecords() {
         db.delete(DbHelper.CITY_DB_INFO_TABLE, null, null);
@@ -56,6 +57,10 @@ public class DataCityDbInfoHelper {
 	
 	public void closeDB() {
         db.close();     
+    }
+	
+	public void closeCursor() {
+        cursor.close();     
     }
 
 }

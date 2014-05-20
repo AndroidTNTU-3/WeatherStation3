@@ -101,6 +101,7 @@ public class NetworkLoader extends AsyncTask<String, Void, String>{
 		    	  }
 				  
 				  cursor.close();
+				  dbInfoHelper.closeCursor();
 				  dbInfoHelper.closeDB();
 				  dataCity.closeDB();
 								

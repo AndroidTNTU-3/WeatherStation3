@@ -19,6 +19,11 @@ public class DataCityHelper {
 	private SQLiteDatabase db;
 	private List<CityDB> cities;
 	
+	Cursor cursorGetCode;
+	Cursor cursorGetLocation;
+	Cursor cursorGetCodeFromId;
+	Cursor cursorGetCursor;
+	
 	public DataCityHelper(Context context) {
         DbHelper openHelper = new DbHelper(context);
         db = openHelper.getWritableDatabase();
@@ -54,34 +59,34 @@ public class DataCityHelper {
 	public Cursor getCode(String cityName) {
 		//String where = DbHelper.CITY_DB_NAME_EN + " = " + "Ternopil";
 		String[] selectionArgs = new String[] { cityName };
-		Cursor c = 	db.query(DbHelper.CITY_DB_TABLE, ALL_KEYS, 
+		cursorGetCode = 	db.query(DbHelper.CITY_DB_TABLE, ALL_KEYS, 
 				DbHelper.CITY_DB_NAME_EN + "=?", selectionArgs, null, null, null, null);
-		if (c != null) {
-			c.moveToFirst();
+		if (cursorGetCode != null) {
+			cursorGetCode.moveToFirst();
 		}
-		return c;
+		return cursorGetCode;
 	}
 	
 	public Cursor getLocation(String cityName) {
 		//String where = DbHelper.CITY_DB_NAME_EN + " = " + "Ternopil";
 		String[] selectionArgs = new String[] { cityName };
-		Cursor c = 	db.query(DbHelper.CITY_DB_TABLE, null, 
+		cursorGetLocation = 	db.query(DbHelper.CITY_DB_TABLE, null, 
 				DbHelper.CITY_DB_NAME_EN + "=?", selectionArgs, null, null, null, null);
-		if (c != null) {
-			c.moveToFirst();
+		if (cursorGetLocation != null) {
+			cursorGetLocation.moveToFirst();
 		}
-		return c;
+		return cursorGetLocation;
 	}
 	
 	public Cursor getCodeFromId(int id) {
 		//String where = DbHelper.CITY_DB_NAME_EN + " = " + "Ternopil";
 		String[] selectionArgs = new String[] { String.valueOf(id) };
-		Cursor c = 	db.query(DbHelper.CITY_DB_TABLE, null, 
+		Cursor cursorGetCodeFromId = 	db.query(DbHelper.CITY_DB_TABLE, null, 
 				"_id" + "=?", selectionArgs, null, null, null, null);
-		if (c != null) {
-			c.moveToFirst();
+		if (cursorGetCodeFromId != null) {
+			cursorGetCodeFromId.moveToFirst();
 		}
-		return c;
+		return cursorGetCodeFromId;
 	}
 
     private long insertCity(CityDB cityDB) {   
@@ -101,12 +106,29 @@ public class DataCityHelper {
     }
     
 	 public Cursor getCursor(String tableName) {	    	
-	    	Cursor cursor = db.query(tableName, null, null, null, null, null, null);
-	        return cursor;
+		 cursorGetCursor = db.query(tableName, null, null, null, null, null, null);
+	        return cursorGetCursor;
 	    }
     
 	public void cleanOldRecords() {
         db.delete(DbHelper.CITY_DB_TABLE, null, null);
+    }
+	
+	
+	public void closeCursorGetCode() {
+		if(cursorGetCode != null) cursorGetCode.close();     
+    }
+	
+	public void closeCursorGetLocation() {
+		if (cursorGetLocation != null)cursorGetLocation.close();     
+    }
+	
+	public void closeCursorGetCodeFromId() {
+		if (cursorGetCodeFromId != null) cursorGetCodeFromId.close();     
+    }
+	
+	public void closeCursorGetCursor() {
+		if (cursorGetCursor != null) cursorGetCursor.close();     
     }
 	
 	public void closeDB() {

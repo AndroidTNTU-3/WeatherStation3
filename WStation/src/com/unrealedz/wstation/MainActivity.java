@@ -64,10 +64,7 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
         fTrans.add(R.id.fragInfoUpdate, fragInfo);
         fTrans.commit();
      
-        Log.i("DEBUG CUR", "Main On Activity Created") ;
-        
-       // linearLayout.setVisibility(View.INVISIBLE);
-        
+             
         sConn = new ServiceConnection() {
         	
         	@Override
