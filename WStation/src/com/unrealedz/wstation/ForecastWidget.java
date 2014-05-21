@@ -39,10 +39,7 @@ public class ForecastWidget extends AppWidgetProvider {
 	
 	private void loadPreferences(Context context) {
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
-		String sRefreshTime = preferences.getString("refreshTime", "30");
-		if (sRefreshTime.equals("15")) refreshTime = 15;
-		else if (sRefreshTime.equals("30")) refreshTime = 30;
-		else if (sRefreshTime.equals("60")) refreshTime = 60;
+		refreshTime = Integer.parseInt(preferences.getString("refreshTime", "30"));
 	}
 	
 	  
@@ -86,7 +83,6 @@ public class ForecastWidget extends AppWidgetProvider {
     	//mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     	PendingIntent pIntentMainStart = PendingIntent.getActivity(context, 0, mainIntent, 0);
     	
-
     	remoteViews.setOnClickPendingIntent(R.id.widget, pIntentMainStart);
     	
     	appWidgetManager.updateAppWidget(widgetID, remoteViews);

@@ -123,7 +123,7 @@
                     android:id="@+id/tvDay1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Text"
+                    android:text=""
                     android:textSize="@dimen/text_size_small" />
 
                 <ImageView
@@ -136,7 +136,7 @@
                     android:id="@+id/tvTempMinMaxDay1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text=""
                     android:textSize="@dimen/text_size_mini" />
             </LinearLayout>
 
@@ -153,7 +153,7 @@
                     android:id="@+id/tvDay2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text=""
                     android:textSize="@dimen/text_size_small" />
 
                 <ImageView
@@ -166,7 +166,7 @@
                     android:id="@+id/tvTempMinMaxDay2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text=""
                     android:textSize="@dimen/text_size_mini" />
             </LinearLayout>
             
@@ -183,7 +183,7 @@
                     android:id="@+id/tvDay3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text=""
                     android:textSize="@dimen/text_size_small" />
 
                 <ImageView
@@ -196,7 +196,7 @@
                     android:id="@+id/tvTempMinMaxDay3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text=""
                     android:textSize="@dimen/text_size_mini" />
             </LinearLayout>
             
@@ -213,7 +213,7 @@
                     android:id="@+id/tvDay4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text=""
                     android:textSize="@dimen/text_size_small" />
 
                 <ImageView
@@ -226,7 +226,7 @@
                     android:id="@+id/tvTempMinMaxDay4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text=""
                     android:textSize="@dimen/text_size_mini" />
             </LinearLayout>
             <LinearLayout
@@ -242,7 +242,7 @@
                     android:id="@+id/tvDay5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text=""
                     android:textSize="@dimen/text_size_small" />
 
                 <ImageView
@@ -255,7 +255,7 @@
                     android:id="@+id/tvTempMinMaxDay5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TextView"
+                    android:text=""
                     android:textSize="@dimen/text_size_mini" />
             </LinearLayout>
         </LinearLayout>

@@ -58,6 +58,10 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	Context context;
 	
 	boolean isWidget = false;
+	
+	AppWidgetManager manager;
+	ComponentName thisWidget;
+	RemoteViews remoteView;
 		
 	City city;
 	CurrentForecast currentForecast;
@@ -78,22 +82,33 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
   
     @Override  
     public int onStartCommand(Intent intent, int flags, int startId)  
-    {
-    	preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+    {   		 
+        return super.onStartCommand(intent, flags, startId);  
+    }
+    
+    @Override
+	protected void onHandleIntent(Intent intent) {
+		
+		preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
     	
     	if (intent != null) {			 
 			String action = intent.getAction();	
-			if (FROM_WIDGET.equals(action)) {			//Checking if the service was calling the widget  
+			if (FROM_WIDGET.equals(action)) {			//Checking if the service was calling the widget
+				
+				//Get component for a widget
+				manager = AppWidgetManager.getInstance(this.getApplicationContext());
+				thisWidget = new ComponentName(this.getApplicationContext(), ForecastWidget.class);
+				remoteView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.widget);
+				
 				isWidget = true;	
 				setLocationInfo();
 				setWeekList();
 				cityLoad();
 			}
     	}
-    	context = getApplicationContext();  	 
-       // cityLoad();
-        return super.onStartCommand(intent, flags, startId);  
-    }
+    	context = getApplicationContext();  
+		
+	}
 
 	@Override
 	public IBinder onBind(Intent arg0) {
@@ -215,10 +230,6 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	// 6 // Send current forecast data to views of widget //
 	private void sendInfoWidget(City city, CurrentForecast currentForecast){
 		 
-		 AppWidgetManager manager = AppWidgetManager.getInstance(this.getApplicationContext());
-		 ComponentName thisWidget = new ComponentName(this.getApplicationContext(), ForecastWidget.class);
-		 
-		 RemoteViews remoteView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.widget);
 		 remoteView.setTextViewText(R.id.tvwCity, city.getName());
 		 remoteView.setTextViewText(R.id.tvwRegion, city.getRegion().getRegion());
 		 remoteView.setTextViewText(R.id.tvwCloud, Utils.getCloud(currentForecast.getCloudId(), getApplicationContext()));
@@ -232,11 +243,6 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 
 	// 7 // Send week forecast data to views of widget //
 	public void setWeekToWidget(Cursor cursor){
-		
-		 AppWidgetManager manager = AppWidgetManager.getInstance(this.getApplicationContext());
-		 ComponentName thisWidget = new ComponentName(this.getApplicationContext(), ForecastWidget.class);
-		 
-		 RemoteViews remoteView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.widget);
 		 
 		 List<Integer> listTextView = new ArrayList<Integer>();
 		
@@ -284,11 +290,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 		this.usCallBack = usCallBack;
 	}
 
-	@Override
-	protected void onHandleIntent(Intent intent) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 	
 	public void onDestroy() {
 	    super.onDestroy();
@@ -300,6 +302,4 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	    dataWeekHelper.closeDB();
 	  }
 	
-	
-
 }
