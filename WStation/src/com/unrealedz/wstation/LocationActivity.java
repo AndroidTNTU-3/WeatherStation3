@@ -87,7 +87,7 @@ public class LocationActivity extends Activity {
 		    Editor ed = preferences.edit();
 		    ed.putString("cityId", cid);
 		    ed.commit();
-		    cursorCityDB.close();
+		    //cursorCityDB.close();
 		    dch.closeDB();	    
 		}
 	}

@@ -67,11 +67,25 @@ public class DataCityHelper {
 		return cursorGetCode;
 	}
 	
+	public String getNewCode(String cityName) {
+		//String where = DbHelper.CITY_DB_NAME_EN + " = " + "Ternopil";
+		String newCodeLocation = "";
+		String[] selectionArgs = new String[] { cityName };
+		cursorGetCode = db.query(DbHelper.CITY_DB_TABLE, ALL_KEYS, 
+				DbHelper.CITY_DB_NAME_EN + "=?", selectionArgs, null, null, null, null);
+		if (cursorGetCode != null) {
+			cursorGetCode.moveToFirst();
+			newCodeLocation = cursorGetCode.getString(cursorGetCode.getColumnIndex(DbHelper.CITY_DB_ID));
+		}
+		cursorGetCode.close();
+		return newCodeLocation;
+	}
+	
 	public Cursor getLocation(String cityName) {
 		//String where = DbHelper.CITY_DB_NAME_EN + " = " + "Ternopil";
 		String[] selectionArgs = new String[] { cityName };
 		cursorGetLocation = 	db.query(DbHelper.CITY_DB_TABLE, null, 
-				DbHelper.CITY_DB_NAME_EN + "=?", selectionArgs, null, null, null, null);
+				DbHelper.CITY_DB_NAME_EN + " LIKE ?" + " OR " + DbHelper.CITY_DB_NAME + " LIKE ?", selectionArgs, null, null, null, null);
 		if (cursorGetLocation != null) {
 			cursorGetLocation.moveToFirst();
 		}

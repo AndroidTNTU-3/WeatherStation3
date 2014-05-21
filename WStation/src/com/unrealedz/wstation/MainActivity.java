@@ -63,8 +63,7 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
         fTrans.add(R.id.fragList, fragList);
         fTrans.add(R.id.fragInfoUpdate, fragInfo);
         fTrans.commit();
-     
-             
+                
         sConn = new ServiceConnection() {
         	
         	@Override

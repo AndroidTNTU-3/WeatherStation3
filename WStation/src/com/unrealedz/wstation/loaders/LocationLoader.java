@@ -163,8 +163,9 @@ public class LocationLoader implements LocationListener {
 		DataCityHelper dch = new DataCityHelper(context);
 		if(nameLocation == "") nameLocation = "Kiev";		//dummy for emulator
 		
-		Cursor cursorCityDB = dch.getCode(nameLocation);
-		String newCodeLocation = cursorCityDB.getString(cursorCityDB.getColumnIndex(DbHelper.CITY_DB_ID));
+		/*Cursor cursorCityDB = dch.getCode(nameLocation);
+		String newCodeLocation = cursorCityDB.getString(cursorCityDB.getColumnIndex(DbHelper.CITY_DB_ID));*/
+		String newCodeLocation = dch.getNewCode(nameLocation);
 		
 		Log.i("DEBUG", " locationcode:" + newCodeLocation);
 		DataHelper dh = new DataHelper(context);
@@ -182,7 +183,7 @@ public class LocationLoader implements LocationListener {
 
 	    locationLoaderCallBack.setLocation(codeLocation); // sent code location to service	    
 	    
-	    cursorCityDB.close();
+	    //cursorCityDB.close();
 	    cursorCity.close();
 	    dh.closeCursorGetCursor();
 	    dh.closeDB();
