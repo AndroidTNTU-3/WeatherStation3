@@ -61,6 +61,10 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                	android:textColor="@color/white" 
+               	android:shadowColor="@color/black"
+        	    android:shadowDx="-2"
+    			android:shadowDy="2"
+    			android:shadowRadius="0.01"
                 android:textSize="@dimen/text_size_big"
                 android:text="temp" />
 

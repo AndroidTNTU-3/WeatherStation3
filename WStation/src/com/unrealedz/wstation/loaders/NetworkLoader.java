@@ -32,9 +32,6 @@ import android.os.AsyncTask;
 
 public class NetworkLoader extends AsyncTask<String, Void, String>{
 	
-	Forecast forecast;
-	CityDB cityDB;
-	
 	Object ob;
 	
 	Context context;
@@ -81,11 +78,9 @@ public class NetworkLoader extends AsyncTask<String, Void, String>{
 				
 					DataCityDbInfoHelper dbInfoHelper = new DataCityDbInfoHelper(context);
 					DataCityHelper dataCity = new DataCityHelper(context);
-					Cursor cursor = dbInfoHelper.getCursor(DbHelper.CITY_DB_INFO_TABLE);
+					String lastUpdated = dbInfoHelper.getLastUpdated();
 		    	  
-		    	  if (cursor.getCount() != 0){
-		    		  cursor.moveToFirst();
-		    		  String lastUpdated = cursor.getString(cursor.getColumnIndex(DbHelper.LAST_UPDATED));
+		    	  if (lastUpdated != ""){		    
 		    	  
 		    		  if (!lastUpdated.equals((citiesDB).getLastUpdated())) {			//checking if last updated time was updated
 		    			  dbInfoHelper.cleanOldRecords();
@@ -100,8 +95,6 @@ public class NetworkLoader extends AsyncTask<String, Void, String>{
 					  dataCity.insertCitiesDB(citiesDB);
 		    	  }
 				  
-				  cursor.close();
-				  dbInfoHelper.closeCursor();
 				  dbInfoHelper.closeDB();
 				  dataCity.closeDB();
 								

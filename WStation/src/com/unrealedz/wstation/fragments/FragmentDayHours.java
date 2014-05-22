@@ -39,10 +39,10 @@ public class FragmentDayHours extends Fragment {
 	
 	List<ForecastDay> forecastDays;
 	
-	int tmin;
-	int tmax;
-	int id_image;
-	int hour;
+	private int tmin;
+	private int tmax;
+	private int id_image;
+	private int hour;
 	
 	Context context;	
 	
@@ -50,7 +50,7 @@ public class FragmentDayHours extends Fragment {
 	LinearLayout linearLayout;
 	
 	SharedPreferences preferences;
-	Boolean fahrenheit;
+	private Boolean fahrenheit;
 	
 	@Override
 	  public View onCreateView(LayoutInflater inflater, ViewGroup container,

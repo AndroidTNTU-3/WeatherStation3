@@ -30,7 +30,7 @@ public class DataCityDbInfoHelper {
 	
 	public void insertCitiesDB(CitiesDB citiesDB){
 		this.citiesDB = citiesDB;							
-				insertCity(citiesDB);
+			insertCity(citiesDB);
 
 	}
 
@@ -51,16 +51,28 @@ public class DataCityDbInfoHelper {
 	        return cursor;
 	 }
     
+	 public String getLastUpdated(){
+			 
+		 String lastUpdated = "";
+	    	Cursor cursor = db.query(DbHelper.CITY_DB_INFO_TABLE, null, null, null, null, null, null);
+	    	
+	    	if (cursor.getCount() !=0){
+	    		cursor.moveToFirst();		
+	    		lastUpdated = cursor.getString(cursor.getColumnIndex(DbHelper.LAST_UPDATED));
+	        }
+	    	
+	    	if(cursor != null) cursor.close();
+	    	
+			return lastUpdated;
+		 
+	 }
+	 
 	public void cleanOldRecords() {
         db.delete(DbHelper.CITY_DB_INFO_TABLE, null, null);
     }
 	
 	public void closeDB() {
         db.close();     
-    }
-	
-	public void closeCursor() {
-        cursor.close();     
     }
 
 }

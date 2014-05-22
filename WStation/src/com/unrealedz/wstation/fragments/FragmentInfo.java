@@ -20,10 +20,9 @@ import android.widget.TextView;
 
 public class FragmentInfo extends Fragment {
 	
-	TextView tvLastUpdate;
-	Cursor cursor;
-	CurrentForecast currentForecast;
+	private CurrentForecast currentForecast;
 	LoaderCallBack loaderCallBack;
+	TextView tvLastUpdate;
 	View view;
 	
 	@Override

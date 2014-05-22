@@ -85,8 +85,56 @@ public class DataHelper {
         return cursor;
     }
     
-	public void closeCursorGetCursor() {
-		if (cursor != null) cursor.close();     
+    
+    //Get city info
+	public City getCity() {
+
+		City city = null;
+		Country country = new Country();
+		Region region = new Region();
+
+		Cursor cursor = db.query(DbHelper.CITY_TABLE, null, null, null, null, null, null);
+		
+		if (cursor.getCount() != 0) {
+			cursor.moveToFirst();
+			city = new City();
+			city.setId(cursor.getInt(cursor.getColumnIndex(DbHelper.ID)));
+			city.setName(cursor.getString(cursor
+					.getColumnIndex(DbHelper.CITY_NAME)));
+			city.setNameEn(cursor.getString(cursor
+					.getColumnIndex(DbHelper.CITY_NAME_EN)));
+			country.setCountryId(cursor.getInt(cursor
+					.getColumnIndex(DbHelper.COUNTRY_ID)));
+			country.setCountry(cursor.getString(cursor
+					.getColumnIndex(DbHelper.COUNTRY)));
+			country.setCountryEn(cursor.getString(cursor
+					.getColumnIndex(DbHelper.COUNTRY_EN)));
+			city.setCountry(country);
+			region.setRegion(cursor.getString(cursor
+					.getColumnIndex(DbHelper.REGION)));
+			region.setRegionEn(cursor.getString(cursor
+					.getColumnIndex(DbHelper.REGION_EN)));
+			city.setRegion(region);
+		}
+		
+		if(cursor != null) cursor.close();
+		
+		return city;
+
+	}
+    
+    public String getOldCodeLocation() {   
+    	String oldCodeLocation = "";
+    	Cursor cursor = db.query(DbHelper.CITY_TABLE, null, null, null, null, null, null);
+    	
+    	if (cursor.getCount() !=0){
+    		cursor.moveToFirst();		
+    		oldCodeLocation = cursor.getString(cursor.getColumnIndex(DbHelper.CITY_ID));
+        }
+    	
+    	if(cursor != null) cursor.close();
+    	
+		return oldCodeLocation;
     }
     
 	public void closeDB() {

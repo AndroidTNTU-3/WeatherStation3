@@ -35,8 +35,8 @@ public class LocationLoader implements LocationListener {
 	  private String provider;
 	  private Context context;
 	  private Location location;
-	  double latitude;
-	  double longitude; 
+	  private double latitude;
+	  private double longitude; 
 	  private SharedPreferences preferences;
 	  	
 	public LocationLoader(Context context){
@@ -160,34 +160,26 @@ public class LocationLoader implements LocationListener {
 	public String getCode(String nameLocation) {
 		
 		String codeLocation;
-		DataCityHelper dch = new DataCityHelper(context);
 		if(nameLocation == "") nameLocation = "Kiev";		//dummy for emulator
 		
-		/*Cursor cursorCityDB = dch.getCode(nameLocation);
-		String newCodeLocation = cursorCityDB.getString(cursorCityDB.getColumnIndex(DbHelper.CITY_DB_ID));*/
+		DataCityHelper dch = new DataCityHelper(context);
 		String newCodeLocation = dch.getNewCode(nameLocation);
 		
 		Log.i("DEBUG", " locationcode:" + newCodeLocation);
 		DataHelper dh = new DataHelper(context);
-		Cursor cursorCity = dh.getCursor(DbHelper.CITY_TABLE);	
+		String oldCodeLocation = dh.getOldCodeLocation();
 		
 		//checking if your location was changed 
-		if (cursorCity.getCount() != 0){
-			cursorCity.moveToFirst();		
-			String oldCodeLocation = cursorCity.getString(cursorCity.getColumnIndex(DbHelper.CITY_ID));
-				
+		if (oldCodeLocation !=""){
 			if (newCodeLocation != oldCodeLocation){
 				codeLocation = newCodeLocation;
 			} else codeLocation = oldCodeLocation;	
 		} else codeLocation = newCodeLocation;
+		
 
 	    locationLoaderCallBack.setLocation(codeLocation); // sent code location to service	    
 	    
-	    //cursorCityDB.close();
-	    cursorCity.close();
-	    dh.closeCursorGetCursor();
 	    dh.closeDB();
-	    dch.closeCursorGetCode();
 	    dch.closeDB();
 		return codeLocation;
 	}

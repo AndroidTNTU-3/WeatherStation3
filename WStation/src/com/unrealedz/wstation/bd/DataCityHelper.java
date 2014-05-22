@@ -83,7 +83,7 @@ public class DataCityHelper {
 	
 	public Cursor getLocation(String cityName) {
 		//String where = DbHelper.CITY_DB_NAME_EN + " = " + "Ternopil";
-		String[] selectionArgs = new String[] { cityName };
+		String[] selectionArgs = new String[] { cityName, cityName };
 		cursorGetLocation = 	db.query(DbHelper.CITY_DB_TABLE, null, 
 				DbHelper.CITY_DB_NAME_EN + " LIKE ?" + " OR " + DbHelper.CITY_DB_NAME + " LIKE ?", selectionArgs, null, null, null, null);
 		if (cursorGetLocation != null) {

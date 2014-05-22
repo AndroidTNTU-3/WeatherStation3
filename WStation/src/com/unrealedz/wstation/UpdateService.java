@@ -174,14 +174,11 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 		
 		dh = new DataHelper(this);
 	    dd = new DataDayHelper(this);
+	    	    
+	    city = dh.getCity();
+	    currentForecast = dd.getCurrentForecast();
 	    
-	    Cursor cursorCity = dh.getCursor(DbHelper.CITY_TABLE);
-	    Cursor cursorCurrent = dd.getCursor(DbHelper.CURRENT_DAY_TABLE);
-
-		
-	    if (cursorCity.getCount() !=0 & cursorCurrent.getCount() !=0){
-	    	city = UtilsDB.getCity(cursorCity);
-	    	currentForecast = UtilsDB.getCurrentForecast(cursorCurrent);
+	    if (city != null & currentForecast != null){
 	    	
 	    	if (!isWidget){														//if it activity - sent data to MainActivity
 	    		if (UtilsNet.isRunning(context)){
@@ -189,9 +186,6 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	    		}
 	    	} else sendInfoWidget(city, currentForecast);						//if widget - sent data to widget
 	    }
-	    
-	    cursorCity.close();		
-	    cursorCurrent.close();
 
 	    
 	}
@@ -294,8 +288,6 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	
 	public void onDestroy() {
 	    super.onDestroy();
-		dd.closeCursorGetCursor();
-		dh.closeCursorGetCursor();
 	    dh.closeDB();
 	    dd.closeDB();
 		dataWeekHelper.closecursorGetTemperatureDay();

@@ -51,7 +51,37 @@ private Cursor cursor;
 	 public Cursor getCursor(String tableName) {	    	
 	    	cursor = db.query(tableName, null, null, null, null, null, null);
 	        return cursor;
-	    }
+	 }
+	 
+	//Get current forecast info
+		public CurrentForecast getCurrentForecast(){
+			
+			CurrentForecast currentForecast = null;
+			Cursor cursor = db.query(DbHelper.CURRENT_DAY_TABLE, null, null, null, null, null, null);
+			
+			if(cursor.getCount() != 0){
+				cursor.moveToFirst();
+				currentForecast= new CurrentForecast();
+				
+				currentForecast.setLastUpdated(cursor.getString(cursor.getColumnIndex(DbHelper.LAST_UPDATED)));
+				currentForecast.setExpires(cursor.getString(cursor.getColumnIndex(DbHelper.EXPIRES)));
+				currentForecast.setTime(cursor.getString(cursor.getColumnIndex(DbHelper.TIME)));
+				currentForecast.setCloudId(cursor.getInt(cursor.getColumnIndex(DbHelper.CLOUD_ID)));
+				currentForecast.setPictureName(cursor.getString(cursor.getColumnIndex(DbHelper.PICTURE_NAME)));
+				currentForecast.setTemperature(cursor.getString(cursor.getColumnIndex(DbHelper.TEMPERATURE)));
+				currentForecast.setTemperatureFlik(cursor.getString(cursor.getColumnIndex(DbHelper.TEMPERATURE_FLIK)));
+				currentForecast.setPressure(cursor.getInt(cursor.getColumnIndex(DbHelper.PRESSURE)));
+				currentForecast.setWind(cursor.getInt(cursor.getColumnIndex(DbHelper.WIND)));
+				currentForecast.setWindGust(cursor.getInt(cursor.getColumnIndex(DbHelper.WIND_GUST)));
+				currentForecast.setWindRumb(cursor.getInt(cursor.getColumnIndex(DbHelper.WIND_RUMB)));
+				currentForecast.setHumidity(cursor.getInt(cursor.getColumnIndex(DbHelper.HUMIDITY)));
+			}
+			
+			if(cursor != null) cursor.close();
+			return currentForecast;
+			
+		}
+	 
 		
 	public void cleanOldRecords() {
         db.delete(DbHelper.CURRENT_DAY_TABLE, null, null);
@@ -81,10 +111,6 @@ private Cursor cursor;
 		values.put(DbHelper.HUMIDITY, currentForecast.getHumidity());
 		return values;
 	}
-	
-	public void closeCursorGetCursor() {
-		if (cursor != null) cursor.close();     
-    }
 
 	public void closeDB() {
 		db.close();

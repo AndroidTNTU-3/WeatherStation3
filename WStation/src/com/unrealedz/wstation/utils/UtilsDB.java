@@ -56,47 +56,4 @@ public class UtilsDB {
 		return forecastDaysShort;
 	}
 	
-	
-	//Get city info
-	public static City getCity(Cursor cursor){
-		City city = new City();
-		Country country = new Country();
-		Region region = new Region();
-		cursor.moveToFirst();
-
-		city.setId(cursor.getInt(cursor.getColumnIndex(DbHelper.ID)));
-		city.setName(cursor.getString(cursor.getColumnIndex(DbHelper.CITY_NAME)));	
-		city.setNameEn(cursor.getString(cursor.getColumnIndex(DbHelper.CITY_NAME_EN)));
-		country.setCountryId(cursor.getInt(cursor.getColumnIndex(DbHelper.COUNTRY_ID)));
-		country.setCountry(cursor.getString(cursor.getColumnIndex(DbHelper.COUNTRY)));
-		country.setCountryEn(cursor.getString(cursor.getColumnIndex(DbHelper.COUNTRY_EN)));
-		city.setCountry(country);
-		region.setRegion(cursor.getString(cursor.getColumnIndex(DbHelper.REGION)));
-		region.setRegionEn(cursor.getString(cursor.getColumnIndex(DbHelper.REGION_EN)));
-		city.setRegion(region);
-		return city;
-	}
-	
-	//Get current forecast info
-	public static CurrentForecast getCurrentForecast(Cursor cursor){
-		CurrentForecast currentForecast= new CurrentForecast();
-		
-		cursor.moveToFirst();
-		
-		currentForecast.setLastUpdated(cursor.getString(cursor.getColumnIndex(DbHelper.LAST_UPDATED)));
-		currentForecast.setExpires(cursor.getString(cursor.getColumnIndex(DbHelper.EXPIRES)));
-		currentForecast.setTime(cursor.getString(cursor.getColumnIndex(DbHelper.TIME)));
-		currentForecast.setCloudId(cursor.getInt(cursor.getColumnIndex(DbHelper.CLOUD_ID)));
-		currentForecast.setPictureName(cursor.getString(cursor.getColumnIndex(DbHelper.PICTURE_NAME)));
-		currentForecast.setTemperature(cursor.getString(cursor.getColumnIndex(DbHelper.TEMPERATURE)));
-		currentForecast.setTemperatureFlik(cursor.getString(cursor.getColumnIndex(DbHelper.TEMPERATURE_FLIK)));
-		currentForecast.setPressure(cursor.getInt(cursor.getColumnIndex(DbHelper.PRESSURE)));
-		currentForecast.setWind(cursor.getInt(cursor.getColumnIndex(DbHelper.WIND)));
-		currentForecast.setWindGust(cursor.getInt(cursor.getColumnIndex(DbHelper.WIND_GUST)));
-		currentForecast.setWindRumb(cursor.getInt(cursor.getColumnIndex(DbHelper.WIND_RUMB)));
-		currentForecast.setHumidity(cursor.getInt(cursor.getColumnIndex(DbHelper.HUMIDITY)));
-		return currentForecast;
-		
-	}
-	
 }

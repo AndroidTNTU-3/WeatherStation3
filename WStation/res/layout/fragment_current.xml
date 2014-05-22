@@ -51,6 +51,11 @@
         	    android:layout_height="wrap_content"
         	    android:layout_marginRight="20dp"
         	    android:text=""
+        	    android:textColor="@color/white"
+        	    android:shadowColor="@color/black"
+        	    android:shadowDx="-2"
+    			android:shadowDy="2"
+    			android:shadowRadius="0.01"
         	    android:textStyle="bold"
         	    android:textSize="@dimen/text_size_biggest" />
         	
