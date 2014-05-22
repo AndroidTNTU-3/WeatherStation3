@@ -3,6 +3,7 @@ package com.unrealedz.wstation.fragments;
 import java.util.List;
 
 import com.unrealedz.wstation.DetailDayActivity;
+import com.unrealedz.wstation.ListWeekAdapter;
 import com.unrealedz.wstation.MyCursorAdapter;
 import com.unrealedz.wstation.R;
 import com.unrealedz.wstation.R.id;
@@ -30,6 +31,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -42,8 +44,10 @@ public class FragmentList extends Fragment{
 	String[] fromFieldNames;
 	int[] toViewIDs;
 	MyCursorAdapter adapter;
-	List<ForecastDayShort> ForecastDaysShort;
+	List<ForecastDayShort> forecastDaysShort;
 	LoaderCallBack loaderCallBack;
+	
+	private BaseAdapter baseAdapter;
 	
 	String cityName;
 	String region;
@@ -88,8 +92,13 @@ public class FragmentList extends Fragment{
 				fromFieldNames,			// DB Column names
 				toViewIDs,				// View IDs to put information in
 				0);	
+		
+		
         listView.setAdapter(adapter);
-        ForecastDaysShort = UtilsDB.getForecastListMain(cursor);
+        forecastDaysShort = UtilsDB.getForecastListMain(cursor);
+        
+       // baseAdapter = new ListWeekAdapter(forecastDaysShort, context);
+       // listView.setAdapter(baseAdapter);
         adapter.swapCursor(cursor);
 	}
 	
@@ -105,7 +114,7 @@ public class FragmentList extends Fragment{
 				long id) {
 			String date = ""; 			           
 			Log.i("DEBUG", "ID:" + id);
-            for(ForecastDayShort fd: ForecastDaysShort){
+            for(ForecastDayShort fd: forecastDaysShort){
             	if (fd.getId() == id){
             		date = fd.getDate(); // get selected date
             	}
@@ -126,5 +135,29 @@ public class FragmentList extends Fragment{
 	    //((MyCursorAdapter) listView.getAdapter()).getCursor().close();
 	    
 	  }
+
+	public void setDataToList() {
+		
+		DataWeekHelper dataWeekHelper = new DataWeekHelper(context);
+		Cursor cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
+		
+		if (cursor.getCount() !=0){
+		MyCursorAdapter adapter = new  MyCursorAdapter(
+				context,					// Context
+				R.layout.rowlayout,	// Row layout template
+				cursor,					// cursor (set of DB records to map)
+				fromFieldNames,			// DB Column names
+				toViewIDs,				// View IDs to put information in
+				0);	
+		
+		
+        listView.setAdapter(adapter);
+        forecastDaysShort = UtilsDB.getForecastListMain(cursor);
+        
+       // baseAdapter = new ListWeekAdapter(forecastDaysShort, context);
+       // listView.setAdapter(baseAdapter);
+        adapter.swapCursor(cursor);
+		}
+	}
 
 }

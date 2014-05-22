@@ -1,9 +1,12 @@
 package com.unrealedz.wstation.bd;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import com.unrealedz.wstation.entity.City;
 import com.unrealedz.wstation.entity.Forecast;
 import com.unrealedz.wstation.entity.ForecastDay;
+import com.unrealedz.wstation.entity.ForecastDayShort;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -80,6 +83,44 @@ public class DataWeekHelper {
 		}
 		return cursorGetTemperatureDay;
 	}
+	
+	public List<ForecastDayShort> getShortWeek() {
+		/*Cursor c = 	db.query(tableName, KEYS_TEMPERATURE_DAY, 
+				null, null, DbHelper.DATE, null, null, null);*/
+		/*String sql = "SELECT " +  DbHelper.DATE + ", " + DbHelper.TEMPERATURE_MIN + ", " + DbHelper.TEMPERATURE_MAX + ", "
+				+ DbHelper.PICTURE_NAME +  " FROM (SELECT " + DbHelper.DATE + ", MIN(" + DbHelper.TEMPERATURE_MIN + ") AS " 
+				+ DbHelper.TEMPERATURE_MIN + ", MAX(" + DbHelper.TEMPERATURE_MAX + ") AS " + DbHelper.TEMPERATURE_MAX + ", " +
+				DbHelper.PICTURE_NAME + ", " + DbHelper.HOUR + " FROM " + tableName + " WHERE " + DbHelper.HOUR + " = 15 GROUP BY " + DbHelper.DATE + ")";
+		Cursor c = db.rawQuery(sql, null);*/
+		List<ForecastDayShort> forecastDaysShort = null;
+		String sql = "SELECT T1._id AS _id, T1.date AS date, T1.temperatureMin AS temperatureMin, T1.temperatureMax AS temperatureMax, "
+				+ "T2.pictureName AS pictureName, T2.cloudId AS cloudId FROM "
+				+ "(SELECT _id, date, temperatureMin, temperatureMax FROM (SELECT _id, date, MIN(temperatureMin) AS temperatureMin, MAX(temperatureMax) "
+				+ "AS temperatureMax FROM week GROUP BY date)) T1,  (SELECT date, pictureName, cloudId FROM week WHERE hour = 15) T2 WHERE T1.date = T2.date";
+		
+		Cursor cursor = db.rawQuery(sql, null);
+		
+		if (cursor.getCount() != 0) {
+
+			forecastDaysShort = new ArrayList<ForecastDayShort>();
+			cursor.moveToFirst();
+			do {
+				ForecastDayShort forecastDay = new ForecastDayShort();
+				forecastDay.setId(cursor.getLong(cursor.getColumnIndex(DbHelper.ID)));
+				forecastDay.setDate(cursor.getString(cursor.getColumnIndex(DbHelper.DATE)));
+				forecastDay.setPictureName(cursor.getString(cursor.getColumnIndex(DbHelper.PICTURE_NAME)));
+				forecastDay.setTemperatureMin(cursor.getInt(cursor.getColumnIndex(DbHelper.TEMPERATURE_MIN)));
+				forecastDay.setTemperatureMax(cursor.getInt(cursor.getColumnIndex(DbHelper.TEMPERATURE_MAX)));
+				forecastDaysShort.add(forecastDay);
+			} while(cursor.moveToNext());	
+
+		}
+		
+		if (cursor != null) cursor.close();
+		return forecastDaysShort;
+	}
+	
+	
 	
 	public void cleanOldRecords() {
         db.delete(DbHelper.WEEK_TABLE, null, null);

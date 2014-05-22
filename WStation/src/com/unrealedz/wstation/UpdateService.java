@@ -9,6 +9,7 @@ import com.unrealedz.wstation.bd.DataWeekHelper;
 import com.unrealedz.wstation.bd.DbHelper;
 import com.unrealedz.wstation.entity.City;
 import com.unrealedz.wstation.entity.CurrentForecast;
+import com.unrealedz.wstation.entity.ForecastDayShort;
 import com.unrealedz.wstation.loaders.LocationLoader;
 import com.unrealedz.wstation.loaders.NetworkLoader;
 import com.unrealedz.wstation.loaders.LocationLoader.LocationLoaderCallBack;
@@ -38,7 +39,8 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	String url = "http://xml.weather.co.ua/1.2/forecast/23?dayf=5&lang=uk";
 	
 	public interface IUpdateServiceCallBack {
-		public void onForecastPrepared(Cursor cursor);
+		//public void onForecastPrepared(Cursor cursor);
+		public void onForecastPrepared();
 		public void onLocationCurrentPrepared(City city, CurrentForecast currentForecast);
 		public void onLastUpdatePrepared(CurrentForecast currentForecast);
 	}
@@ -208,16 +210,23 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	
 	@Override
 	public void setWeekList() {
-		dataWeekHelper = new DataWeekHelper(this);
-		Cursor cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
 		
-		if (cursor.getCount() !=0){
+		
+		/*if (cursor.getCount() !=0){
 			if (!isWidget){														//if it activity - sent data to MainActivity
 	    		if (UtilsNet.isRunning(context)){
-	    			usCallBack.onForecastPrepared(cursor);	
+	    			usCallBack.onForecastPrepared();	
 	    		}
 	    	} else setWeekToWidget(cursor);										//if widget - sent data to widget
-		}
+		}*/
+		
+
+			if (!isWidget){														//if it activity - sent data to MainActivity
+	    		if (UtilsNet.isRunning(context)){
+	    			usCallBack.onForecastPrepared();	
+	    		}
+	    	} else setWeekToWidget();										//if widget - sent data to widget
+
 
 	}
 	
@@ -236,8 +245,8 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	 }	
 
 	// 7 // Send week forecast data to views of widget //
-	public void setWeekToWidget(Cursor cursor){
-		 
+	public void setWeekToWidget(){
+				 
 		 List<Integer> listTextView = new ArrayList<Integer>();
 		
 		 listTextView.add(R.id.tvDay1);
@@ -262,12 +271,17 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 		 imageViewWeekDay.add(R.id.imageViewDay4);
 		 imageViewWeekDay.add(R.id.imageViewDay5);
 		 
-		 String tempMainMax = "";
+		 String tempMinMax = "";
 		 String weekDay = "";
 		 String pictureName = "";
 		 
+		dataWeekHelper = new DataWeekHelper(this);
+		/*Cursor cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
+		
+		if(cursor.getCount() != 0){
+		 
 		for(int i = 0; i < imageViewWeekDay.size(); i++){
-			 tempMainMax = String.valueOf(cursor.getInt(cursor.getColumnIndex(DbHelper.TEMPERATURE_MIN))) + "°/" + 
+			 tempMinMax = String.valueOf(cursor.getInt(cursor.getColumnIndex(DbHelper.TEMPERATURE_MIN))) + "°/" + 
 			 			String.valueOf(cursor.getInt(cursor.getColumnIndex(DbHelper.TEMPERATURE_MAX))) + "°";
 			 weekDay = Utils.getStringDayWeekShort(cursor.getString(cursor.getColumnIndex(DbHelper.DATE)));
 			 pictureName =  cursor.getString(cursor.getColumnIndex(DbHelper.PICTURE_NAME));
@@ -275,8 +289,25 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 			 remoteView.setTextViewText(listTextViewTemp.get(i), tempMainMax);
 			 remoteView.setImageViewResource(imageViewWeekDay.get(i), Utils.getImageId(pictureName, getApplicationContext()));
 			 cursor.moveToNext();
-		 }		 				 
+		 }	
+		}*/
+		List<ForecastDayShort> forecastDaysShort = dataWeekHelper.getShortWeek();
+		if (forecastDaysShort != null) {
+			
+			for(int i = 0; i < imageViewWeekDay.size(); i++){
+				ForecastDayShort fds = forecastDaysShort.get(i);
+				tempMinMax = String.valueOf(fds.getTemperatureMin()) + "°/" + String.valueOf(fds.getTemperatureMax()) +  "°";
+				weekDay = Utils.getStringDayWeekShort(fds.getDate());
+				pictureName = fds.getPictureName();
+				remoteView.setTextViewText(listTextView.get(i), weekDay);
+				remoteView.setTextViewText(listTextViewTemp.get(i), tempMinMax);
+				remoteView.setImageViewResource(imageViewWeekDay.get(i), Utils.getImageId(pictureName, getApplicationContext()));
+			}
+			
+			
+		}
 		 manager.updateAppWidget(thisWidget, remoteView);
+		 dataWeekHelper.closeDB();
 	}
 	
 	//registered observers
@@ -290,8 +321,8 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	    super.onDestroy();
 	    dh.closeDB();
 	    dd.closeDB();
-		dataWeekHelper.closecursorGetTemperatureDay();
-	    dataWeekHelper.closeDB();
+		//dataWeekHelper.closecursorGetTemperatureDay();
+	   // dataWeekHelper.closeDB();
 	  }
 	
 }

@@ -142,10 +142,11 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	
 	//CallBack: set data to fragment (a forecast on 5 day)
 	@Override
-	public void onForecastPrepared(Cursor cursor) {
-		if (cursor.getCount() != 0){
+	public void onForecastPrepared() {
+		/*if (cursor.getCount() != 0){
 			fragList.setCursor(cursor);
-		}
+		}*/
+		fragList.setDataToList();
 		fragInfo.setProgressBar(false); //hide progress while loading data
 	}	
 		
