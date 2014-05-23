@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -18,8 +17,6 @@ import android.widget.TextView;
 import com.unrealedz.wstation.R;
 import com.unrealedz.wstation.entity.City;
 import com.unrealedz.wstation.entity.CurrentForecast;
-import com.unrealedz.wstation.loaders.LocationLoader;
-import com.unrealedz.wstation.loaders.NetworkLoader;
 import com.unrealedz.wstation.loaders.NetworkLoader.LoaderCallBack;
 import com.unrealedz.wstation.utils.Utils;
 
@@ -38,22 +35,16 @@ public class FragmentCurrent extends Fragment{
 	RelativeLayout rl;
 	LinearLayout separator_temperature;
 	
-	NetworkLoader nLoader;
-	Cursor cursorCity;
-	Cursor cursorCurrent;
-	String cityname = "";
-	
-	LocationLoader locationLoader;
 	LoaderCallBack loaderCallBack;
 	
-	Context context;
+	private Context context;
 	
-	City mCity;
-	CurrentForecast currentForecast;
+	private City mCity;
+	private CurrentForecast currentForecast;
 	
-	SharedPreferences preferences;
-	Boolean fahrenheit;
-	String windUnitSpeed;
+	private SharedPreferences preferences;
+	private Boolean fahrenheit;
+	private String windUnitSpeed;
 	
 			
 	

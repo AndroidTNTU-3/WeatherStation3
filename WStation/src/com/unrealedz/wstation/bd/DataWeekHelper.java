@@ -63,6 +63,26 @@ public class DataWeekHelper {
 		
 	}
 	
+	 private ContentValues getDayValues(ForecastDay forecastDay) {
+	        ContentValues values = new ContentValues();
+	        values.put(DbHelper.DATE, forecastDay.getDate());
+	        values.put(DbHelper.HOUR, forecastDay.getHour());
+	        values.put(DbHelper.CLOUD_ID, forecastDay.getCloudId());
+	        values.put(DbHelper.PICTURE_NAME, forecastDay.getPictureName());
+	        values.put(DbHelper.PPCP, forecastDay.getPpcp());
+	        values.put(DbHelper.TEMPERATURE_MIN, forecastDay.getTemperatureMin());
+	        values.put(DbHelper.TEMPERATURE_MAX, forecastDay.getTemperatureMax());
+	        values.put(DbHelper.PRESSURE_MIN, forecastDay.getPressureMin());
+	        values.put(DbHelper.PRESSURE_MAX, forecastDay.getPressureMax());
+	        values.put(DbHelper.WIND_MIN, forecastDay.getWindMin());
+	        values.put(DbHelper.WIND_MAX, forecastDay.getWindMax());
+	        values.put(DbHelper.WIND_RUMB, forecastDay.getWindRumb());
+	        values.put(DbHelper.HUMIDITY_MIN, forecastDay.getHumidityMin());
+	        values.put(DbHelper.HUMIDITY_MAX, forecastDay.getHumidityMax());
+	        values.put(DbHelper.WPI, forecastDay.getWpi());
+	        return values;
+	 }
+	
 	public Cursor getTemperatureDay(String tableName) {
 		/*Cursor c = 	db.query(tableName, KEYS_TEMPERATURE_DAY, 
 				null, null, DbHelper.DATE, null, null, null);*/
@@ -84,14 +104,10 @@ public class DataWeekHelper {
 		return cursorGetTemperatureDay;
 	}
 	
+	//Get list of 5 day forecast in short format(date, picture name, tMin, tMax)
+	
 	public List<ForecastDayShort> getShortWeek() {
-		/*Cursor c = 	db.query(tableName, KEYS_TEMPERATURE_DAY, 
-				null, null, DbHelper.DATE, null, null, null);*/
-		/*String sql = "SELECT " +  DbHelper.DATE + ", " + DbHelper.TEMPERATURE_MIN + ", " + DbHelper.TEMPERATURE_MAX + ", "
-				+ DbHelper.PICTURE_NAME +  " FROM (SELECT " + DbHelper.DATE + ", MIN(" + DbHelper.TEMPERATURE_MIN + ") AS " 
-				+ DbHelper.TEMPERATURE_MIN + ", MAX(" + DbHelper.TEMPERATURE_MAX + ") AS " + DbHelper.TEMPERATURE_MAX + ", " +
-				DbHelper.PICTURE_NAME + ", " + DbHelper.HOUR + " FROM " + tableName + " WHERE " + DbHelper.HOUR + " = 15 GROUP BY " + DbHelper.DATE + ")";
-		Cursor c = db.rawQuery(sql, null);*/
+
 		List<ForecastDayShort> forecastDaysShort = null;
 		String sql = "SELECT T1._id AS _id, T1.date AS date, T1.temperatureMin AS temperatureMin, T1.temperatureMax AS temperatureMax, "
 				+ "T2.pictureName AS pictureName, T2.cloudId AS cloudId FROM "
@@ -120,7 +136,45 @@ public class DataWeekHelper {
 		return forecastDaysShort;
 	}
 	
-	
+	public List<ForecastDay> getForecastDayHours(String date){
+		
+		List<ForecastDay> forecastDays = null;
+		
+		String[] selectionArgs = new String[] { date };
+		Cursor cursor = db.query(DbHelper.WEEK_TABLE, null, 
+				DbHelper.DATE + "=?", selectionArgs, null, null, null, null);
+		
+		if (cursor.getCount() != 0) {
+			
+			cursor.moveToFirst();
+			forecastDays = new ArrayList<ForecastDay>();
+			
+			do {
+				ForecastDay forecastDay = new ForecastDay();
+				forecastDay.setDate(cursor.getString(cursor.getColumnIndex(DbHelper.DATE)));
+				forecastDay.setHour(cursor.getInt(cursor.getColumnIndex(DbHelper.HOUR)));
+				forecastDay.setCloudId(cursor.getInt(cursor.getColumnIndex(DbHelper.CLOUD_ID)));
+				forecastDay.setPictureName(cursor.getString(cursor.getColumnIndex(DbHelper.PICTURE_NAME)));
+				forecastDay.setPpcp(cursor.getInt(cursor.getColumnIndex(DbHelper.PPCP)));
+				forecastDay.setTemperatureMin(cursor.getInt(cursor.getColumnIndex(DbHelper.TEMPERATURE_MIN)));
+				forecastDay.setTemperatureMax(cursor.getInt(cursor.getColumnIndex(DbHelper.TEMPERATURE_MAX)));
+				forecastDay.setPressureMax(cursor.getInt(cursor.getColumnIndex(DbHelper.PRESSURE_MAX)));
+				forecastDay.setPressureMin(cursor.getInt(cursor.getColumnIndex(DbHelper.PRESSURE_MIN)));
+				forecastDay.setWindMin(cursor.getInt(cursor.getColumnIndex(DbHelper.WIND_MIN)));
+				forecastDay.setWindMax(cursor.getInt(cursor.getColumnIndex(DbHelper.WIND_MAX)));
+				forecastDay.setWindRumb(cursor.getInt(cursor.getColumnIndex(DbHelper.WIND_RUMB)));
+				forecastDay.setHumidityMin(cursor.getInt(cursor.getColumnIndex(DbHelper.HUMIDITY_MIN)));
+				forecastDay.setHumidityMax(cursor.getInt(cursor.getColumnIndex(DbHelper.HUMIDITY_MAX)));
+				forecastDay.setWpi(cursor.getInt(cursor.getColumnIndex(DbHelper.WPI)));
+				forecastDays.add(forecastDay);
+			} while(cursor.moveToNext());
+			
+		}
+		
+		if (cursor != null) cursor.close();	
+		return forecastDays;
+		
+	}
 	
 	public void cleanOldRecords() {
         db.delete(DbHelper.WEEK_TABLE, null, null);
@@ -137,25 +191,7 @@ public class DataWeekHelper {
 	        return cursorGetCursor;
 	    }
 	
-	 private ContentValues getDayValues(ForecastDay forecastDay) {
-	        ContentValues values = new ContentValues();
-	        values.put(DbHelper.DATE, forecastDay.getDate());
-	        values.put(DbHelper.HOUR, forecastDay.getHour());
-	        values.put(DbHelper.CLOUD_ID, forecastDay.getCloudId());
-	        values.put(DbHelper.PICTURE_NAME, forecastDay.getPictureName());
-	        values.put(DbHelper.PPCP, forecastDay.getPpcp());
-	        values.put(DbHelper.TEMPERATURE_MIN, forecastDay.getTemperatureMin());
-	        values.put(DbHelper.TEMPERATURE_MAX, forecastDay.getTemperatureMax());
-	        values.put(DbHelper.PRESSURE_MIN, forecastDay.getPressureMin());
-	        values.put(DbHelper.PRESSURE_MAX, forecastDay.getPressureMax());
-	        values.put(DbHelper.WIND_MIN, forecastDay.getWindMin());
-	        values.put(DbHelper.WIND_MAX, forecastDay.getWindMax());
-	        values.put(DbHelper.WIND_RUMB, forecastDay.getWindRumb());
-	        values.put(DbHelper.HUMIDITY_MIN, forecastDay.getHumidityMin());
-	        values.put(DbHelper.HUMIDITY_MAX, forecastDay.getHumidityMax());
-	        values.put(DbHelper.WPI, forecastDay.getWpi());
-	        return values;
-	 }
+
 
 	public Cursor getCursorDay(String date) {
 		String[] selectionArgs = new String[] { date };
@@ -168,18 +204,10 @@ public class DataWeekHelper {
 		
 	}
 	
-	public void closecursorGetTemperatureDay() {
-		if (cursorGetTemperatureDay != null) cursorGetTemperatureDay.close();     
-    }
-	
-	public void closeCursorGetCursor() {
-		if(cursorGetCursor != null) cursorGetCursor.close();     
-    }
-	
-	public void closeCursorGetCursorDay() {
-		if(cursorGetCursorDay != null) cursorGetCursorDay.close();     
-    }
-	
+	public void closeCursorTemperatureDay(){
+		if (cursorGetTemperatureDay != null) cursorGetTemperatureDay.close();
+	}
+
 	public void closeDB() {
         db.close();     
     }

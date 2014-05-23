@@ -16,9 +16,7 @@ import android.app.FragmentTransaction;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.database.Cursor;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -31,19 +29,12 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	FragmentTransaction fTrans;
 	
 	LinearLayout linearLayout;
-
-	City city;
-	CurrentForecast currentForecast;
 	
 	ServiceConnection sConn;
 	UpdateService updateService;
-	boolean bound = false; 			
-	boolean isRunning = false;
-	boolean orientationChanged = false;
-	int screenOrienrtation = 0;
-		
-	String url = "http://xml.weather.co.ua/1.2/forecast/23?dayf=5&lang=uk";
-
+	private boolean bound = false; 			
+	private boolean isRunning = false;
+	private int screenOrienrtation = 0;
 	
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,9 +134,6 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	//CallBack: set data to fragment (a forecast on 5 day)
 	@Override
 	public void onForecastPrepared() {
-		/*if (cursor.getCount() != 0){
-			fragList.setCursor(cursor);
-		}*/
 		fragList.setDataToList();
 		fragInfo.setProgressBar(false); //hide progress while loading data
 	}	
@@ -197,7 +185,5 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	public void onBackPressed() {
 		this.finish();
 	}
-	
-
     
 }

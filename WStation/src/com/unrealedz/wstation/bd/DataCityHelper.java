@@ -71,13 +71,14 @@ public class DataCityHelper {
 		//String where = DbHelper.CITY_DB_NAME_EN + " = " + "Ternopil";
 		String newCodeLocation = "";
 		String[] selectionArgs = new String[] { cityName };
-		cursorGetCode = db.query(DbHelper.CITY_DB_TABLE, ALL_KEYS, 
+		Cursor cursor = db.query(DbHelper.CITY_DB_TABLE, ALL_KEYS, 
 				DbHelper.CITY_DB_NAME_EN + "=?", selectionArgs, null, null, null, null);
-		if (cursorGetCode != null) {
-			cursorGetCode.moveToFirst();
-			newCodeLocation = cursorGetCode.getString(cursorGetCode.getColumnIndex(DbHelper.CITY_DB_ID));
+		if (cursor != null) {
+			cursor.moveToFirst();
+			newCodeLocation = cursor.getString(cursor.getColumnIndex(DbHelper.CITY_DB_ID));
+			cursor.close();
 		}
-		cursorGetCode.close();
+
 		return newCodeLocation;
 	}
 	

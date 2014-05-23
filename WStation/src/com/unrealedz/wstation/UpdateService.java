@@ -34,9 +34,10 @@ import android.widget.RemoteViews;
 
 public class UpdateService extends IntentService implements LoaderCallBack, LocationLoaderCallBack {
 		
-	private static final String NAME = "UpdateService";	
+
 	public static final String FROM_WIDGET = "com.unrealedz.wstation.FROM_WIDGET";
-	String url = "http://xml.weather.co.ua/1.2/forecast/23?dayf=5&lang=uk";
+	private static final String NAME = "UpdateService";	
+	private String url = "http://xml.weather.co.ua/1.2/forecast/23?dayf=5&lang=uk";
 	
 	public interface IUpdateServiceCallBack {
 		//public void onForecastPrepared(Cursor cursor);
@@ -54,26 +55,25 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	IUpdateServiceCallBack usCallBack;
 	ForecastBinder binder = new ForecastBinder();
 		
-	NetworkLoader nLoader;
-	NetworkLoader cLoader;
-	LocationLoader locationLoader;
-	Context context;
+	private NetworkLoader nLoader;
+	private NetworkLoader cLoader;
+	private LocationLoader locationLoader;
+	private Context context;
 	
-	boolean isWidget = false;
+	private boolean isWidget = false;
 	
+	SharedPreferences preferences;
 	AppWidgetManager manager;
 	ComponentName thisWidget;
 	RemoteViews remoteView;
 		
-	City city;
-	CurrentForecast currentForecast;
+	private City city;
+	private CurrentForecast currentForecast;
 	
-	DataWeekHelper dataWeekHelper;
-	DataHelper dh;
-	DataDayHelper dd;
-	
-	SharedPreferences preferences;
-	
+	private DataWeekHelper dataWeekHelper;
+	private DataHelper dh;
+	private DataDayHelper dd;
+		
 	@Override  
     public void onCreate()  
     {  
@@ -90,17 +90,17 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
     
     @Override
 	protected void onHandleIntent(Intent intent) {
-		
-		preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-    	
+    	context = getApplicationContext();
+		preferences = PreferenceManager.getDefaultSharedPreferences(context);
+
     	if (intent != null) {			 
 			String action = intent.getAction();	
 			if (FROM_WIDGET.equals(action)) {			//Checking if the service was calling the widget
 				
 				//Get component for a widget
-				manager = AppWidgetManager.getInstance(this.getApplicationContext());
-				thisWidget = new ComponentName(this.getApplicationContext(), ForecastWidget.class);
-				remoteView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.widget);
+				manager = AppWidgetManager.getInstance(context);
+				thisWidget = new ComponentName(context, ForecastWidget.class);
+				remoteView = new RemoteViews(context.getPackageName(), R.layout.widget);
 				
 				isWidget = true;	
 				setLocationInfo();
@@ -108,7 +108,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 				cityLoad();
 			}
     	}
-    	context = getApplicationContext();  
+
 		
 	}
 
@@ -133,7 +133,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	public void cityLoad(){
 	   		cLoader = new NetworkLoader(this);
 	   		cLoader.setLoaderCallBack(this);
-	    	if (UtilsNet.isOnline(getApplicationContext())) cLoader.execute(Contract.GET_CITY_DB, Contract.CITY_URL);
+	    	if (UtilsNet.isOnline(context)) cLoader.execute(Contract.GET_CITY_DB, Contract.CITY_URL);
 	}
 	
 
@@ -141,7 +141,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	// 2 //CallBack from NetworkLoader if the citiesDB is loaded
 	@Override
 	public void onLoadCityDB() {
-		locationLoader = new LocationLoader(getApplicationContext());
+		locationLoader = new LocationLoader(context);
 		locationLoader.setLoaderCallBack(this);
     	String cityIdManual = preferences.getString("cityId", "");
     	
@@ -166,7 +166,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	private void refresh() {
 		nLoader = new NetworkLoader(this);
         nLoader.setLoaderCallBack(this); 
-    	if (UtilsNet.isOnline(getApplicationContext())) nLoader.execute(Contract.GET_FORECAST, url);
+    	if (UtilsNet.isOnline(context)) nLoader.execute(Contract.GET_FORECAST, url);
 	}
 	
 	// 5 // Get object of city location and current forecast //
@@ -211,22 +211,11 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	@Override
 	public void setWeekList() {
 		
-		
-		/*if (cursor.getCount() !=0){
-			if (!isWidget){														//if it activity - sent data to MainActivity
-	    		if (UtilsNet.isRunning(context)){
-	    			usCallBack.onForecastPrepared();	
-	    		}
-	    	} else setWeekToWidget(cursor);										//if widget - sent data to widget
-		}*/
-		
-
 			if (!isWidget){														//if it activity - sent data to MainActivity
 	    		if (UtilsNet.isRunning(context)){
 	    			usCallBack.onForecastPrepared();	
 	    		}
 	    	} else setWeekToWidget();										//if widget - sent data to widget
-
 
 	}
 	
@@ -235,12 +224,12 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 		 
 		 remoteView.setTextViewText(R.id.tvwCity, city.getName());
 		 remoteView.setTextViewText(R.id.tvwRegion, city.getRegion().getRegion());
-		 remoteView.setTextViewText(R.id.tvwCloud, Utils.getCloud(currentForecast.getCloudId(), getApplicationContext()));
+		 remoteView.setTextViewText(R.id.tvwCloud, Utils.getCloud(currentForecast.getCloudId(), context));
 		 remoteView.setTextViewText(R.id.tvwTemperatura, currentForecast.getTemperature() + "°");
 		 remoteView.setTextViewText(R.id.tvwTemperaturaFlik, currentForecast.getTemperatureFlik() + "°");
 		 remoteView.setTextViewText(R.id.tvTempMinMaxDay1, "KOW");
 		 String pictureName =  currentForecast.getPictureName();
-		 remoteView.setImageViewResource(R.id.ivwCurrent, Utils.getNormalImageId(pictureName, getApplicationContext()));
+		 remoteView.setImageViewResource(R.id.ivwCurrent, Utils.getWidgetImageId(pictureName, context));
 		 manager.updateAppWidget(thisWidget, remoteView);
 	 }	
 
@@ -276,21 +265,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 		 String pictureName = "";
 		 
 		dataWeekHelper = new DataWeekHelper(this);
-		/*Cursor cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
 		
-		if(cursor.getCount() != 0){
-		 
-		for(int i = 0; i < imageViewWeekDay.size(); i++){
-			 tempMinMax = String.valueOf(cursor.getInt(cursor.getColumnIndex(DbHelper.TEMPERATURE_MIN))) + "°/" + 
-			 			String.valueOf(cursor.getInt(cursor.getColumnIndex(DbHelper.TEMPERATURE_MAX))) + "°";
-			 weekDay = Utils.getStringDayWeekShort(cursor.getString(cursor.getColumnIndex(DbHelper.DATE)));
-			 pictureName =  cursor.getString(cursor.getColumnIndex(DbHelper.PICTURE_NAME));
-			 remoteView.setTextViewText(listTextView.get(i), weekDay);
-			 remoteView.setTextViewText(listTextViewTemp.get(i), tempMainMax);
-			 remoteView.setImageViewResource(imageViewWeekDay.get(i), Utils.getImageId(pictureName, getApplicationContext()));
-			 cursor.moveToNext();
-		 }	
-		}*/
 		List<ForecastDayShort> forecastDaysShort = dataWeekHelper.getShortWeek();
 		if (forecastDaysShort != null) {
 			
@@ -301,9 +276,8 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 				pictureName = fds.getPictureName();
 				remoteView.setTextViewText(listTextView.get(i), weekDay);
 				remoteView.setTextViewText(listTextViewTemp.get(i), tempMinMax);
-				remoteView.setImageViewResource(imageViewWeekDay.get(i), Utils.getImageId(pictureName, getApplicationContext()));
-			}
-			
+				remoteView.setImageViewResource(imageViewWeekDay.get(i), Utils.getImageId(pictureName, context));
+			}		
 			
 		}
 		 manager.updateAppWidget(thisWidget, remoteView);
@@ -321,8 +295,6 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	    super.onDestroy();
 	    dh.closeDB();
 	    dd.closeDB();
-		//dataWeekHelper.closecursorGetTemperatureDay();
-	   // dataWeekHelper.closeDB();
 	  }
 	
 }

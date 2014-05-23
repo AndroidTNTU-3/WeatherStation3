@@ -96,6 +96,14 @@ public class Utils {
 		
 	}
 	
+	public static int getWidgetImageId(String pictureName, Context context){
+		
+		pictureName = pictureName.substring(0, pictureName.lastIndexOf(".")) + "_w";
+		int id_image = context.getResources().getIdentifier((context.getPackageName() + ":drawable/" + pictureName), null, null);
+		return id_image;
+		
+	}
+	
 	//get orientation wind 
 	public static String getWindOrient(int windRumb, Context context){
 		String orient = "";

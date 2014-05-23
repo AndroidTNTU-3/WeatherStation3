@@ -39,18 +39,19 @@ import android.widget.TextView;
 public class FragmentList extends Fragment{
 	
 	ListView listView;
-	Cursor cursor;
-	Context context;
-	String[] fromFieldNames;
-	int[] toViewIDs;
-	MyCursorAdapter adapter;
-	List<ForecastDayShort> forecastDaysShort;
 	LoaderCallBack loaderCallBack;
+	
+	private Cursor cursor;
+	private Context context;
+	private String[] fromFieldNames;
+	private int[] toViewIDs;
+	private List<ForecastDayShort> forecastDaysShort;
+	DataWeekHelper dataWeekHelper;
 	
 	private BaseAdapter baseAdapter;
 	
-	String cityName;
-	String region;
+	private String cityName;
+	private String region;
 	
 	@Override
 	  public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -82,25 +83,6 @@ public class FragmentList extends Fragment{
     public void onActivityCreated(Bundle savedInstanceState) {  
         super.onActivityCreated(savedInstanceState);  
 	}
-
-	public void setCursor(Cursor c) {
-		cursor = c;
-		MyCursorAdapter adapter = new  MyCursorAdapter(
-				context,					// Context
-				R.layout.rowlayout,	// Row layout template
-				cursor,					// cursor (set of DB records to map)
-				fromFieldNames,			// DB Column names
-				toViewIDs,				// View IDs to put information in
-				0);	
-		
-		
-        listView.setAdapter(adapter);
-        forecastDaysShort = UtilsDB.getForecastListMain(cursor);
-        
-       // baseAdapter = new ListWeekAdapter(forecastDaysShort, context);
-       // listView.setAdapter(baseAdapter);
-        adapter.swapCursor(cursor);
-	}
 	
 	public void setCity(City city){
 		cityName = city.getName();
@@ -114,12 +96,10 @@ public class FragmentList extends Fragment{
 				long id) {
 			String date = ""; 			           
 			Log.i("DEBUG", "ID:" + id);
-            for(ForecastDayShort fd: forecastDaysShort){
-            	if (fd.getId() == id){
-            		date = fd.getDate(); // get selected date
-            	}
-            }
             
+            cursor.moveToPosition(position);
+            date = cursor.getString(cursor.getColumnIndex(DbHelper.DATE));
+                        
             Intent intent = new Intent(context, DetailDayActivity.class);
             intent.putExtra("date", date);
             intent.putExtra("city", cityName);
@@ -133,13 +113,13 @@ public class FragmentList extends Fragment{
 	public void onDestroy() {
 	    super.onDestroy();
 	    //((MyCursorAdapter) listView.getAdapter()).getCursor().close();
-	    
+
 	  }
 
 	public void setDataToList() {
 		
-		DataWeekHelper dataWeekHelper = new DataWeekHelper(context);
-		Cursor cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
+		dataWeekHelper = new DataWeekHelper(context);
+		cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
 		
 		if (cursor.getCount() !=0){
 		MyCursorAdapter adapter = new  MyCursorAdapter(
@@ -152,11 +132,11 @@ public class FragmentList extends Fragment{
 		
 		
         listView.setAdapter(adapter);
-        forecastDaysShort = UtilsDB.getForecastListMain(cursor);
         
        // baseAdapter = new ListWeekAdapter(forecastDaysShort, context);
        // listView.setAdapter(baseAdapter);
         adapter.swapCursor(cursor);
+        dataWeekHelper.closeDB();
 		}
 	}
 
