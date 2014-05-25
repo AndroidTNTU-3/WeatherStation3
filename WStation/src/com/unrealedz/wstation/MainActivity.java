@@ -1,6 +1,8 @@
 package com.unrealedz.wstation;
 
 import com.unrealedz.wstation.UpdateService.IUpdateServiceCallBack;
+import com.unrealedz.wstation.bd.DataWeekHelper;
+import com.unrealedz.wstation.bd.DbHelper;
 import com.unrealedz.wstation.entity.City;
 import com.unrealedz.wstation.entity.CurrentForecast;
 import com.unrealedz.wstation.fragments.FragmentCurrent;
@@ -12,10 +14,13 @@ import com.unrealedz.wstation.utils.UtilsNet;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.ComponentName;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.database.Cursor;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -36,6 +41,7 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	private boolean isRunning = false;
 	private int screenOrienrtation = 0;
 	
+	private Intent intentService;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +60,8 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
         fTrans.add(R.id.fragList, fragList);
         fTrans.add(R.id.fragInfoUpdate, fragInfo);
         fTrans.commit();
+        
+        isDataEmpty();
                 
         sConn = new ServiceConnection() {
         	
@@ -85,9 +93,21 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 		 };		 
 		 bindToService();	               
     }
+    //check Internet connection on first start application
+    private void isDataEmpty(){
+    	DataWeekHelper dwh = new DataWeekHelper(getApplicationContext());
+    	Cursor cursor = dwh.getCursor(DbHelper.WEEK_TABLE);
+    	if (cursor.getCount() == 0){
+    		if(!UtilsNet.isOnline(getApplicationContext())){
+    			if (cursor != null) cursor.close() ;  			    			        		
+        		dwh.closeDB();
+        		showError();
+    		}
+    	}
+    }
     
     public void bindToService() {
-    	Intent intentService = new Intent(getApplicationContext(), UpdateService.class);
+    	intentService = new Intent(getApplicationContext(), UpdateService.class);
     	
     	//check if service is running (no for IntentServise)
         if (UtilsNet.IsServiceRunning(this)) {
@@ -113,8 +133,7 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	}
 
 	//CallBack: set data to fragments (Current forecast and the city location info)
-	@Override
-	public void onLocationCurrentPrepared(City city,
+	@Override	public void onLocationCurrentPrepared(City city,
 			CurrentForecast currentForecast) {
 		
 		fragCurrent.setData(city, currentForecast); //Current forecast
@@ -149,7 +168,8 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         //call preference activity
-        case R.id.action_settings:
+        
+                case R.id.action_settings:
         	Intent intentPref = new Intent(this, PrefActivity.class);
         	startActivity(intentPref);
             return true;       
@@ -180,6 +200,19 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	    unbindService(sConn);		//Disconnect from the service
 	    bound = false;
 	  }
+	
+	public void showError() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setMessage(R.string.no_network).setTitle(R.string.info).setCancelable(false)
+                .setNeutralButton(R.string.accept, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                        finish();
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 	
 	@Override
 	public void onBackPressed() {

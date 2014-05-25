@@ -186,7 +186,7 @@ public class DataWeekHelper {
 	        return db.insert(DbHelper.WEEK_TABLE, null, values);
 	    }
 	
-	 public Cursor getCursor(String tableName) {	    	
+	 public Cursor getCursor(String tableName) {
 	    	cursorGetCursor = db.query(tableName, null, null, null, null, null, null);
 	        return cursorGetCursor;
 	    }

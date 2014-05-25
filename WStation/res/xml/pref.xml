@@ -58,13 +58,21 @@
         android:key="refresh_caregory"
         android:summary="@string/summary_refresh_category"
         android:title="@string/refresh_category" >
+    
+        <SwitchPreference 
+        android:defaultValue="false"
+        android:key="PromoNotificationOnOff"
+        android:title="@string/notification_enable"
+        />
         
-        <ListPreference 
+        <ListPreference
+			android:dependency="PromoNotificationOnOff"
             android:entries="@array/refresh_time"
  			android:entryValues="@array/refresh_time_value"
             android:key="refreshTime" 
             android:summary="@string/summary_refresh_time"
             android:title="@string/refresh_time_title"/>
+
         
     </PreferenceCategory>
 

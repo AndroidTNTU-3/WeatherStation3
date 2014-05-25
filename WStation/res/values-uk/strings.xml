@@ -52,6 +52,8 @@
     
     <string name="refresh_time_title">Час оновлення</string>
     <string name="summary_refresh_time">Вибір часу оновлення</string>
+    
+    <string name="notification_enable">Оновлення віджета</string>
 	
 	<string-array name="wind_units_speed">
 		<item>миль/г</item>

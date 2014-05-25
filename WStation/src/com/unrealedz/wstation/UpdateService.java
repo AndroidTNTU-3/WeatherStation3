@@ -19,10 +19,12 @@ import com.unrealedz.wstation.utils.Utils;
 import com.unrealedz.wstation.utils.UtilsDB;
 import com.unrealedz.wstation.utils.UtilsNet;
 
+import android.app.AlertDialog;
 import android.app.IntentService;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
@@ -192,6 +194,8 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	    
 	}
 	
+	
+	
 	// 5.1 // Send last update info to activity fragments //
 	
 	@Override
@@ -223,11 +227,10 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	private void sendInfoWidget(City city, CurrentForecast currentForecast){
 		 
 		 remoteView.setTextViewText(R.id.tvwCity, city.getName());
-		 remoteView.setTextViewText(R.id.tvwRegion, city.getRegion().getRegion());
+		 remoteView.setTextViewText(R.id.tvwRegion, city.getCountry().getCountry());
 		 remoteView.setTextViewText(R.id.tvwCloud, Utils.getCloud(currentForecast.getCloudId(), context));
 		 remoteView.setTextViewText(R.id.tvwTemperatura, currentForecast.getTemperature() + "°");
 		 remoteView.setTextViewText(R.id.tvwTemperaturaFlik, currentForecast.getTemperatureFlik() + "°");
-		 remoteView.setTextViewText(R.id.tvTempMinMaxDay1, "KOW");
 		 String pictureName =  currentForecast.getPictureName();
 		 remoteView.setImageViewResource(R.id.ivwCurrent, Utils.getWidgetImageId(pictureName, context));
 		 manager.updateAppWidget(thisWidget, remoteView);

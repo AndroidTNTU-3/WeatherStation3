@@ -22,6 +22,7 @@ public class ForecastWidget extends AppWidgetProvider {
 	private PendingIntent pIntentService = null;
 	private SharedPreferences preferences;
 	private int refreshTime;
+	private int refreshOnOff;
 	@Override
 	  public void onEnabled(Context context) {
 	    super.onEnabled(context);
@@ -40,6 +41,7 @@ public class ForecastWidget extends AppWidgetProvider {
 	private void loadPreferences(Context context) {
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		refreshTime = Integer.parseInt(preferences.getString("refreshTime", "30"));
+		refreshOnOff = Integer.parseInt(preferences.getString("preferences", "2")); // "2" value if widget first start
 	}
 	
 	  
@@ -71,8 +73,9 @@ public class ForecastWidget extends AppWidgetProvider {
         {  
         	pIntentService = PendingIntent.getService(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);  
         }  
-  
-        m.setRepeating(AlarmManager.RTC, TIME.getTime().getTime(), 1000 * 60 * refreshTime, pIntentService); 
+        if (refreshOnOff == 1)
+        m.setRepeating(AlarmManager.RTC, TIME.getTime().getTime(), 1000 * 60 * refreshTime, pIntentService);
+        else if (refreshOnOff == 0) m.cancel(pIntentService);
     }
     
     

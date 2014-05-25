@@ -52,6 +52,9 @@
     <string name="summary_providers">Selection of provider</string>
     <string name="search_hint">Set location</string>
 	<string name="search_label">Search Location</string>
+	<string name="accept">Accept</string>
+    <string name="no_network">There are problems retrieving the new forecast. Check your network status</string>
+    <string name="info">Info</string>
 	
     <string-array name="wind_units_speed">
         <item>miles/h</item>
@@ -93,5 +96,7 @@
     
     <string name="refresh_time_title">Refresh</string>
     <string name="summary_refresh_time">Select refresh time</string>
+    
+    <string name="notification_enable">Refresh widget enable</string>
 
 </resources>
