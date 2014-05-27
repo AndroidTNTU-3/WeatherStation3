@@ -12,7 +12,9 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 import android.widget.RemoteViews;
 
 
@@ -23,6 +25,7 @@ public class ForecastWidget extends AppWidgetProvider {
 	private SharedPreferences preferences;
 	private int refreshTime;
 	private int refreshOnOff;
+	
 	@Override
 	  public void onEnabled(Context context) {
 	    super.onEnabled(context);
@@ -41,7 +44,7 @@ public class ForecastWidget extends AppWidgetProvider {
 	private void loadPreferences(Context context) {
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		refreshTime = Integer.parseInt(preferences.getString("refreshTime", "30"));
-		refreshOnOff = Integer.parseInt(preferences.getString("preferences", "2")); // "2" value if widget first start
+		refreshOnOff = Integer.parseInt(preferences.getString("refreshOnOff", "2")); // "2" value if widget first start
 	}
 	
 	  
@@ -56,7 +59,7 @@ public class ForecastWidget extends AppWidgetProvider {
 	      }	 
     	
 	    loadPreferences(context);
-	    
+	    Log.i("DEBUG", "refresh: " + refreshOnOff);
     	final AlarmManager m = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);   
         
         final Calendar TIME = Calendar.getInstance();  
@@ -77,8 +80,7 @@ public class ForecastWidget extends AppWidgetProvider {
         m.setRepeating(AlarmManager.RTC, TIME.getTime().getTime(), 1000 * 60 * refreshTime, pIntentService);
         else if (refreshOnOff == 0) m.cancel(pIntentService);
     }
-    
-    
+       
     
     static void updateWidget(Context context, AppWidgetManager appWidgetManager, int widgetID){
     	RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.widget);
@@ -90,6 +92,8 @@ public class ForecastWidget extends AppWidgetProvider {
     	
     	appWidgetManager.updateAppWidget(widgetID, remoteViews);
     }
+    
+
     
     @Override  
     public void onDisabled(Context context)  

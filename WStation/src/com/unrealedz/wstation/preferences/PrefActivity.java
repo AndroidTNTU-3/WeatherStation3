@@ -1,7 +1,10 @@
 package com.unrealedz.wstation.preferences;
 
+import com.unrealedz.wstation.ForecastWidget;
 import com.unrealedz.wstation.R;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
@@ -13,6 +16,7 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.SwitchPreference;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 public class PrefActivity extends PreferenceActivity {
 	
@@ -36,11 +40,16 @@ public class PrefActivity extends PreferenceActivity {
  
 				if(newValue.equals(true)){
 					ed.putString("refreshOnOff", "1");					//if switch refresh is will enable
-				    ed.commit();
+					Log.i("DEBUG", "refresh on ");
+					ed.commit();
 				 } else {
 					 ed.putString("refreshOnOff", "0");					
 					 ed.commit(); ;
 				 }
+				AppWidgetManager manager = AppWidgetManager.getInstance(getApplicationContext());
+				ComponentName thisWidget = new ComponentName(getApplicationContext(), ForecastWidget.class);
+				RemoteViews remoteView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.widget);
+				manager.updateAppWidget(thisWidget, remoteView);
 				return true;
 			}
 		});
