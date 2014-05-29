@@ -16,11 +16,13 @@ import android.util.Log;
 public class DataDayHelper {
 	
 private SQLiteDatabase db;
-
+private DbHelper openHelper;
 private Cursor cursor;
 			
 	public DataDayHelper(Context context) {
-        DbHelper openHelper = new DbHelper(context);
+        /*openHelper = new DbHelper(context);
+        db = openHelper.getWritableDatabase();*/
+		openHelper = DbHelper.getInstance(context);
         db = openHelper.getWritableDatabase();
        
     }
@@ -113,6 +115,6 @@ private Cursor cursor;
 	}
 
 	public void closeDB() {
-		db.close();
+		openHelper.close();  
 	}
 }

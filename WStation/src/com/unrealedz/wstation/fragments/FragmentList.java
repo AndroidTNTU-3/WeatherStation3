@@ -136,7 +136,7 @@ public class FragmentList extends Fragment{
        // baseAdapter = new ListWeekAdapter(forecastDaysShort, context);
        // listView.setAdapter(baseAdapter);
         adapter.swapCursor(cursor);
-        dataWeekHelper.closeDB();
+
 		}
 	}
 

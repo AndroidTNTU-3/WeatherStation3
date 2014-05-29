@@ -131,15 +131,12 @@ public class FragmentDay extends Fragment {
 			temperatureMin.setText(String.valueOf(tmin) + "°");
 			temperatureMax.setText(String.valueOf(tmax) + "°");
 			cloud.setText(Utils.getCloud(cloudID, context));
-			humidity.setText(getString(R.string.humidity) + " "
-					+ String.valueOf(humidityMin) + "/"
+			humidity.setText("  " + String.valueOf(humidityMin) + "/"
 					+ String.valueOf(humidityMax) + " %");
-			pressure.setText(getString(R.string.pressure) + " "
-					+ String.valueOf(pressureMin) + "/"
+			pressure.setText("  " + String.valueOf(pressureMin) + "/"
 					+ String.valueOf(pressureMax) + " "
 					+ getString(R.string.pressureUnit));
-			wind.setText(getString(R.string.wind) + " "
-					+ Utils.getWindOrient(windRumb, context) + " "
+			wind.setText("  " + Utils.getWindOrient(windRumb, context) + " "
 					+ String.valueOf(windMin) + "/" + String.valueOf(windMax)
 					+ " " + windUnitSpeed);
 			imageView.setImageResource(Utils

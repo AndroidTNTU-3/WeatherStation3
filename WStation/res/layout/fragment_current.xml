@@ -4,31 +4,6 @@
     android:layout_height="wrap_content" 
     android:orientation="vertical">
     
-    <LinearLayout 
-     android:id="@+id/linearlayoutLocation"
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"  
-     android:paddingTop="5dp" 
-     android:paddingLeft="20dp" 
-     android:orientation="horizontal">
-     
-       <TextView
-        android:id="@+id/tvCity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/text_size_small"
-        android:text="" /> 
-        
-        <TextView
-        android:id="@+id/tvRegion"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:textSize="@dimen/text_size_small"   
-        android:text="" />
-        
-    </LinearLayout>
-
     <RelativeLayout 
      android:id="@+id/linearlayoutCurrentInfo"
      android:layout_width="match_parent"
@@ -41,16 +16,50 @@
 			android:layout_alignParentRight="true"
 			android:layout_alignParentTop="true"
             android:src="@drawable/_0_sun_big" />
+        
+         <LinearLayout
+             android:id="@+id/linearlayoutLocation"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal"
+             android:paddingLeft="20dp"
+             android:paddingTop="5dp" >
+
+             <TextView
+                 android:id="@+id/tvCity"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:shadowColor="@color/white"
+               	 android:shadowDx="-1"
+                 android:shadowDy="1"
+                 android:shadowRadius="0.01"
+                 android:textStyle="bold"
+                 android:text=""
+                 android:textSize="@dimen/text_size_small" />
+
+             <TextView
+                 android:id="@+id/tvRegion"
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:layout_marginLeft="5dp"
+                 android:shadowColor="@color/white"
+               	 android:shadowDx="-1"
+                 android:shadowDy="1"
+                 android:shadowRadius="0.01"
+                 android:textStyle="bold"
+                 android:text=""
+                 android:textSize="@dimen/text_size_small" />
+         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearlayoutInfo"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
+			android:layout_below="@+id/linearlayoutLocation"
             android:orientation="vertical"
             android:paddingLeft="20dp"
-            android:paddingTop="10dp" >
+            android:paddingTop="5dp" >
 
             <TextView
                 android:id="@+id/tvTemperature"
@@ -92,33 +101,84 @@
                 android:text=""
                 android:textSize="@dimen/text_size_large"
                 android:textStyle="bold" />
-
-            <TextView
+            
+            <LinearLayout 
+             	android:id="@+id/linearlayoutHumidity"
+             	android:layout_width="match_parent"
+             	android:layout_height="match_parent"
+             	android:orientation="horizontal"
+             	android:layout_marginTop="10dp"
+                >
+                
+                <TextView
+                android:id="@+id/tvHumidityTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darkgray"
+                android:text="@string/humidity" />  
+                
+                <TextView
                 android:id="@+id/tvHumidity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="" />
-
+                android:text="" /> 
+                
+            </LinearLayout>
+            
+            <LinearLayout 
+             	android:id="@+id/linearlayoutPressure"
+             	android:layout_width="match_parent"
+             	android:layout_height="match_parent"
+             	android:orientation="horizontal"
+                >
+                
+                <TextView
+                android:id="@+id/tvPressureTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darkgray"
+                android:text="@string/pressure" />  
+                
             <TextView
                 android:id="@+id/tvPressure"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="" />
-
+                
+            </LinearLayout>
+            
+            <LinearLayout 
+             	android:id="@+id/linearlayoutWind"
+             	android:layout_width="match_parent"
+             	android:layout_height="match_parent"
+             	android:orientation="horizontal"
+                >
+                
+                <TextView
+                android:id="@+id/tvWindTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darkgray"
+                android:text="@string/wind" />  
+                
             <TextView
                 android:id="@+id/tvWind"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="" />
+                
+            </LinearLayout>
+
+
+
+
+
         </LinearLayout>
         
                 
 
 
     </RelativeLayout>
-   
-
 
     
 </LinearLayout>

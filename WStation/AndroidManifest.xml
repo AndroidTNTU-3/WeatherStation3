@@ -68,7 +68,10 @@
             </meta-data>
         </receiver>
 
-        <activity android:name="com.unrealedz.wstation.preferences.PrefActivity" >
+        <activity 
+            android:name="com.unrealedz.wstation.preferences.PrefActivity" 
+            android:label="@string/title_activity_preference">
+            
         </activity>
         <activity
             android:name="com.unrealedz.wstation.LocationActivity"

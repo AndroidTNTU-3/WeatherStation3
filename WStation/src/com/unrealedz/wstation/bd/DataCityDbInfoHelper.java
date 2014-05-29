@@ -17,9 +17,11 @@ public class DataCityDbInfoHelper {
 	private SQLiteDatabase db;
 	private CitiesDB citiesDB;
 	private Cursor cursor;
-	
+	private DbHelper openHelper;
 	public DataCityDbInfoHelper(Context context) {
-        DbHelper openHelper = new DbHelper(context);
+        /*openHelper = new DbHelper(context);
+        db = openHelper.getWritableDatabase();*/
+		openHelper = DbHelper.getInstance(context);
         db = openHelper.getWritableDatabase();
        
     }
@@ -72,7 +74,7 @@ public class DataCityDbInfoHelper {
     }
 	
 	public void closeDB() {
-        db.close();     
+		openHelper.close();     
     }
 
 }

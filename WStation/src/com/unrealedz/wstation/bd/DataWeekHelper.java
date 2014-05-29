@@ -23,6 +23,7 @@ public class DataWeekHelper {
 
 	private SQLiteDatabase db;
 	private List<ForecastDay> forecastDays;
+	private DbHelper openHelper;
 	Cursor cursorGetTemperatureDay;
 	Cursor cursorGetCursor;
 	Cursor cursorGetCursorDay;
@@ -33,7 +34,9 @@ public class DataWeekHelper {
 	public static final String[] KEYS = {DbHelper.TEMPERATURE_MIN, DbHelper.TEMPERATURE_MAX};
 	
 	public DataWeekHelper(Context context) {
-        DbHelper openHelper = new DbHelper(context);
+        /*openHelper = new DbHelper(context);
+        db = openHelper.getWritableDatabase();*/
+		openHelper = DbHelper.getInstance(context);
         db = openHelper.getWritableDatabase();
        
     }
@@ -209,7 +212,7 @@ public class DataWeekHelper {
 	}
 
 	public void closeDB() {
-        db.close();     
+		openHelper.close();    
     }
 	
 }

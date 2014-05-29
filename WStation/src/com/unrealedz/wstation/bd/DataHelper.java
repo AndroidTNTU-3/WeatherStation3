@@ -20,9 +20,11 @@ public class DataHelper {
 	
 	private SQLiteDatabase db;
 	private Cursor cursor;
-		
+	private DbHelper openHelper;	
 	public DataHelper(Context context) {
-        DbHelper openHelper = new DbHelper(context);
+       /* openHelper = new DbHelper(context);
+        db = openHelper.getWritableDatabase();*/
+        openHelper = DbHelper.getInstance(context);
         db = openHelper.getWritableDatabase();
        
     }
@@ -138,6 +140,6 @@ public class DataHelper {
     }
     
 	public void closeDB() {
-        db.close();     
+		openHelper.close();    
     }
 }

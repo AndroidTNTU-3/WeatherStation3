@@ -1,45 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    
+
+    <ListPreference
+        android:entries="@array/language"
+        android:entryValues="@array/language_value"
+        android:key="language"
+        android:summary="@string/summary_language"
+        android:title="@string/language_title" />
+
     <PreferenceCategory
         android:key="units"
         android:summary="@string/summary_toggle_units"
         android:title="@string/toggle_units" >
-        
         <CheckBoxPreference
             android:key="units_temp"
             android:summary="@string/summary_units_temperature"
             android:title="@string/units_temperature" >
         </CheckBoxPreference>
-        
-        <ListPreference 
+
+        <ListPreference
             android:entries="@array/wind_units_speed"
- 			android:entryValues="@array/wind_units_speed_value"
-            android:key="units_wind" 
+            android:entryValues="@array/wind_units_speed_value"
+            android:key="units_wind"
             android:summary="@string/summary_units_wind"
-            android:title="@string/units_wind"/>
-        
+            android:title="@string/units_wind" />
     </PreferenceCategory>
-    
     <PreferenceCategory
         android:key="location"
         android:summary="@string/summary_cat_location"
         android:title="@string/cat_location" >
-        
         <ListPreference
             android:entries="@array/location_provider"
             android:entryValues="@array/location_provider_value"
             android:key="providers"
             android:summary="@string/summary_providers"
             android:title="@string/providers" />
-    
-   	<CheckBoxPreference
-        android:key="manual_location"
-        android:summary="@string/summary_set_location"
-        android:title="@string/set_location_onoff" >
-    </CheckBoxPreference>
-    
-    <PreferenceScreen
+
+        <CheckBoxPreference
+            android:key="manual_location"
+            android:summary="@string/summary_set_location"
+            android:title="@string/set_location_onoff" >
+        </CheckBoxPreference>
+
+        <PreferenceScreen
             android:dependency="manual_location"
             android:key="address"
             android:title="@string/set_location" >
@@ -50,30 +53,24 @@
                     android:name="EXTRA_KEY"
                     android:value="yourValue" />
             </intent>
-     </PreferenceScreen>
-
-     </PreferenceCategory>
-     
-    <PreferenceCategory
-        android:key="refresh_caregory"
-        android:summary="@string/summary_refresh_category"
-        android:title="@string/refresh_category" >
-    
-        <SwitchPreference 
-        android:defaultValue="false"
-        android:key="PromoNotificationOnOff"
-        android:title="@string/notification_enable"
-        />
-        
-        <ListPreference
-			android:dependency="PromoNotificationOnOff"
-            android:entries="@array/refresh_time"
- 			android:entryValues="@array/refresh_time_value"
-            android:key="refreshTime" 
-            android:summary="@string/summary_refresh_time"
-            android:title="@string/refresh_time_title"/>
-
-        
+        </PreferenceScreen>
     </PreferenceCategory>
+    
+    <PreferenceCategory
+        android:key="power_caregory"
+        android:summary="@string/power_refresh_category"
+        android:title="@string/power_category" >
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="PromoNotificationOnOff"
+            android:title="@string/notification_enable" />
+    </PreferenceCategory>
+
+    <ListPreference
+        android:entries="@array/refresh_time"
+        android:entryValues="@array/refresh_time_value"
+        android:key="refreshTime"
+        android:summary="@string/summary_refresh_time"
+        android:title="@string/refresh_time_title" />
 
 </PreferenceScreen>

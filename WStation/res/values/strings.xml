@@ -7,6 +7,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_city">CityActivity</string>
     <string name="title_activity_detail_day">Day forecast</string>
+    <string name="title_activity_preference">Settings</string>
     <string name="download">loading...</string>
     <string name="humidity">Humidity: </string>
     <string name="pressure">Pressure: </string>
@@ -56,7 +57,15 @@
     <string name="no_network">There are problems retrieving the new forecast. Check your network status</string>
     <string name="info">Info</string>
 	
-    <string-array name="wind_units_speed">
+    <string-array name="language">
+        <item>English</item>
+        <item>Ukraine</item>
+    </string-array>
+    <string-array name="language_value">
+        <item>"en"</item>
+        <item>"uk"</item>
+    </string-array>
+     <string-array name="wind_units_speed">
         <item>miles/h</item>
         <item>km/h</item>
         <item>m/s</item>
@@ -91,12 +100,15 @@
 
     <string name="title_activity_location">Location</string>
     
-    <string name="refresh_category">Refresh</string>
-    <string name="summary_refresh_category">Refresh settings</string>
+    <string name="power_category">Power Saver</string>
+    <string name="power_refresh_category">Refresh period settings</string>
     
     <string name="refresh_time_title">Refresh</string>
     <string name="summary_refresh_time">Select refresh time</string>
     
     <string name="notification_enable">Refresh widget enable</string>
+    
+    <string name="language_title">Language</string>
+    <string name="summary_language">Select language</string>
 
 </resources>

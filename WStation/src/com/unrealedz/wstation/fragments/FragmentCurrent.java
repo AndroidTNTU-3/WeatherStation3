@@ -127,12 +127,12 @@ public class FragmentCurrent extends Fragment{
 		temperatureFlik.setText(getString(R.string.temperatureFlik) + tempFlik
 				+ "°");
 		cloud.setText(Utils.getCloud(currentForecast.getCloudId(), context));
-		humidity.setText(getString(R.string.humidity) + " "
+		humidity.setText("  "
 				+ currentForecast.getHumidity() + " %");
-		pressure.setText(getString(R.string.pressure) + " "
+		pressure.setText("  "
 				+ currentForecast.getPressure() + " "
 				+ getString(R.string.pressureUnit));
-		wind.setText(getString(R.string.wind) + " "
+		wind.setText("  "
 				+ Utils.getWindOrient(currentForecast.getWindRumb(), context)
 				+ " " + windSpeed + " " + windUnitSpeed);
 		String pictureName = currentForecast.getPictureName();

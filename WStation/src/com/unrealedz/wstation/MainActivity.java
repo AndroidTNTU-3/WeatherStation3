@@ -73,11 +73,13 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 		        bound = true;		
 		        //if (isRunning) {
 		        if (screenOrienrtation == 0){			//loading data if the orientation has not been changed
+
 		        	updateService.setLocationInfo();
 		        	updateService.setLastUpdate();
 		        	updateService.setWeekList();
 		        	updateService.cityLoad();
 		        	fragInfo.setProgressBar(true);    	//show progress while loading data
+
 		        } else {								//loading data if the orientation has been changed
 		        	updateService.setLocationInfo();
 		        	updateService.setLastUpdate();
@@ -199,6 +201,8 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	    if (!bound) return;
 	    unbindService(sConn);		//Disconnect from the service
 	    bound = false;
+	    DataWeekHelper dataWeekHelper = new DataWeekHelper(getApplicationContext());
+	    dataWeekHelper.closeDB();
 	  }
 	
 	public void showError() {

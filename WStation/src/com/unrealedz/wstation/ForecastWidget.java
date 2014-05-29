@@ -44,7 +44,7 @@ public class ForecastWidget extends AppWidgetProvider {
 	private void loadPreferences(Context context) {
 		preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		refreshTime = Integer.parseInt(preferences.getString("refreshTime", "30"));
-		refreshOnOff = Integer.parseInt(preferences.getString("refreshOnOff", "2")); // "2" value if widget first start
+		//refreshOnOff = Integer.parseInt(preferences.getString("refreshOnOff", "2")); // "2" value if widget first start
 	}
 	
 	  
@@ -59,7 +59,7 @@ public class ForecastWidget extends AppWidgetProvider {
 	      }	 
     	
 	    loadPreferences(context);
-	    Log.i("DEBUG", "refresh: " + refreshOnOff);
+	    Log.i("DEBUG", "refreshtime: " + String.valueOf(refreshTime));
     	final AlarmManager m = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);   
         
         final Calendar TIME = Calendar.getInstance();  
@@ -76,9 +76,9 @@ public class ForecastWidget extends AppWidgetProvider {
         {  
         	pIntentService = PendingIntent.getService(context, 0, i, PendingIntent.FLAG_CANCEL_CURRENT);  
         }  
-        if (refreshOnOff == 1)
+       // if (refreshOnOff == 1)
         m.setRepeating(AlarmManager.RTC, TIME.getTime().getTime(), 1000 * 60 * refreshTime, pIntentService);
-        else if (refreshOnOff == 0) m.cancel(pIntentService);
+        //else if (refreshOnOff == 0) m.cancel(pIntentService);
     }
        
     

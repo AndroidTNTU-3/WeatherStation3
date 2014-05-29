@@ -11,6 +11,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbHelper extends SQLiteOpenHelper {
 	
+	
+	
 	public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "wbase";
     public static final String CITY_DB_TABLE = "cityDB";
@@ -93,7 +95,21 @@ public class DbHelper extends SQLiteOpenHelper {
             + " INT, " + WIND_MIN + " INT, " + WIND_MAX + " INT, " + WIND_RUMB + " INT, " + HUMIDITY_MIN
             + " INT, " + HUMIDITY_MAX + " INT, " + WPI + " INT);";
 
-	public DbHelper(Context context) {
+	
+    private static DbHelper mInstance = null;
+    
+    public static DbHelper getInstance(Context ctx) {
+
+        // Use the application context, which will ensure that you
+        // don't accidentally leak an Activity's context.
+        // See this article for more information: http://bit.ly/6LRzfx
+        if (mInstance == null) {
+            mInstance = new DbHelper(ctx.getApplicationContext());
+        }
+        return mInstance;
+    }
+    
+    private DbHelper(Context context) {
 		super(context, DbHelper.DATABASE_NAME, null, DbHelper.DATABASE_VERSION);
 		// TODO Auto-generated constructor stub
 	}
