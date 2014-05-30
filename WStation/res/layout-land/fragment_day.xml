@@ -25,6 +25,10 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/rect_gray"
                 android:text=""
+                android:shadowColor="@color/white"
+           		android:shadowDx="-1"
+           		android:shadowDy="1"
+           		android:shadowRadius="0.01"
                 android:textSize="@dimen/text_size_small" />
 
             <TextView
@@ -33,6 +37,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:text=""
+                android:shadowColor="@color/white"
+          		android:shadowDx="-1"
+           		android:shadowDy="1"
+           		android:shadowRadius="0.01"
                 android:textSize="@dimen/text_size_small" />
             
              <TextView
@@ -41,7 +49,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text=""
-                android:textSize="@dimen/text_size_small" />
+                android:textStyle="bold"
+           		android:textSize="@dimen/text_size_medium"  />
         </LinearLayout>
     
       <LinearLayout
@@ -59,17 +68,16 @@
         android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingRight="6dp" >
-
-        <TextView
-            android:id="@+id/tvDayTmin"
+        
+         <TextView
+            android:id="@+id/tvDayTmax"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
+            android:layout_below="@+id/rect"
             android:textSize="@dimen/text_size_biggest"
             android:textStyle="bold"
             android:text="" />
-
+         
         <LinearLayout
             android:id="@+id/rect"
             android:layout_width="40dp"
@@ -80,51 +88,98 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/tvDayTmax"
+            android:id="@+id/tvDayTmin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rect"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:textSize="@dimen/text_size_biggest"
             android:textStyle="bold"
+            android:textColor="@color/darkgray"
             android:text="" />
+
     </LinearLayout>
     
-        <LinearLayout 
-        	android:id="@+id/infoDayLayout"
-        	android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-        	android:paddingLeft="10dp"
-       		android:orientation="vertical">
+    <LinearLayout
+                android:id="@+id/infoDayLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="10dp" >
         
-            <TextView
-        	    android:id="@+id/tvCloudHour"
-        	    android:layout_width="wrap_content"
-        	    android:layout_height="wrap_content"
-        	    android:text=""
-        	    android:textSize="@dimen/text_size_normal" />
+        		<TextView
+                    android:id="@+id/tvCloudHour"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:shadowColor="@color/white"
+                    android:shadowDx="-2"
+                    android:shadowDy="2"
+                    android:shadowRadius="0.01"
+                    android:text=""
+                    android:textSize="@dimen/text_size_medium"
+                    android:textStyle="bold" />
 
-        	<TextView
-        	    android:id="@+id/tvHumidityHour"
-        	    android:layout_width="wrap_content"
-        	    android:layout_height="wrap_content"
-        	    android:layout_marginTop="10dp"
-        	    android:text="" />
-        	
-        	<TextView
-        	    android:id="@+id/tvPressureHour"
-        	    android:layout_width="wrap_content"
-        	    android:layout_height="wrap_content"
-        	    android:text="" />
-        	
-        	<TextView
-        	    android:id="@+id/tvWindHour"
-        	    android:layout_width="wrap_content"
-        	    android:layout_height="wrap_content"
-        	    android:text="" />
-            
-        </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/linearlayoutHourHumidity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal" >
 
-			
+                    <TextView
+                        android:id="@+id/tvHumidityHourTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/humidity"
+                        android:textColor="@color/darkgray" />
+
+                    <TextView
+                        android:id="@+id/tvHumidityHour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearlayoutHourPressure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tvPressureHourTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pressure"
+                        android:textColor="@color/darkgray" />
+
+                    <TextView
+                        android:id="@+id/tvPressureHour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/linearlayoutHourWind"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/tvWindHourTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/wind"
+                        android:textColor="@color/darkgray" />
+
+                    <TextView
+                        android:id="@+id/tvWindHour"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="" />
+                </LinearLayout>
+            </LinearLayout>
         	
 		</LinearLayout>
 		

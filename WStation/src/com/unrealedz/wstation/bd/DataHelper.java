@@ -22,10 +22,10 @@ public class DataHelper {
 	private Cursor cursor;
 	private DbHelper openHelper;	
 	public DataHelper(Context context) {
-       /* openHelper = new DbHelper(context);
-        db = openHelper.getWritableDatabase();*/
-        openHelper = DbHelper.getInstance(context);
+       openHelper = new DbHelper(context);
         db = openHelper.getWritableDatabase();
+       /* openHelper = DbHelper.getInstance(context);
+        db = openHelper.getWritableDatabase();*/
        
     }
 	

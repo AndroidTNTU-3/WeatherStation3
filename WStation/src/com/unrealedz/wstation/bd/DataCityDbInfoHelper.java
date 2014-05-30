@@ -18,11 +18,12 @@ public class DataCityDbInfoHelper {
 	private CitiesDB citiesDB;
 	private Cursor cursor;
 	private DbHelper openHelper;
+	
 	public DataCityDbInfoHelper(Context context) {
-        /*openHelper = new DbHelper(context);
-        db = openHelper.getWritableDatabase();*/
-		openHelper = DbHelper.getInstance(context);
+        openHelper = new DbHelper(context);
         db = openHelper.getWritableDatabase();
+		/*openHelper = DbHelper.getInstance(context);
+        db = openHelper.getWritableDatabase();*/
        
     }
 	

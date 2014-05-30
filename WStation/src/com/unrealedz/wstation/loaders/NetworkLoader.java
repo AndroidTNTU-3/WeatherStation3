@@ -95,8 +95,8 @@ public class NetworkLoader extends AsyncTask<String, Void, String>{
 					  dataCity.insertCitiesDB(citiesDB);
 		    	  }
 				  
-				  dbInfoHelper.closeDB();
-				  dataCity.closeDB();
+				 dbInfoHelper.closeDB();
+				 dataCity.closeDB();
 								
 				} else if(keyLoader.equals(Contract.GET_FORECAST)){						// Get data and store to a database of forecast
 					

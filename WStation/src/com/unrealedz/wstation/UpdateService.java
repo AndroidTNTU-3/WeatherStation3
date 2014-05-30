@@ -159,7 +159,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	@Override
 	public void setLocation(String cityId) {
 		//int cityId = 23; //Kyiv code from dummy 
-		String language = preferences.getString("language", "en"); 								//get language forecast
+		String language = preferences.getString("language", "uk"); 								//get language forecast
 		url = "http://xml.weather.co.ua/1.2/forecast/" + cityId + "?dayf=5&lang=" + language;
 		refresh();		
 	}
@@ -298,7 +298,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	public void onDestroy() {
 	    super.onDestroy();
 	   // dh.closeDB();
-	    dd.closeDB();
+	   // dd.closeDB();
 	  }
 	
 }

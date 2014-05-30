@@ -28,8 +28,11 @@ public class FragmentCurrent extends Fragment{
 	TextView temperatureFlik;
 	TextView cloud;
 	TextView humidity;
+	TextView humidityTitle;
 	TextView pressure;
+	TextView pressureTitle;
 	TextView wind;
+	TextView windTitle;
 	ImageView imageView;
 	
 	RelativeLayout rl;
@@ -60,8 +63,14 @@ public class FragmentCurrent extends Fragment{
 		temperatureFlik = (TextView) v.findViewById(R.id.tvTemperatureFlik);
 		cloud = (TextView) v.findViewById(R.id.tvCloud);
 		humidity = (TextView) v.findViewById(R.id.tvHumidity);
+		humidityTitle = (TextView) v.findViewById(R.id.tvHumidityTitle);
+		humidityTitle.setVisibility(ImageView.INVISIBLE);
 		pressure = (TextView) v.findViewById(R.id.tvPressure);
+		pressureTitle = (TextView) v.findViewById(R.id.tvPressureTitle);
+		pressureTitle.setVisibility(ImageView.INVISIBLE);
 		wind = (TextView) v.findViewById(R.id.tvWind);
+		windTitle = (TextView) v.findViewById(R.id.tvWindTitle);
+		windTitle.setVisibility(ImageView.INVISIBLE);
 		imageView = (ImageView) v.findViewById(R.id.imageCurrent);
 		imageView.setVisibility(ImageView.INVISIBLE);
 		separator_temperature = (LinearLayout) v.findViewById(R.id.rect_gray1);
@@ -139,6 +148,9 @@ public class FragmentCurrent extends Fragment{
 		imageView.setVisibility(ImageView.VISIBLE);
 		imageView.setImageResource(Utils.getBigImageId(pictureName, context));
 		separator_temperature.setVisibility(ImageView.VISIBLE);
+		humidityTitle.setVisibility(ImageView.VISIBLE);
+		pressureTitle.setVisibility(ImageView.VISIBLE);
+		windTitle.setVisibility(ImageView.VISIBLE);
 	}
 	
 	

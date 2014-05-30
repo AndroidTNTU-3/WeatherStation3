@@ -16,6 +16,10 @@
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
            android:text=""
+           android:shadowColor="@color/white"
+           android:shadowDx="-1"
+           android:shadowDy="1"
+           android:shadowRadius="0.01"
            android:textSize="@dimen/text_size_small" />
 
        <TextView
@@ -24,6 +28,10 @@
            android:layout_height="wrap_content"
            android:layout_marginLeft="5dp"
            android:text=""
+           android:shadowColor="@color/white"
+           android:shadowDx="-1"
+           android:shadowDy="1"
+           android:shadowRadius="0.01"
            android:textSize="@dimen/text_size_small" />
        
    </LinearLayout>
@@ -36,8 +44,9 @@
            android:layout_alignParentRight="true"
            android:layout_alignParentTop="true"
            android:paddingRight="20dp"
-       		android:paddingTop="10dp"
-           android:textSize="@dimen/text_size_small" />
+       	   android:paddingTop="10dp"
+       	   android:textStyle="bold"
+           android:textSize="@dimen/text_size_medium" />
 
    <ImageView
        android:id="@+id/imageDay"

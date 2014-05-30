@@ -34,10 +34,10 @@ public class DataWeekHelper {
 	public static final String[] KEYS = {DbHelper.TEMPERATURE_MIN, DbHelper.TEMPERATURE_MAX};
 	
 	public DataWeekHelper(Context context) {
-        /*openHelper = new DbHelper(context);
-        db = openHelper.getWritableDatabase();*/
-		openHelper = DbHelper.getInstance(context);
+        openHelper = new DbHelper(context);
         db = openHelper.getWritableDatabase();
+		/*openHelper = DbHelper.getInstance(context);
+        db = openHelper.getWritableDatabase();*/
        
     }
 	

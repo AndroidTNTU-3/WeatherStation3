@@ -26,8 +26,11 @@ public class FragmentDay extends Fragment {
 	TextView temperatureMax;
 	TextView cloud;
 	TextView humidity;
-	TextView pressure;
+	TextView humidityTitle;
+	TextView pressure;	
+	TextView pressureTitle;
 	TextView wind;
+	TextView windTitle;
 	ImageView imageView;
 	Context context;
 		
@@ -63,8 +66,14 @@ public class FragmentDay extends Fragment {
 		temperatureMax = (TextView) v.findViewById(R.id.tvDayTmax);
 		cloud = (TextView) v.findViewById(R.id.tvCloudHour);
 		humidity = (TextView) v.findViewById(R.id.tvHumidityHour);
+		humidityTitle = (TextView) v.findViewById(R.id.tvHumidityHourTitle);
+		humidityTitle.setVisibility(ImageView.INVISIBLE);
 		pressure = (TextView) v.findViewById(R.id.tvPressureHour);
+		pressureTitle = (TextView) v.findViewById(R.id.tvPressureHourTitle);
+		pressureTitle.setVisibility(ImageView.INVISIBLE);
 		wind = (TextView) v.findViewById(R.id.tvWindHour);
+		windTitle = (TextView) v.findViewById(R.id.tvWindHourTitle);
+		windTitle.setVisibility(ImageView.INVISIBLE);
 		imageView = (ImageView) v.findViewById(R.id.imageDay);
 		imageView.setVisibility(ImageView.INVISIBLE);
 		context = container.getContext();
@@ -142,6 +151,10 @@ public class FragmentDay extends Fragment {
 			imageView.setImageResource(Utils
 					.getBigestImageId(pictureName, context));
 			imageView.setVisibility(ImageView.VISIBLE);
+			
+			humidityTitle.setVisibility(ImageView.VISIBLE);
+			pressureTitle.setVisibility(ImageView.VISIBLE);
+			windTitle.setVisibility(ImageView.VISIBLE);
 		}
 	}
 }

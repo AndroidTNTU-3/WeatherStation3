@@ -20,10 +20,10 @@ private DbHelper openHelper;
 private Cursor cursor;
 			
 	public DataDayHelper(Context context) {
-        /*openHelper = new DbHelper(context);
-        db = openHelper.getWritableDatabase();*/
-		openHelper = DbHelper.getInstance(context);
+        openHelper = new DbHelper(context);
         db = openHelper.getWritableDatabase();
+		/*openHelper = DbHelper.getInstance(context);
+        db = openHelper.getWritableDatabase();*/
        
     }
 	
