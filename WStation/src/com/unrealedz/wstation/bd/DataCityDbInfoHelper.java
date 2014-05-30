@@ -75,6 +75,7 @@ public class DataCityDbInfoHelper {
     }
 	
 	public void closeDB() {
+		db.close();
 		openHelper.close();     
     }
 

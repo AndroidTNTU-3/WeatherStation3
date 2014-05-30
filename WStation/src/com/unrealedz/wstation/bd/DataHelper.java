@@ -140,6 +140,7 @@ public class DataHelper {
     }
     
 	public void closeDB() {
-		openHelper.close();    
+		db.close();
+		openHelper.close();     
     }
 }

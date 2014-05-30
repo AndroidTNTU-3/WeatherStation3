@@ -115,6 +115,7 @@ private Cursor cursor;
 	}
 
 	public void closeDB() {
-		openHelper.close();  
-	}
+		db.close();
+		openHelper.close();     
+    }
 }

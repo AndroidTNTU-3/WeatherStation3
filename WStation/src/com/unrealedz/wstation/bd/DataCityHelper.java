@@ -150,6 +150,7 @@ public class DataCityHelper {
     }
 	
 	public void closeDB() {
+		db.close();
 		openHelper.close();     
     }
 

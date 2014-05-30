@@ -77,8 +77,10 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 		        	updateService.setLocationInfo();
 		        	updateService.setLastUpdate();
 		        	updateService.setWeekList();
-		        	updateService.cityLoad();
-		        	fragInfo.setProgressBar(true);    	//show progress while loading data
+		        	if (UtilsNet.isOnline(getApplicationContext())){
+		        		updateService.cityLoad();
+		        		fragInfo.setProgressBar(true);  //show progress while loading data
+		        	}
 
 		        } else {								//loading data if the orientation has been changed
 		        	updateService.setLocationInfo();
@@ -118,8 +120,8 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
             bindService(intentService, sConn, getApplicationContext().BIND_AUTO_CREATE);
             bound = true;
             isRunning = true;
-            if (updateService != null)
-            updateService.cityLoad();          
+            //if (updateService != null)
+            //updateService.cityLoad();          
         }
         else {
         	Log.i("DEBUG:", "Service is not running");

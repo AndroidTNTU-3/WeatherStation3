@@ -297,8 +297,8 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	
 	public void onDestroy() {
 	    super.onDestroy();
-	   // dh.closeDB();
-	   // dd.closeDB();
+	    dh.closeDB();
+	    dd.closeDB();
 	  }
 	
 }
