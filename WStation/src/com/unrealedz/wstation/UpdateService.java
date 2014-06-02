@@ -73,8 +73,8 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	private CurrentForecast currentForecast;
 	
 	private DataWeekHelper dataWeekHelper;
-	private DataHelper dh;
-	private DataDayHelper dd;
+	//private ;
+	//private DataDayHelper dd;
 		
 	@Override  
     public void onCreate()  
@@ -177,21 +177,21 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	@Override
 	public void setLocationInfo() {
 		
-		dh = new DataHelper(this);
-	    dd = new DataDayHelper(this);
+		DataHelper dh = new DataHelper(this);
+		DataDayHelper dd = new DataDayHelper(this);
 	    	    
 	    city = dh.getCity();
 	    currentForecast = dd.getCurrentForecast();
 	    
-	    if (city != null & currentForecast != null){
-	    	
+	    if (city != null && currentForecast != null){
+ 
 	    	if (!isWidget){														//if it activity - sent data to MainActivity
 	    		if (UtilsNet.isRunning(context)){
 	    			usCallBack.onLocationCurrentPrepared(city, currentForecast);	
 	    		}
 	    	} else sendInfoWidget(city, currentForecast);						//if widget - sent data to widget
-	    }
-
+	    } else Log.i("DEBUG:", "Is null"); 
+	    dh.closeDB();
 	    
 	}
 	
@@ -273,7 +273,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 		List<ForecastDayShort> forecastDaysShort = dataWeekHelper.getShortWeek();
 		if (forecastDaysShort != null) {
 			
-			for(int i = 0; i < imageViewWeekDay.size(); i++){
+			for(int i = 0; i < forecastDaysShort.size(); i++){
 				ForecastDayShort fds = forecastDaysShort.get(i);
 				tempMinMax = String.valueOf(fds.getTemperatureMin()) + "°/" + String.valueOf(fds.getTemperatureMax()) +  "°";
 				weekDay = Utils.getStringDayWeekShort(fds.getDate());
@@ -297,8 +297,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	
 	public void onDestroy() {
 	    super.onDestroy();
-	    dh.closeDB();
-	    dd.closeDB();
-	  }
+	    //dh.closeDB();
+	}
 	
 }

@@ -85,18 +85,22 @@ public class NetworkLoader extends AsyncTask<String, Void, String>{
 		    		  if (!lastUpdated.equals((citiesDB).getLastUpdated())) {			//checking if last updated time was updated
 		    			  dbInfoHelper.cleanOldRecords();
 		    			  dbInfoHelper.insertCitiesDB(citiesDB);
+		    			  //dbInfoHelper.closeDB();
 		    			  dataCity.cleanOldRecords();
 		    			  dataCity.insertCitiesDB(citiesDB);
+		    			  //dataCity.closeDB();
 		    		  }
 		    	  } else{
 		    		  dbInfoHelper.cleanOldRecords();
 					  dbInfoHelper.insertCitiesDB(citiesDB);
+					  //dbInfoHelper.closeDB();
 					  dataCity.cleanOldRecords();
 					  dataCity.insertCitiesDB(citiesDB);
+	    			  //dataCity.closeDB();
 		    	  }
 				  
-				 dbInfoHelper.closeDB();
-				 dataCity.closeDB();
+				// dbInfoHelper.closeDB();
+				// dataCity.closeDB();
 								
 				} else if(keyLoader.equals(Contract.GET_FORECAST)){						// Get data and store to a database of forecast
 					
@@ -114,8 +118,8 @@ public class NetworkLoader extends AsyncTask<String, Void, String>{
 					ddh.insertDayItem(forecast);
 					dwh.insertDayItem(forecast);
 					
-					dh.closeDB();
-					ddh.closeDB();
+					//dh.closeDB();
+					//ddh.closeDB();
 					dwh.closeDB();
 				}
 							

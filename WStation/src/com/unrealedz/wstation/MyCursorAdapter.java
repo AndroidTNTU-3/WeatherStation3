@@ -30,7 +30,7 @@ public class MyCursorAdapter extends SimpleCursorAdapter {
 		super(_context, _layout, cursor, from, to, flags);
 		layout = _layout;
 		context = _context;
-		inflater = LayoutInflater.from(_context);
+		inflater = LayoutInflater.from(context);
 		loadPreferences(context);
 	}
 	

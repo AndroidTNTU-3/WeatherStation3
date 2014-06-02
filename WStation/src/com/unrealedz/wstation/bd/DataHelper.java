@@ -22,10 +22,10 @@ public class DataHelper {
 	private Cursor cursor;
 	private DbHelper openHelper;	
 	public DataHelper(Context context) {
-       openHelper = new DbHelper(context);
-        db = openHelper.getWritableDatabase();
-       /* openHelper = DbHelper.getInstance(context);
+      /* openHelper = new DbHelper(context);
         db = openHelper.getWritableDatabase();*/
+       openHelper = DbHelper.getInstance(context);
+        db = openHelper.getWritableDatabase();
        
     }
 	
@@ -139,8 +139,11 @@ public class DataHelper {
 		return oldCodeLocation;
     }
     
-	public void closeDB() {
-		db.close();
-		openHelper.close();     
+    public void closeDB() {
+		if (db != null && db.isOpen()) {
+			db.close();
+			db = null;
+        }
+		//openHelper.close();     
     }
 }

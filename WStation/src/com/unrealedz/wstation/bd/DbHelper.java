@@ -109,7 +109,13 @@ public class DbHelper extends SQLiteOpenHelper {
         return mInstance;
     }
     
-    public DbHelper(Context context) {
+   /* public SQLiteDatabase getWritableDatabase() {
+    	  SQLiteDatabase sqdb = super.getWritableDatabase();
+    	  sqdb.setLockingEnabled(true);
+    	  return sqdb;
+    	 }*/
+    
+    private DbHelper(Context context) {
 		super(context, DbHelper.DATABASE_NAME, null, DbHelper.DATABASE_VERSION);
 		// TODO Auto-generated constructor stub
 	}

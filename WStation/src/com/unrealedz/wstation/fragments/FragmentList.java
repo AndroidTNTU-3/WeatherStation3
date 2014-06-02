@@ -120,7 +120,7 @@ public class FragmentList extends Fragment{
 		
 		dataWeekHelper = new DataWeekHelper(context);
 		cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
-		
+		//dataWeekHelper.closeCursorTemperatureDay();
 		if (cursor.getCount() !=0){
 		MyCursorAdapter adapter = new  MyCursorAdapter(
 				context,					// Context

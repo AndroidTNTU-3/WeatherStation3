@@ -20,10 +20,10 @@ public class DataCityDbInfoHelper {
 	private DbHelper openHelper;
 	
 	public DataCityDbInfoHelper(Context context) {
-        openHelper = new DbHelper(context);
-        db = openHelper.getWritableDatabase();
-		/*openHelper = DbHelper.getInstance(context);
+        /*openHelper = new DbHelper(context);
         db = openHelper.getWritableDatabase();*/
+		openHelper = DbHelper.getInstance(context);
+        db = openHelper.getWritableDatabase();
        
     }
 	
@@ -75,8 +75,11 @@ public class DataCityDbInfoHelper {
     }
 	
 	public void closeDB() {
-		db.close();
-		openHelper.close();     
+		if (db != null && db.isOpen()) {
+			db.close();
+			db = null;
+        }
+		//openHelper.close();     
     }
 
 }

@@ -72,23 +72,20 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 		        updateService.setOnUpdateServiceCallBack(MainActivity.this);
 		        bound = true;		
 		        //if (isRunning) {
-		        if (screenOrienrtation == 0){			//loading data if the orientation has not been changed
-
-		        	updateService.setLocationInfo();
-		        	updateService.setLastUpdate();
-		        	updateService.setWeekList();
+		        if (screenOrienrtation == 0){						//loading data if the orientation has not been changed
+		        													// 1 // Load data from DB
+		        	getDataFromDB();
+		        													// 2 // after this load data from Net if device is online
 		        	if (UtilsNet.isOnline(getApplicationContext())){
 		        		updateService.cityLoad();
-		        		fragInfo.setProgressBar(true);  //show progress while loading data
+		        		fragInfo.setProgressBar(true);  			//show progress while loading data
 		        	}
 
-		        } else {								//loading data if the orientation has been changed
-		        	updateService.setLocationInfo();
-		        	updateService.setLastUpdate();
-		        	updateService.setWeekList();
+		        } else {											//loading data if the orientation has been changed
+		        	getDataFromDB();
 		        }
 		        //}
-			}
+			}       	
 		      		    
 		    public void onServiceDisconnected(ComponentName name) {
 		        //Log.d(LOG_TAG, "MainActivity onServiceDisconnected");
@@ -97,6 +94,15 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 		 };		 
 		 bindToService();	               
     }
+    
+    //Load data from a DataBase
+    private void getDataFromDB(){
+    	updateService.setLocationInfo();
+    	updateService.setLastUpdate();
+    	updateService.setWeekList();
+    }
+    
+    
     //check Internet connection on first start application
     private void isDataEmpty(){
     	DataWeekHelper dwh = new DataWeekHelper(getApplicationContext());
@@ -203,8 +209,6 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	    if (!bound) return;
 	    unbindService(sConn);		//Disconnect from the service
 	    bound = false;
-	    DataWeekHelper dataWeekHelper = new DataWeekHelper(getApplicationContext());
-	    dataWeekHelper.closeDB();
 	  }
 	
 	public void showError() {

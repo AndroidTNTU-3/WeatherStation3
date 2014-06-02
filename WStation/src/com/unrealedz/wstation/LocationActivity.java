@@ -37,6 +37,8 @@ public class LocationActivity extends Activity {
 	
 	ListView listView;
 	SharedPreferences preferences;
+	Cursor cursor;
+	DataCityHelper dch;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,9 +59,9 @@ public class LocationActivity extends Activity {
 
 
 	private void doMySearch(String query) {
-		DataCityHelper dch = new DataCityHelper(this);
-		Cursor cursor = dch.getLocation(query);
-		
+		dch = new DataCityHelper(this);
+		cursor = dch.getLocation(query);
+
 		String[] from = new String[] 
 				{DbHelper.CITY_DB_NAME, DbHelper.CITY_DB_REGION, DbHelper.CITY_DB_COUNTRY};
 		int [] to = new int[]
@@ -69,7 +71,6 @@ public class LocationActivity extends Activity {
 		
 		listView.setAdapter(adapter);
 		adapter.swapCursor(cursor);
-		dch.closeDB();
 	}
 	
 	private class ListListener implements OnItemClickListener{
@@ -77,18 +78,15 @@ public class LocationActivity extends Activity {
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id) {
-			DataCityHelper dch = new DataCityHelper(getApplicationContext());
-			Cursor cursorCityDB = dch.getCodeFromId((int)id);
-			dch.closeCursorGetCodeFromId();
 			
-			String cid = cursorCityDB.getString(cursorCityDB.getColumnIndex(DbHelper.CITY_DB_ID));
+			cursor.moveToPosition(position);
+			String cid = cursor.getString(cursor.getColumnIndex(DbHelper.CITY_DB_ID));
 			Log.i("DEBUG", "city ID:" + cid);
 			preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		    Editor ed = preferences.edit();
 		    ed.putString("cityId", cid);
 		    ed.commit();
-		    //cursorCityDB.close();
-		    dch.closeDB();	    
+    
 		}
 	}
 
@@ -100,45 +98,54 @@ public class LocationActivity extends Activity {
 		getMenuInflater().inflate(R.menu.location, menu);
 		
 		 //Create the search view
+
 	    final SearchView searchView = new SearchView(getActionBar().getThemedContext());
 	    searchView.setQueryHint("Search location");
 	    
-	    menu.add(Menu.NONE,Menu.NONE,1,"Search")
+	    menu.add(Menu.NONE,0,1,"Search")
         .setIcon(android.R.drawable.ic_menu_search)
         .setActionView(searchView)
         .setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS | MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW);
-
-	    searchView.setOnQueryTextListener(new OnQueryTextListener() {
-        @Override
-        public boolean onQueryTextChange(String newText) {
-            if (newText.length() > 0) {
-            	
-
-            } else {
-                // Do something when there's no input
-            }
-            return false;
-        }
-
-        @Override
-        public boolean onQueryTextSubmit(String query) { 
-
-            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
-
-            Toast.makeText(getBaseContext(), "dummy Search", Toast.LENGTH_SHORT).show();
-            setProgressBarIndeterminateVisibility(true);
-
-            Handler handler = new Handler(); 
-            handler.postDelayed(new Runnable() { 
-                 public void run() { 
-                     setProgressBarIndeterminateVisibility(false);
-                 } 
-            }, 2000);
-            doMySearch(query);
-            return false; }
-    });
 	    
+		final MenuItem searchMenuItem = menu.getItem(0);
+		
+		searchView.setOnQueryTextListener(new OnQueryTextListener() {
+			
+			@Override
+			public boolean onQueryTextChange(String newText) {
+				if (newText.length() > 0) {
+
+				} else {
+					// Do something when there's no input
+				}
+				return false;
+			}
+
+			@Override
+			public boolean onQueryTextSubmit(String query) {
+
+				InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+				imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+
+				setProgressBarIndeterminateVisibility(true);
+
+				Handler handler = new Handler();
+				handler.postDelayed(new Runnable() {
+					public void run() {
+						setProgressBarIndeterminateVisibility(false);
+					}
+				}, 2000);
+				
+				doMySearch(query);
+				
+		        if (searchMenuItem != null) {
+		           searchMenuItem.collapseActionView();		//Collapse searchMenu after submit
+		        }
+			
+				return false;
+			}
+		});
+
 		return true;
 	}
 
@@ -153,5 +160,11 @@ public class LocationActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	@Override
+	  protected void onStop() {
+	    super.onStop();
+	    dch.closeDB();	
+	  }
 
 }
