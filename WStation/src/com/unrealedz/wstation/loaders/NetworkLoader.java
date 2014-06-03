@@ -11,11 +11,11 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.xmlpull.v1.XmlPullParserException;
 
-import com.unrealedz.wstation.bd.DataCityDbInfoHelper;
-import com.unrealedz.wstation.bd.DataCityHelper;
-import com.unrealedz.wstation.bd.DataDayHelper;
-import com.unrealedz.wstation.bd.DataHelper;
-import com.unrealedz.wstation.bd.DataWeekHelper;
+import com.unrealedz.wstation.bd.DaoCityDbVersion;
+import com.unrealedz.wstation.bd.DaoCityDb;
+import com.unrealedz.wstation.bd.DaoDay;
+import com.unrealedz.wstation.bd.DaoCityCurrent;
+import com.unrealedz.wstation.bd.DaoWeek;
 import com.unrealedz.wstation.bd.DbHelper;
 import com.unrealedz.wstation.entity.CitiesDB;
 import com.unrealedz.wstation.entity.CityDB;
@@ -76,51 +76,51 @@ public class NetworkLoader extends AsyncTask<String, Void, String>{
 					
 					CitiesDB citiesDB= new CityDbParser().parse(stream);				// call parser for cities DB
 				
-					DataCityDbInfoHelper dbInfoHelper = new DataCityDbInfoHelper(context);
-					DataCityHelper dataCity = new DataCityHelper(context);
-					String lastUpdated = dbInfoHelper.getLastUpdated();
+					DaoCityDbVersion cityDbVersion = new DaoCityDbVersion(context);
+					DaoCityDb daoCity = new DaoCityDb(context);
+					String lastUpdated = cityDbVersion.getLastUpdated();
 		    	  
 		    	  if (lastUpdated != ""){		    
 		    	  
 		    		  if (!lastUpdated.equals((citiesDB).getLastUpdated())) {			//checking if last updated time was updated
-		    			  dbInfoHelper.cleanOldRecords();
-		    			  dbInfoHelper.insertCitiesDB(citiesDB);
-		    			  //dbInfoHelper.closeDB();
-		    			  dataCity.cleanOldRecords();
-		    			  dataCity.insertCitiesDB(citiesDB);
-		    			  //dataCity.closeDB();
+		    			  cityDbVersion.cleanOldRecords();
+		    			  cityDbVersion.insertCitiesDB(citiesDB);
+		    			  //cityDbVersion.closeDB();
+		    			  daoCity.cleanOldRecords();
+		    			  daoCity.insertCitiesDB(citiesDB);
+		    			  //daoCity.closeDB();
 		    		  }
 		    	  } else{
-		    		  dbInfoHelper.cleanOldRecords();
-					  dbInfoHelper.insertCitiesDB(citiesDB);
-					  //dbInfoHelper.closeDB();
-					  dataCity.cleanOldRecords();
-					  dataCity.insertCitiesDB(citiesDB);
-	    			  //dataCity.closeDB();
+		    		  cityDbVersion.cleanOldRecords();
+		    		  cityDbVersion.insertCitiesDB(citiesDB);
+					  //cityDbVersion.closeDB();
+					  daoCity.cleanOldRecords();
+					  daoCity.insertCitiesDB(citiesDB);
+	    			  //daoCity.closeDB();
 		    	  }
 				  
-				// dbInfoHelper.closeDB();
-				// dataCity.closeDB();
+				// cityDbVersion.closeDB();
+				// daoCity.closeDB();
 								
 				} else if(keyLoader.equals(Contract.GET_FORECAST)){						// Get data and store to a database of forecast
 					
 					Forecast forecast = new WeatherParser().parse(stream);				// call parser for forecast DB
 					
-					DataHelper dh = new DataHelper(context);
-					DataDayHelper ddh = new DataDayHelper(context);
-					DataWeekHelper dwh = new DataWeekHelper(context);
+					DaoCityCurrent cityCurrent  = new DaoCityCurrent(context);
+					DaoDay daoDay = new DaoDay(context);
+					DaoWeek daoWeek = new DaoWeek(context);
 			      
-					dh.cleanOldRecords();
-					ddh.cleanOldRecords();
-					dwh.cleanOldRecords();
+					cityCurrent.cleanOldRecords();
+					daoDay.cleanOldRecords();
+					daoWeek.cleanOldRecords();
 			      
-					dh.insertCityItem(forecast);
-					ddh.insertDayItem(forecast);
-					dwh.insertDayItem(forecast);
+					cityCurrent.insertCityItem(forecast);
+					daoDay.insertDayItem(forecast);
+					daoWeek.insertDayItem(forecast);
 					
-					//dh.closeDB();
-					//ddh.closeDB();
-					dwh.closeDB();
+					//cityCurrent.closeDB();
+					//daoDay.closeDB();
+					daoWeek.closeDb();
 				}
 							
 			} catch (XmlPullParserException e) {

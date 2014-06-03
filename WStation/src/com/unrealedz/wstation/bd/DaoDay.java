@@ -13,17 +13,17 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class DataDayHelper {
+public class DaoDay extends BaseDao{
 	
-private SQLiteDatabase db;
-private DbHelper openHelper;
+//private SQLiteDatabase db;
+//private DbHelper openHelper;
 private Cursor cursor;
 			
-	public DataDayHelper(Context context) {
+	public DaoDay(Context context) {
+		super(context);
         /*openHelper = new DbHelper(context);
         db = openHelper.getWritableDatabase();*/
-		openHelper = DbHelper.getInstance(context);
-        db = openHelper.getWritableDatabase();
+		openDb();
        
     }
 	
@@ -114,11 +114,4 @@ private Cursor cursor;
 		return values;
 	}
 
-	public void closeDB() {
-		if (db != null && db.isOpen()) {
-			db.close();
-			db = null;
-        }
-		//openHelper.close();     
-    }
 }

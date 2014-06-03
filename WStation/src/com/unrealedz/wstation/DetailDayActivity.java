@@ -2,7 +2,7 @@ package com.unrealedz.wstation;
 
 import java.util.List;
 
-import com.unrealedz.wstation.bd.DataWeekHelper;
+import com.unrealedz.wstation.bd.DaoWeek;
 import com.unrealedz.wstation.entity.ForecastDay;
 import com.unrealedz.wstation.fragments.FragmentDay;
 import com.unrealedz.wstation.fragments.FragmentDayHours;
@@ -55,13 +55,13 @@ public class DetailDayActivity extends Activity implements HoursCallBack{
 	}
 	
 	private void refresh(){
-		DataWeekHelper dataWeekHelper = new DataWeekHelper(this);
+		DaoWeek dataWeekHelper = new DaoWeek(this);
     		
 		forecastDays = dataWeekHelper.getForecastDayHours(date);//Get current day with hours forecast
         fragDay.setData(forecastDays.get(hour));				//Set fragment info of 15 hours;
         fragDay.setCity(cityName, region);						//Set fragment location(city,region) info
         fragDayHours.setData(forecastDays);						//Set fragment list of hours forecast
-        dataWeekHelper.closeDB();
+        dataWeekHelper.closeDb();
 	}
 
 	@Override

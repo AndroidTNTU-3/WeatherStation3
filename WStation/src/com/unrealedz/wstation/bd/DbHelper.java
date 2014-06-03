@@ -11,8 +11,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class DbHelper extends SQLiteOpenHelper {
 	
-	
-	
 	public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "wbase";
     public static final String CITY_DB_TABLE = "cityDB";
@@ -137,6 +135,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		db.execSQL("DROP TABLE IF EXISTS " + CITY_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + CURRENT_DAY_TABLE);
 		db.execSQL("DROP TABLE IF EXISTS " + WEEK_TABLE);
+		onCreate(db);
 	}
 
 }

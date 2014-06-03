@@ -11,7 +11,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 
 import android.util.Log;
 
-import com.unrealedz.wstation.bd.DataCityDbInfoHelper;
+import com.unrealedz.wstation.bd.DaoCityDbVersion;
 import com.unrealedz.wstation.entity.City;
 import com.unrealedz.wstation.entity.CurrentForecast;
 import com.unrealedz.wstation.entity.Forecast;

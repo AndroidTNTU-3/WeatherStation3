@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import com.unrealedz.wstation.bd.DataCityHelper;
-import com.unrealedz.wstation.bd.DataHelper;
+import com.unrealedz.wstation.bd.DaoCityDb;
+import com.unrealedz.wstation.bd.DaoCityCurrent;
 import com.unrealedz.wstation.bd.DbHelper;
 
 import android.content.Context;
@@ -162,12 +162,12 @@ public class LocationLoader implements LocationListener {
 		String codeLocation;
 		if(nameLocation == "") nameLocation = "Kiev";		//dummy for emulator
 		
-		DataCityHelper dch = new DataCityHelper(context);
-		String newCodeLocation = dch.getNewCode(nameLocation);
+		DaoCityDb cityDb = new DaoCityDb(context);
+		String newCodeLocation = cityDb.getNewCode(nameLocation);
 		
 		Log.i("DEBUG", " locationcode:" + newCodeLocation);
-		DataHelper dh = new DataHelper(context);
-		String oldCodeLocation = dh.getOldCodeLocation();
+		DaoCityCurrent cityCurrent = new DaoCityCurrent(context);
+		String oldCodeLocation = cityCurrent.getOldCodeLocation();
 		
 		//checking if your location was changed 
 		if (oldCodeLocation !=""){
@@ -179,8 +179,8 @@ public class LocationLoader implements LocationListener {
 
 	    locationLoaderCallBack.setLocation(codeLocation); // sent code location to service	    
 	    
-	    dh.closeDB();
-	    dch.closeDB();
+	    cityCurrent.closeDb();
+	    cityDb.closeDB();
 		return codeLocation;
 	}
 	

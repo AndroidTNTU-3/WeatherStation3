@@ -1,7 +1,7 @@
 package com.unrealedz.wstation;
 
 import com.unrealedz.wstation.UpdateService.IUpdateServiceCallBack;
-import com.unrealedz.wstation.bd.DataWeekHelper;
+import com.unrealedz.wstation.bd.DaoWeek;
 import com.unrealedz.wstation.bd.DbHelper;
 import com.unrealedz.wstation.entity.City;
 import com.unrealedz.wstation.entity.CurrentForecast;
@@ -105,12 +105,12 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
     
     //check Internet connection on first start application
     private void isDataEmpty(){
-    	DataWeekHelper dwh = new DataWeekHelper(getApplicationContext());
+    	DaoWeek dwh = new DaoWeek(getApplicationContext());
     	Cursor cursor = dwh.getCursor(DbHelper.WEEK_TABLE);
     	if (cursor.getCount() == 0){
     		if(!UtilsNet.isOnline(getApplicationContext())){
     			if (cursor != null) cursor.close() ;  			    			        		
-        		dwh.closeDB();
+        		dwh.closeDb();
         		showError();
     		}
     	}

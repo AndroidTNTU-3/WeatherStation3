@@ -8,12 +8,15 @@
     <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingLeft="5dp">
     
     <TextView
         android:id="@+id/tvCityRowLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size_medium"
+        android:textStyle="bold"
         android:text="" />
     
     <TextView

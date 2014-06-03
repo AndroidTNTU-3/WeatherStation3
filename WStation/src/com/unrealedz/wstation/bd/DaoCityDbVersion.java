@@ -12,18 +12,17 @@ import com.unrealedz.wstation.entity.CitiesDB;
 //Info of version and last updated time cities database//
 /////////////////////////////////////////////////////////
 
-public class DataCityDbInfoHelper {
+public class DaoCityDbVersion extends BaseDao{
 	
-	private SQLiteDatabase db;
+
 	private CitiesDB citiesDB;
 	private Cursor cursor;
-	private DbHelper openHelper;
 	
-	public DataCityDbInfoHelper(Context context) {
+	public DaoCityDbVersion(Context context) {
+		super(context);
         /*openHelper = new DbHelper(context);
         db = openHelper.getWritableDatabase();*/
-		openHelper = DbHelper.getInstance(context);
-        db = openHelper.getWritableDatabase();
+		openDb();
        
     }
 	
@@ -72,14 +71,6 @@ public class DataCityDbInfoHelper {
 	 
 	public void cleanOldRecords() {
         db.delete(DbHelper.CITY_DB_INFO_TABLE, null, null);
-    }
-	
-	public void closeDB() {
-		if (db != null && db.isOpen()) {
-			db.close();
-			db = null;
-        }
-		//openHelper.close();     
     }
 
 }

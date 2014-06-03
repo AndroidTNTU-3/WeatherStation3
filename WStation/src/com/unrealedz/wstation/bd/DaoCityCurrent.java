@@ -16,17 +16,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-public class DataHelper {
+public class DaoCityCurrent extends BaseDao{
 	
-	private SQLiteDatabase db;
-	private Cursor cursor;
-	private DbHelper openHelper;	
-	public DataHelper(Context context) {
+	private Cursor cursor;	
+	public DaoCityCurrent(Context context) {
+		super(context);
       /* openHelper = new DbHelper(context);
         db = openHelper.getWritableDatabase();*/
-       openHelper = DbHelper.getInstance(context);
-        db = openHelper.getWritableDatabase();
-       
+       openDb();
     }
 	
 	public long insertCityItem(Forecast forecast) {
@@ -55,7 +52,7 @@ public class DataHelper {
 	}
 
 	public void cleanOldFeeds() {
-        db.delete(DbHelper.CITY_TABLE, null, null);
+		db.delete(DbHelper.CITY_TABLE, null, null);
     }
 
     private long insertCity(City city) {
@@ -139,11 +136,4 @@ public class DataHelper {
 		return oldCodeLocation;
     }
     
-    public void closeDB() {
-		if (db != null && db.isOpen()) {
-			db.close();
-			db = null;
-        }
-		//openHelper.close();     
-    }
 }

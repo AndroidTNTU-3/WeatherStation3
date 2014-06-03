@@ -8,8 +8,8 @@ import com.unrealedz.wstation.MyCursorAdapter;
 import com.unrealedz.wstation.R;
 import com.unrealedz.wstation.R.id;
 import com.unrealedz.wstation.R.layout;
-import com.unrealedz.wstation.bd.DataHelper;
-import com.unrealedz.wstation.bd.DataWeekHelper;
+import com.unrealedz.wstation.bd.DaoCityCurrent;
+import com.unrealedz.wstation.bd.DaoWeek;
 import com.unrealedz.wstation.bd.DbHelper;
 import com.unrealedz.wstation.entity.City;
 import com.unrealedz.wstation.entity.ForecastDayShort;
@@ -46,7 +46,7 @@ public class FragmentList extends Fragment{
 	private String[] fromFieldNames;
 	private int[] toViewIDs;
 	private List<ForecastDayShort> forecastDaysShort;
-	DataWeekHelper dataWeekHelper;
+	DaoWeek dataWeekHelper;
 	
 	private BaseAdapter baseAdapter;
 	
@@ -118,7 +118,7 @@ public class FragmentList extends Fragment{
 
 	public void setDataToList() {
 		
-		dataWeekHelper = new DataWeekHelper(context);
+		dataWeekHelper = new DaoWeek(context);
 		cursor = dataWeekHelper.getTemperatureDay(DbHelper.WEEK_TABLE);
 		//dataWeekHelper.closeCursorTemperatureDay();
 		if (cursor.getCount() !=0){

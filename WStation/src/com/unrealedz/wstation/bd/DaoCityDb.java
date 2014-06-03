@@ -14,23 +14,20 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class DataCityHelper {
+public class DaoCityDb extends BaseDao {
 	
-	private SQLiteDatabase db;
 	private List<CityDB> cities;
-	private DbHelper openHelper;
 	
 	Cursor cursorGetCode;
 	Cursor cursorGetLocation;
 	Cursor cursorGetCodeFromId;
 	Cursor cursorGetCursor;
 	
-	public DataCityHelper(Context context) {
+	public DaoCityDb(Context context) {
+		super(context);
        /*openHelper = new DbHelper(context);
         db = openHelper.getWritableDatabase();*/
-        openHelper = DbHelper.getInstance(context);
-        db = openHelper.getWritableDatabase();
-       
+        openDb();       
     }
 	
 	public static final String[] ALL_KEYS = new String[] {DbHelper.CITY_DB_ID, 

@@ -19,11 +19,10 @@ import android.util.Log;
 //for save to week forecast DB //	
 /////////////////////////////////
 
-public class DataWeekHelper {
+public class DaoWeek extends BaseDao{
 
-	private SQLiteDatabase db;
 	private List<ForecastDay> forecastDays;
-	private DbHelper openHelper;
+
 	Cursor cursorGetTemperatureDay;
 	Cursor cursorGetCursor;
 	Cursor cursorGetCursorDay;
@@ -33,12 +32,11 @@ public class DataWeekHelper {
 												"MAX(" + DbHelper.TEMPERATURE_MAX + ") AS " +  DbHelper.TEMPERATURE_MAX};
 	public static final String[] KEYS = {DbHelper.TEMPERATURE_MIN, DbHelper.TEMPERATURE_MAX};
 	
-	public DataWeekHelper(Context context) {
+	public DaoWeek(Context context) {
+		super(context);
         /*openHelper = new DbHelper(context);
         db = openHelper.getWritableDatabase();*/
-		openHelper = DbHelper.getInstance(context);
-        db = openHelper.getWritableDatabase();
-       
+		openDb();
     }
 	
 	public void insertDayItem(Forecast forecast) {
@@ -87,13 +85,6 @@ public class DataWeekHelper {
 	 }
 	
 	public Cursor getTemperatureDay(String tableName) {
-		/*Cursor c = 	db.query(tableName, KEYS_TEMPERATURE_DAY, 
-				null, null, DbHelper.DATE, null, null, null);*/
-		/*String sql = "SELECT " +  DbHelper.DATE + ", " + DbHelper.TEMPERATURE_MIN + ", " + DbHelper.TEMPERATURE_MAX + ", "
-				+ DbHelper.PICTURE_NAME +  " FROM (SELECT " + DbHelper.DATE + ", MIN(" + DbHelper.TEMPERATURE_MIN + ") AS " 
-				+ DbHelper.TEMPERATURE_MIN + ", MAX(" + DbHelper.TEMPERATURE_MAX + ") AS " + DbHelper.TEMPERATURE_MAX + ", " +
-				DbHelper.PICTURE_NAME + ", " + DbHelper.HOUR + " FROM " + tableName + " WHERE " + DbHelper.HOUR + " = 15 GROUP BY " + DbHelper.DATE + ")";
-		Cursor c = db.rawQuery(sql, null);*/
 		
 		String sql = "SELECT T1._id AS _id, T1.date AS date, T1.temperatureMin AS temperatureMin, T1.temperatureMax AS temperatureMax, "
 				+ "T2.pictureName AS pictureName, T2.cloudId AS cloudId FROM "
@@ -107,7 +98,9 @@ public class DataWeekHelper {
 		return cursorGetTemperatureDay;
 	}
 	
-	//Get list of 5 day forecast in short format(date, picture name, tMin, tMax)
+	/*
+	 * Get list of 5 day forecast in short format(date, picture name, tMin, tMax)
+	 */
 	
 	public List<ForecastDayShort> getShortWeek() {
 
@@ -210,13 +203,5 @@ public class DataWeekHelper {
 	public void closeCursorTemperatureDay(){
 		if (cursorGetTemperatureDay != null) cursorGetTemperatureDay.close();
 	}
-
-	public void closeDB() {
-		if (db != null && db.isOpen()) {
-			db.close();
-			db = null;
-        }
-		//openHelper.close();     
-    }
 	
 }

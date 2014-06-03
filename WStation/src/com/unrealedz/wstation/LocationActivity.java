@@ -1,6 +1,6 @@
 package com.unrealedz.wstation;
 
-import com.unrealedz.wstation.bd.DataCityHelper;
+import com.unrealedz.wstation.bd.DaoCityDb;
 import com.unrealedz.wstation.bd.DbHelper;
 import com.unrealedz.wstation.entity.ForecastDayShort;
 
@@ -38,7 +38,7 @@ public class LocationActivity extends Activity {
 	ListView listView;
 	SharedPreferences preferences;
 	Cursor cursor;
-	DataCityHelper dch;
+	DaoCityDb cityDb;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +59,8 @@ public class LocationActivity extends Activity {
 
 
 	private void doMySearch(String query) {
-		dch = new DataCityHelper(this);
-		cursor = dch.getLocation(query);
+		cityDb = new DaoCityDb(this);
+		cursor = cityDb.getLocation(query);
 
 		String[] from = new String[] 
 				{DbHelper.CITY_DB_NAME, DbHelper.CITY_DB_REGION, DbHelper.CITY_DB_COUNTRY};
@@ -164,7 +164,7 @@ public class LocationActivity extends Activity {
 	@Override
 	  protected void onStop() {
 	    super.onStop();
-	    dch.closeDB();	
+	    cityDb.closeDb();	
 	  }
 
 }

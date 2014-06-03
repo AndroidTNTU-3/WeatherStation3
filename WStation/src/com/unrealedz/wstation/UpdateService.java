@@ -3,9 +3,9 @@ package com.unrealedz.wstation;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.unrealedz.wstation.bd.DataDayHelper;
-import com.unrealedz.wstation.bd.DataHelper;
-import com.unrealedz.wstation.bd.DataWeekHelper;
+import com.unrealedz.wstation.bd.DaoDay;
+import com.unrealedz.wstation.bd.DaoCityCurrent;
+import com.unrealedz.wstation.bd.DaoWeek;
 import com.unrealedz.wstation.bd.DbHelper;
 import com.unrealedz.wstation.entity.City;
 import com.unrealedz.wstation.entity.CurrentForecast;
@@ -72,9 +72,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	private City city;
 	private CurrentForecast currentForecast;
 	
-	private DataWeekHelper dataWeekHelper;
-	//private ;
-	//private DataDayHelper dd;
+	private DaoWeek daoWeek;
 		
 	@Override  
     public void onCreate()  
@@ -177,11 +175,11 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	@Override
 	public void setLocationInfo() {
 		
-		DataHelper dh = new DataHelper(this);
-		DataDayHelper dd = new DataDayHelper(this);
+		DaoCityCurrent daoCityCurrent = new DaoCityCurrent(this);
+		DaoDay daoDay = new DaoDay(this);
 	    	    
-	    city = dh.getCity();
-	    currentForecast = dd.getCurrentForecast();
+	    city = daoCityCurrent.getCity();
+	    currentForecast = daoDay.getCurrentForecast();
 	    
 	    if (city != null && currentForecast != null){
  
@@ -191,7 +189,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	    		}
 	    	} else sendInfoWidget(city, currentForecast);						//if widget - sent data to widget
 	    } else Log.i("DEBUG:", "Is null"); 
-	    dh.closeDB();
+	    daoCityCurrent.closeDb();
 	    
 	}
 	
@@ -268,9 +266,9 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 		 String weekDay = "";
 		 String pictureName = "";
 		 
-		dataWeekHelper = new DataWeekHelper(this);
+		 daoWeek = new DaoWeek(this);
 		
-		List<ForecastDayShort> forecastDaysShort = dataWeekHelper.getShortWeek();
+		List<ForecastDayShort> forecastDaysShort = daoWeek.getShortWeek();
 		if (forecastDaysShort != null) {
 			
 			for(int i = 0; i < forecastDaysShort.size(); i++){
@@ -285,7 +283,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 			
 		}
 		 manager.updateAppWidget(thisWidget, remoteView);
-		 dataWeekHelper.closeDB();
+		 daoWeek.closeDb();
 	}
 	
 	//registered observers
@@ -297,7 +295,6 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	
 	public void onDestroy() {
 	    super.onDestroy();
-	    //dh.closeDB();
 	}
 	
 }
