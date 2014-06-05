@@ -180,7 +180,7 @@ public class LocationLoader implements LocationListener {
 	    locationLoaderCallBack.setLocation(codeLocation); // sent code location to service	    
 	    
 	    cityCurrent.closeDb();
-	    cityDb.closeDB();
+	    //cityDb.closeDB();
 		return codeLocation;
 	}
 	

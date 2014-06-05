@@ -63,7 +63,7 @@ public class LocationActivity extends Activity {
 		cursor = cityDb.getLocation(query);
 
 		String[] from = new String[] 
-				{DbHelper.CITY_DB_NAME, DbHelper.CITY_DB_REGION, DbHelper.CITY_DB_COUNTRY};
+				{DbHelper.CityDb.COLUMN_NAME_NAME, DbHelper.CityDb.COLUMN_NAME_REGION, DbHelper.CityDb.COLUMN_NAME_COUNTRY};
 		int [] to = new int[]
 				{R.id.tvCityRowLocation, R.id.tvRegionRowLocation, R.id.tvCountryRowLocation};
 		
@@ -80,7 +80,7 @@ public class LocationActivity extends Activity {
 				long id) {
 			
 			cursor.moveToPosition(position);
-			String cid = cursor.getString(cursor.getColumnIndex(DbHelper.CITY_DB_ID));
+			String cid = cursor.getString(cursor.getColumnIndex(DbHelper.CityDb.COLUMN_NAME_ID));
 			Log.i("DEBUG", "city ID:" + cid);
 			preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		    Editor ed = preferences.edit();

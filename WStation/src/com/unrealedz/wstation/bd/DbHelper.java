@@ -3,6 +3,7 @@ package com.unrealedz.wstation.bd;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.provider.BaseColumns;
 
 
 ///////////////////////////////////////
@@ -13,21 +14,29 @@ public class DbHelper extends SQLiteOpenHelper {
 	
 	public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "wbase";
-    public static final String CITY_DB_TABLE = "cityDB";
-    public static final String CITY_DB_INFO_TABLE = "cityDbInfo";
-    public static final String CITY_TABLE = "city";
-    public static final String CURRENT_DAY_TABLE = "currentDay";
-    public static final String WEEK_TABLE = "week";
+	public static final String CITY_DB_TABLE = "cityDb";
+	public static final String CITY_DB_INFO_TABLE = "cityDbVersion";
+	public static final String CITY_TABLE = "cityCurrent";
+	public static final String CURRENT_DAY_TABLE = "currentDay";
+	public static final String WEEK_TABLE = "week";
+    
+    public static abstract class CityDb implements BaseColumns{
+    	
+        public static final String COLUMN_NAME_ID = "cid";
+        public static final String COLUMN_NAME_NAME = "city_name";
+        public static final String COLUMN_NAME_NAME_EN = "city_name_en";
+        public static final String COLUMN_NAME_REGION = "region";
+        public static final String COLUMN_NAME_COUNTRY = "country";
+        public static final String COLUMN_NAME_COUNTRY_ID = "country_id";
+    	
+    	public static final String CREATE_CITY_DB_TABLE = "CREATE TABLE IF NOT EXISTS " + CITY_DB_TABLE
+                + "( _id INTEGER PRIMARY KEY AUTOINCREMENT, " + COLUMN_NAME_ID + " TEXT," + COLUMN_NAME_NAME + " TEXT, "
+                + COLUMN_NAME_NAME_EN + " TEXT, " + COLUMN_NAME_REGION + " TEXT, " + COLUMN_NAME_COUNTRY
+                + " TEXT, " + COLUMN_NAME_COUNTRY_ID + " INT);";
+    }
     
     public static final String CITY_DB_INFO_VERSION = "cid";
-    
-    public static final String CITY_DB_ID = "cid";
-    public static final String CITY_DB_NAME = "city_name";
-    public static final String CITY_DB_NAME_EN = "city_name_en";
-    public static final String CITY_DB_REGION = "region";
-    public static final String CITY_DB_COUNTRY = "country";
-    public static final String CITY_DB_COUNTRY_ID = "country_id";
-    
+       
     public static final String CITY_ID = "cid";
     public static final String CITY_NAME = "city_name";
     public static final String CITY_NAME_EN = "city_name_en";
@@ -70,11 +79,7 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String CREATE_DB_INFO_TABLE = "CREATE TABLE IF NOT EXISTS " + CITY_DB_INFO_TABLE
             + "( _id INTEGER PRIMARY KEY AUTOINCREMENT, " + LAST_UPDATED + " TEXT," + CITY_DB_INFO_VERSION + " TEXT);";
     
-    public static final String CREATE_CITY_DB_TABLE = "CREATE TABLE IF NOT EXISTS " + CITY_DB_TABLE
-            + "( _id INTEGER PRIMARY KEY AUTOINCREMENT, " + CITY_DB_ID + " TEXT," + CITY_DB_NAME + " TEXT, "
-            + CITY_DB_NAME_EN + " TEXT, " + CITY_DB_REGION + " TEXT, " + CITY_DB_COUNTRY
-            + " TEXT, " + CITY_DB_COUNTRY_ID + " INT);";
-    
+        
     public static final String CREATE_CITY_TABLE = "CREATE TABLE IF NOT EXISTS " + CITY_TABLE
             + "( _id INTEGER PRIMARY KEY AUTOINCREMENT, " + CITY_ID + " TEXT," + CITY_NAME + " TEXT, "
             + CITY_NAME_EN + " TEXT, " + REGION + " TEXT, " + REGION_EN + " TEXT, " + COUNTRY_ID
@@ -95,6 +100,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 	
     private static DbHelper mInstance = null;
+    private static SQLiteDatabase myWritableDb;
     
     public static DbHelper getInstance(Context ctx) {
 
@@ -107,11 +113,20 @@ public class DbHelper extends SQLiteOpenHelper {
         return mInstance;
     }
     
-   /* public SQLiteDatabase getWritableDatabase() {
-    	  SQLiteDatabase sqdb = super.getWritableDatabase();
-    	  sqdb.setLockingEnabled(true);
-    	  return sqdb;
-    	 }*/
+    /**
+     * Returns a writable database instance in order not to open and close many
+     * SQLiteDatabase objects simultaneously
+     *
+     * @return a writable instance to SQLiteDatabase
+     */
+    
+    public SQLiteDatabase getMyWritableDatabase() {
+        if ((myWritableDb == null) || (!myWritableDb.isOpen())) {
+            myWritableDb = this.getWritableDatabase();
+        }
+ 
+        return myWritableDb;
+    }
     
     private DbHelper(Context context) {
 		super(context, DbHelper.DATABASE_NAME, null, DbHelper.DATABASE_VERSION);
@@ -122,7 +137,7 @@ public class DbHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(SQLiteDatabase db) {
 		db.execSQL(CREATE_DB_INFO_TABLE);
-		db.execSQL(CREATE_CITY_DB_TABLE);
+		db.execSQL(CityDb.CREATE_CITY_DB_TABLE);
 		db.execSQL(CREATE_CITY_TABLE);
 		db.execSQL(CREATE_DAY_TABLE);
 		db.execSQL(CREATE_WEEK_TABLE);

@@ -6,6 +6,7 @@ package com.unrealedz.wstation.bd;
 
 import java.util.List;
 
+import com.unrealedz.wstation.bd.DbHelper.CityDb;
 import com.unrealedz.wstation.entity.CitiesDB;
 import com.unrealedz.wstation.entity.CityDB;
 
@@ -30,12 +31,12 @@ public class DaoCityDb extends BaseDao {
         openDb();       
     }
 	
-	public static final String[] ALL_KEYS = new String[] {DbHelper.CITY_DB_ID, 
-		DbHelper.CITY_DB_NAME, 
-		DbHelper.CITY_DB_NAME_EN, 
-		DbHelper.CITY_DB_REGION, 
-		DbHelper.CITY_DB_COUNTRY, 
-		DbHelper.CITY_DB_COUNTRY_ID};
+	public static final String[] ALL_KEYS = new String[] {DbHelper.CityDb.COLUMN_NAME_ID, 
+		DbHelper.CityDb.COLUMN_NAME_NAME, 
+		DbHelper.CityDb.COLUMN_NAME_NAME_EN, 
+		DbHelper.CityDb.COLUMN_NAME_REGION, 
+		DbHelper.CityDb.COLUMN_NAME_COUNTRY, 
+		DbHelper.CityDb.COLUMN_NAME_COUNTRY_ID};
 	
 	public void cleanOldFeeds() {
         db.delete(DbHelper.CITY_DB_TABLE, null, null);
@@ -60,7 +61,7 @@ public class DaoCityDb extends BaseDao {
 		//String where = DbHelper.CITY_DB_NAME_EN + " = " + "Ternopil";
 		String[] selectionArgs = new String[] { cityName };
 		cursorGetCode = 	db.query(DbHelper.CITY_DB_TABLE, ALL_KEYS, 
-				DbHelper.CITY_DB_NAME_EN + "=?", selectionArgs, null, null, null, null);
+				DbHelper.CityDb.COLUMN_NAME_NAME_EN + "=?", selectionArgs, null, null, null, null);
 		if (cursorGetCode != null) {
 			cursorGetCode.moveToFirst();
 		}
@@ -72,10 +73,10 @@ public class DaoCityDb extends BaseDao {
 		String newCodeLocation = "";
 		String[] selectionArgs = new String[] { cityName };
 		Cursor cursor = db.query(DbHelper.CITY_DB_TABLE, ALL_KEYS, 
-				DbHelper.CITY_DB_NAME_EN + "=?", selectionArgs, null, null, null, null);
+				DbHelper.CityDb.COLUMN_NAME_NAME_EN + "=?", selectionArgs, null, null, null, null);
 		if (cursor != null) {
 			cursor.moveToFirst();
-			newCodeLocation = cursor.getString(cursor.getColumnIndex(DbHelper.CITY_DB_ID));
+			newCodeLocation = cursor.getString(cursor.getColumnIndex(DbHelper.CityDb.COLUMN_NAME_ID));
 			cursor.close();
 		}
 
@@ -86,7 +87,7 @@ public class DaoCityDb extends BaseDao {
 		//String where = DbHelper.CITY_DB_NAME_EN + " = " + "Ternopil";
 		String[] selectionArgs = new String[] { cityName, cityName };
 		cursorGetLocation = 	db.query(DbHelper.CITY_DB_TABLE, null, 
-				DbHelper.CITY_DB_NAME_EN + " LIKE ?" + " OR " + DbHelper.CITY_DB_NAME + " LIKE ?", selectionArgs, null, null, null, null);
+				DbHelper.CityDb.COLUMN_NAME_NAME_EN + " LIKE ?" + " OR " + DbHelper.CityDb.COLUMN_NAME_NAME + " LIKE ?", selectionArgs, null, null, null, null);
 		if (cursorGetLocation != null) {
 			cursorGetLocation.moveToFirst();
 		}
@@ -111,12 +112,12 @@ public class DaoCityDb extends BaseDao {
 
     private ContentValues getCityValues(CityDB cityDB) {
         ContentValues values = new ContentValues();
-        values.put(DbHelper.CITY_DB_ID, cityDB.getCityID());
-        values.put(DbHelper.CITY_DB_NAME, cityDB.getName());
-        values.put(DbHelper.CITY_DB_NAME_EN, cityDB.getNameEn());
-        values.put(DbHelper.CITY_DB_REGION, cityDB.getRegion());
-        values.put(DbHelper.CITY_DB_COUNTRY, cityDB.getCountry());
-        values.put(DbHelper.CITY_DB_COUNTRY_ID, cityDB.getCountryID());
+        values.put(DbHelper.CityDb.COLUMN_NAME_ID, cityDB.getCityID());
+        values.put(DbHelper.CityDb.COLUMN_NAME_NAME, cityDB.getName());
+        values.put(DbHelper.CityDb.COLUMN_NAME_NAME_EN, cityDB.getNameEn());
+        values.put(DbHelper.CityDb.COLUMN_NAME_REGION, cityDB.getRegion());
+        values.put(DbHelper.CityDb.COLUMN_NAME_COUNTRY, cityDB.getCountry());
+        values.put(DbHelper.CityDb.COLUMN_NAME_COUNTRY_ID, cityDB.getCountryID());
         return values;
     }
     

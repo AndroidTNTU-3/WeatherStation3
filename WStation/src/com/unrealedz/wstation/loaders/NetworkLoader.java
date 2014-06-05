@@ -1,41 +1,19 @@
 package com.unrealedz.wstation.loaders;
 
 import java.io.IOException;
-import java.io.InputStream;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 import org.xmlpull.v1.XmlPullParserException;
 
-import com.unrealedz.wstation.bd.DaoCityDbVersion;
-import com.unrealedz.wstation.bd.DaoCityDb;
-import com.unrealedz.wstation.bd.DaoDay;
-import com.unrealedz.wstation.bd.DaoCityCurrent;
-import com.unrealedz.wstation.bd.DaoWeek;
-import com.unrealedz.wstation.bd.DbHelper;
-import com.unrealedz.wstation.entity.CitiesDB;
-import com.unrealedz.wstation.entity.CityDB;
-import com.unrealedz.wstation.entity.Forecast;
-import com.unrealedz.wstation.parsers.CityDbParser;
-import com.unrealedz.wstation.parsers.WeatherParser;
-
+import com.unrealedz.wstation.factory.FactoryLoader;
 
 import com.unrealedz.wstation.utils.Contract;
 
 import android.content.Context;
-import android.database.Cursor;
 import android.os.AsyncTask;
 
 public class NetworkLoader extends AsyncTask<String, Void, String>{
-	
-	Object ob;
-	
+		
 	Context context;
-	String nameLocation;
 			
 	public static interface LoaderCallBack{
 		public void setLocationInfo();
@@ -53,97 +31,37 @@ public class NetworkLoader extends AsyncTask<String, Void, String>{
 	NetworkLoader(){
 		
 	}
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * @see android.os.AsyncTask#doInBackground(java.lang.Object[])
+	 * @param  params[1]  an absolute URL 
+	 * @param  params[0]  a flag for getting necessary factory
+	 */
 
 	@Override
 	protected String doInBackground(String... params) {
+		String keyLoader = params[0]; 
+		int key = 0;
 		
-		HttpClient client = new DefaultHttpClient();
+		if (keyLoader.equals(Contract.GET_CITY_DB)) key = FactoryLoader.CITY;
+		else if (keyLoader.equals(Contract.GET_FORECAST)) key = FactoryLoader.FORECAST;
 		
-		HttpGet httpRequest = null;
-		InputStream stream = null;
-
-        httpRequest = new HttpGet(params[1]);
-        
-        String keyLoader = params[0];
-        
-        try {
-			HttpResponse response = (HttpResponse) client.execute(httpRequest);
-			HttpEntity entity = response.getEntity();
-			
-			stream = entity.getContent();
-			try {
-				if (keyLoader.equals(Contract.GET_CITY_DB)) {							// Get data and store a database of cities
-					
-					CitiesDB citiesDB= new CityDbParser().parse(stream);				// call parser for cities DB
-				
-					DaoCityDbVersion cityDbVersion = new DaoCityDbVersion(context);
-					DaoCityDb daoCity = new DaoCityDb(context);
-					String lastUpdated = cityDbVersion.getLastUpdated();
-		    	  
-		    	  if (lastUpdated != ""){		    
-		    	  
-		    		  if (!lastUpdated.equals((citiesDB).getLastUpdated())) {			//checking if last updated time was updated
-		    			  cityDbVersion.cleanOldRecords();
-		    			  cityDbVersion.insertCitiesDB(citiesDB);
-		    			  //cityDbVersion.closeDB();
-		    			  daoCity.cleanOldRecords();
-		    			  daoCity.insertCitiesDB(citiesDB);
-		    			  //daoCity.closeDB();
-		    		  }
-		    	  } else{
-		    		  cityDbVersion.cleanOldRecords();
-		    		  cityDbVersion.insertCitiesDB(citiesDB);
-					  //cityDbVersion.closeDB();
-					  daoCity.cleanOldRecords();
-					  daoCity.insertCitiesDB(citiesDB);
-	    			  //daoCity.closeDB();
-		    	  }
-				  
-				// cityDbVersion.closeDB();
-				// daoCity.closeDB();
-								
-				} else if(keyLoader.equals(Contract.GET_FORECAST)){						// Get data and store to a database of forecast
-					
-					Forecast forecast = new WeatherParser().parse(stream);				// call parser for forecast DB
-					
-					DaoCityCurrent cityCurrent  = new DaoCityCurrent(context);
-					DaoDay daoDay = new DaoDay(context);
-					DaoWeek daoWeek = new DaoWeek(context);
-			      
-					cityCurrent.cleanOldRecords();
-					daoDay.cleanOldRecords();
-					daoWeek.cleanOldRecords();
-			      
-					cityCurrent.insertCityItem(forecast);
-					daoDay.insertDayItem(forecast);
-					daoWeek.insertDayItem(forecast);
-					
-					//cityCurrent.closeDB();
-					//daoDay.closeDB();
-					daoWeek.closeDb();
-				}
-							
-			} catch (XmlPullParserException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		} catch (ClientProtocolException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (stream != null) {
+				FactoryLoader factory = FactoryLoader.getFactoryLoader(key);
+				factory.getStream(params[1]);
 				try {
-					stream.close();
+					
+					factory.processing(context);
+					
+				} catch (XmlPullParserException e) {
+					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
-				}
-			}
-		}
-        
+				}	
 		return keyLoader;
 	}
+		
 	
 	@Override
     protected void onPostExecute(String result) {
