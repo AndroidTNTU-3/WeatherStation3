@@ -11,6 +11,7 @@ import com.unrealedz.wstation.utils.UtilsDB;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,18 +26,19 @@ public class DetailDayActivity extends Activity implements HoursCallBack{
 	FragmentTransaction fTrans;
 	ForecastDay forecastDay;
 	private List<ForecastDay> forecastDays;
-	int hour = 0;
-	String cityName;
-	String region;
-	String date;
+	private int hour = 0;
+	private String cityName;
+	private String region;
+	private String date;
 	
-	int screenOrienrtation = 0;
+	private int screenOrienrtation = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		Log.i("DEBUG:", "Day activity onCreate: ");
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detail_day);
+		
 		
 		fragDay = new FragmentDay();
 		fragDayHours = new FragmentDayHours();
@@ -72,10 +74,14 @@ public class DetailDayActivity extends Activity implements HoursCallBack{
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		if (id == R.id.action_settings) {
-			return true;
-		}
+		switch (item.getItemId()) {	
+			case R.id.charts_view:
+			Intent intentCharts = new Intent(this, ActivityCharts.class);
+			intentCharts.putExtra("date", date);
+			startActivity(intentCharts);
+	        return true;
+			default:
+        }
 		return super.onOptionsItemSelected(item);
 	}
 	

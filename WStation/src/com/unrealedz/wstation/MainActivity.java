@@ -179,10 +179,10 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
         switch (item.getItemId()) {
         //call preference activity
         
-                case R.id.action_settings:
-        	Intent intentPref = new Intent(this, PrefActivity.class);
-        	startActivity(intentPref);
-            return true;       
+            case R.id.action_settings:
+            	Intent intentPref = new Intent(this, PrefActivity.class);
+            	startActivity(intentPref);
+            	return true;   
         default:
 
         }

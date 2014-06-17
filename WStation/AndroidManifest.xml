@@ -88,6 +88,10 @@
                 android:resource="@xml/searchable" />
 
         </activity>
+        <activity
+            android:name=".ActivityCharts"
+            android:label="@string/title_activity_charts" >
+        </activity>
     </application>
 
 </manifest>

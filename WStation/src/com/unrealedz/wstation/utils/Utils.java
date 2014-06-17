@@ -1,15 +1,25 @@
 package com.unrealedz.wstation.utils;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import com.unrealedz.wstation.R;
+import com.unrealedz.wstation.entity.ForecastDay;
+import com.unrealedz.wstation.entity.PolySector;
 
 import android.content.Context;
+import android.graphics.Point;
+import android.util.Log;
 
 public class Utils {
+	
+	public static final int PADDING_LEFT_RIGHT = 5;
 	
 	//get format data for listView(FragmentList)	
 	public static String getStringDate(String date){
@@ -153,6 +163,99 @@ public class Utils {
 					
 		return windSpeed;
 	}
+
+	public static List<Point> getTemperatureNodes(List<ForecastDay> forecastDays) {
+		List<Point> nodes = new ArrayList<Point>();
+		for(ForecastDay fd: forecastDays){
+			nodes.add(new Point(fd.getHour(), fd.getTemperatureMax()));
+		}
+		return nodes;
+	}
+	
+	public static List<Point> getPressureNodes(List<ForecastDay> forecastDays) {
+		List<Point> nodes = new ArrayList<Point>();
+		for(ForecastDay fd: forecastDays){
+			nodes.add(new Point(fd.getHour(), fd.getPressureMax()));
+		}
+		return nodes;
+	}
+	
+	public static List<Point> getHumidityNodes(List<ForecastDay> forecastDays) {
+		List<Point> nodes = new ArrayList<Point>();
+		for(ForecastDay fd: forecastDays){
+			nodes.add(new Point(fd.getHour(), fd.getHumidityMax()));
+		}
+		return nodes;
+	}
+
+	public static List<PolySector> getChartPoint(int height, int width,
+			List<Point> nodes) {
 		
+		if (nodes.size() != 0){
+		List<Point> points = new ArrayList<Point>();
+		List<PolySector> newPoints = new ArrayList<PolySector>();  //polygons list
+		
+		int[] temp = new int[nodes.size()];							//day temperature array
+		for (int i = 0; i < nodes.size(); i++){
+			temp[i] = nodes.get(i).y;			
+		}
+		
+		Arrays.sort(temp);
+		
+		int MaxValue = temp[temp.length - 1];
+		int heightAxis = height - height/5;
+		double multiplier = heightAxis/MaxValue;					//multiplier
+		width -= PADDING_LEFT_RIGHT*2;
+		int deltaHour = width/(nodes.size()-1);
+		int i = 0;
+		
+		for (Point p: nodes){
+			Point point = new Point();
+			point.x = deltaHour*i;
+			point.y = (int) (p.y*multiplier);
+			Log.i("DEBUG", String.valueOf(point.y));
+			if (point.y > 700) point.y -=700;
+			points.add(point);
+			i++;
+		}
+		
+			for (int a = 0; a < points.size() - 1; a++) {
+				PolySector ps = new PolySector();
+				for (int j = 0; j < 4; j++) {
+					switch (j) {
+					case 0:
+						int newX = points.get(a).x;
+						int newY = height;
+						ps.addToArray(new Point(newX, newY));
+						break;
+					case 1:
+						newX = points.get(a).x;
+						newY = height - points.get(a).y;
+						ps.addToArray(new Point(newX, newY));
+						break;
+					case 2:
+						newX = points.get(a + 1).x;
+						newY = height - points.get(a + 1).y;
+						ps.addToArray(new Point(newX, newY));
+						break;
+					case 3:
+						newX = points.get(a + 1).x;
+						newY = height;
+						ps.addToArray(new Point(newX, newY));
+						break;
+					}
+					newPoints.add(ps);
+
+				}
+
+			}
+			return newPoints;
+		}
+		return null;
+	}
+
+
+
+
 
 }
