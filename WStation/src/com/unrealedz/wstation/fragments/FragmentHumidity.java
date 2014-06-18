@@ -22,6 +22,8 @@ import android.view.ViewGroup;
 public class FragmentHumidity extends Fragment {
 
 	List<Point> nodes;
+	private int titleId;
+	
     public FragmentHumidity() {    
     }
 
@@ -31,10 +33,11 @@ public class FragmentHumidity extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //return inflater.inflate(R.layout.fragment_humidity, container, false);
-        return new ChartView(getActivity(), nodes);
+        return new ChartView(getActivity(), nodes, titleId);
     }
 
-    public void setNodes(List<Point> nodes){
+    public void setNodes(List<Point> nodes, int titleId){
     	this.nodes = nodes;
+    	this.titleId = titleId;
     }
 }

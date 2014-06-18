@@ -12,24 +12,25 @@ public class ChartView extends SurfaceView implements SurfaceHolder.Callback {
 
     private DrawThread drawThread;
     List<Point> nodes;
-
+    private int title;
+    
     public ChartView(Context context) {
         super(context);
         getHolder().addCallback(this);
     }
     
-    public ChartView(Context context, List<Point> nodes) {
+    public ChartView(Context context, List<Point> nodes, int title) {
         super(context);
         getHolder().addCallback(this);
         this.nodes = nodes;
+        this.title = title;
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
-        drawThread = new DrawThread(getHolder(), nodes);
+        drawThread = new DrawThread(getHolder(), nodes, title);
         drawThread.setRunning(true);
         drawThread.start();
-
     }
 
     @Override

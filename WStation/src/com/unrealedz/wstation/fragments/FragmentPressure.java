@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 public class FragmentPressure extends Fragment {
 
 	List<Point> nodes;
+	private int titleId;
 	
 	public FragmentPressure(){   
     }
@@ -30,11 +31,12 @@ public class FragmentPressure extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
        // return inflater.inflate(R.layout.fragment_pressure, container, false);
-       return new ChartView(getActivity(), nodes);
+       return new ChartView(getActivity(), nodes, titleId);
     }
 
-    public void setNodes(List<Point> nodes){
+    public void setNodes(List<Point> nodes, int titleId){
     	this.nodes = nodes;
+    	this.titleId = titleId;
     }
 
 }

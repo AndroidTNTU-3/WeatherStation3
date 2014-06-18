@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -19,7 +20,6 @@ import android.util.Log;
 
 public class Utils {
 	
-	public static final int PADDING_LEFT_RIGHT = 5;
 	
 	//get format data for listView(FragmentList)	
 	public static String getStringDate(String date){
@@ -193,62 +193,78 @@ public class Utils {
 		
 		if (nodes.size() != 0){
 		List<Point> points = new ArrayList<Point>();
+		List<Point> sortedPoints = new ArrayList<Point>(nodes);
 		List<PolySector> newPoints = new ArrayList<PolySector>();  //polygons list
+			
+		Collections.sort(sortedPoints, new ValueSort());
 		
-		int[] temp = new int[nodes.size()];							//day temperature array
-		for (int i = 0; i < nodes.size(); i++){
-			temp[i] = nodes.get(i).y;			
+		int MaxValue = sortedPoints.get(sortedPoints.size() - 1).y;
+		int heightAxis = height - height/5;
+		double multiplier = 0;
+		
+		if (heightAxis > MaxValue) multiplier = heightAxis/MaxValue;					//multiplier
+		else {
+			int ko = MaxValue/heightAxis;
+			MaxValue = MaxValue/(ko*2);
+			multiplier = heightAxis/MaxValue;
 		}
 		
-		Arrays.sort(temp);
-		
-		int MaxValue = temp[temp.length - 1];
-		int heightAxis = height - height/5;
-		double multiplier = heightAxis/MaxValue;					//multiplier
-		width -= PADDING_LEFT_RIGHT*2;
+		width -= Contract.PADDING_LEFT_RIGHT;
+		height -= Contract.PADDING_LEFT_RIGHT;
 		int deltaHour = width/(nodes.size()-1);
 		int i = 0;
 		
+		Log.i("DEBUG", "Multipler:" + String.valueOf(multiplier) + "  Max: " + String.valueOf(MaxValue));
 		for (Point p: nodes){
 			Point point = new Point();
 			point.x = deltaHour*i;
+			if (p.y > 700) p.y = (p.y - 730)*3;
 			point.y = (int) (p.y*multiplier);
-			Log.i("DEBUG", String.valueOf(point.y));
-			if (point.y > 700) point.y -=700;
+			Log.i("DEBUG", "In utils" + String.valueOf(point.y));
+			
 			points.add(point);
 			i++;
 		}
 		
-			for (int a = 0; a < points.size() - 1; a++) {
+		Log.i("DEBUG", "pointssize" + points.size());
+		
+		//set polygons
+			for (int a = 0; a < points.size() - 1 ; a++) {
+
 				PolySector ps = new PolySector();
 				for (int j = 0; j < 4; j++) {
+
 					switch (j) {
-					case 0:
-						int newX = points.get(a).x;
-						int newY = height;
-						ps.addToArray(new Point(newX, newY));
+						case 0:
+							int newX = Contract.MARGIN_LEFT + points.get(a).x;
+							int newY = Contract.MARGIN_LEFT + height;
+							ps.addToArray(new Point(newX, newY));
 						break;
-					case 1:
-						newX = points.get(a).x;
-						newY = height - points.get(a).y;
-						ps.addToArray(new Point(newX, newY));
+						case 1:
+							newX = Contract.MARGIN_LEFT + points.get(a).x;
+							newY = height - points.get(a).y;
+							ps.addToArray(new Point(newX, newY));
 						break;
-					case 2:
-						newX = points.get(a + 1).x;
-						newY = height - points.get(a + 1).y;
-						ps.addToArray(new Point(newX, newY));
+						case 2:
+							newX = Contract.MARGIN_LEFT + points.get(a + 1).x;
+							newY = height - points.get(a + 1).y;
+							ps.addToArray(new Point(newX, newY));
 						break;
-					case 3:
-						newX = points.get(a + 1).x;
-						newY = height;
-						ps.addToArray(new Point(newX, newY));
+						case 3:
+							newX = Contract.MARGIN_LEFT + points.get(a + 1).x;
+							newY = Contract.MARGIN_LEFT + height;
+							ps.addToArray(new Point(newX, newY));
+						break;
+						default:
 						break;
 					}
-					newPoints.add(ps);
+
 
 				}
-
+				newPoints.add(ps);
+				
 			}
+
 			return newPoints;
 		}
 		return null;

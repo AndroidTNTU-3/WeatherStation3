@@ -8,6 +8,16 @@ import android.graphics.Point;
 public class PolySector {
 	
 	private Point point;
+	private int hour;
+	
+	public int getHour() {
+		return hour;
+	}
+
+	public void setHour(int hour) {
+		this.hour = hour;
+	}
+
 	private List<Point> innerPoint;
 	
 	public PolySector(){

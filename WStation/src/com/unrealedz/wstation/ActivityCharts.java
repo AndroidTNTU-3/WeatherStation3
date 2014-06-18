@@ -16,6 +16,7 @@ import com.unrealedz.wstation.entity.ForecastDay;
 import com.unrealedz.wstation.fragments.FragmentHumidity;
 import com.unrealedz.wstation.fragments.FragmentPressure;
 import com.unrealedz.wstation.fragments.FragmentTemperature;
+import com.unrealedz.wstation.utils.Contract;
 import com.unrealedz.wstation.utils.Utils;
 
 public class ActivityCharts extends Activity {
@@ -43,17 +44,16 @@ public class ActivityCharts extends Activity {
         fragmentHumidity = new FragmentHumidity();
         
     	nodes = Utils.getTemperatureNodes(forecastDays);
-        fragmentTemperature.setNodes(nodes);
-        
+        fragmentTemperature.setNodes(nodes, Contract.TEMPERATURE);
         
     	nodes = Utils.getPressureNodes(forecastDays);
-        fragmentPressure.setNodes(nodes);
+        fragmentPressure.setNodes(nodes, Contract.PRESSURE);
         for(Point p: nodes){
         	Log.i("DEBUG", "x: " + p.x + " y: " + p.y);
         }
         
         nodes = Utils.getHumidityNodes(forecastDays);
-        fragmentHumidity.setNodes(nodes);
+        fragmentHumidity.setNodes(nodes, Contract.HUMIDITY);
 
         
         fTrans = getFragmentManager().beginTransaction();
