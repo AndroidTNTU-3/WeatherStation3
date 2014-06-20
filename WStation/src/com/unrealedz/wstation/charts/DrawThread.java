@@ -3,6 +3,7 @@ package com.unrealedz.wstation.charts;
 import java.util.List;
 
 import com.unrealedz.wstation.entity.PolySector;
+import com.unrealedz.wstation.utils.ChartDataBuilder;
 import com.unrealedz.wstation.utils.Contract;
 import com.unrealedz.wstation.utils.Utils;
 
@@ -30,6 +31,8 @@ public class DrawThread extends Thread{
     StringBuilder sb;
     int titleId;
     String title;
+    int offsetX = Contract.PADDING;
+    int offsetY = Contract.PADDING;
     
     List<Point> nodes;
 
@@ -41,6 +44,7 @@ public class DrawThread extends Thread{
         this.surfaceHolder = surfaceHolder;
         this.nodes = nodes;
         this.titleId = titleId;
+        //Log.i("DEBUG:", "nodes size: " + nodes.size());
     }
 
     public void setRunning(boolean run) {
@@ -51,35 +55,33 @@ public class DrawThread extends Thread{
     public void run() {
         Canvas canvas = null;
         p = new Paint();
-        sb = new StringBuilder();
-        int height, width;
+
     	List<PolySector> polySectors = null;
         while (runFlag) {
        	
             canvas = null;
-            try {
-                // получаем объект Canvas и выполняем отрисовку
+            try {               
                 canvas = surfaceHolder.lockCanvas(null);
-                polySectors = Utils.getChartPoint(canvas.getHeight(), canvas.getWidth(), nodes);
+                polySectors = ChartDataBuilder.getChartPoint(canvas.getHeight(), canvas.getWidth(), nodes);
             	
                 synchronized (surfaceHolder) {
                 	if (canvas != null){	
                 		//this moment is not understand, if not check (canvas != null) apps crashes 
-		                    //canvas.drawColor(Color.WHITE);
-
+		                   
 		                    switch (titleId){
 			                    case Contract.TEMPERATURE:
-			                    	title = "temperature";
+			                    	title = "temperature, C�";
 			                    break;
 			                    case Contract.PRESSURE:
-			                    	title = "pressure";
+			                    	title = "pressure, mB";
 			                    break;
 			                    case Contract.HUMIDITY:
-			                    	title = "humidity";
+			                    	title = "humidity, %";
 			                    break;
 		                    }
 		                    
-		                    drawBack(canvas);
+		                    //draw background
+		                     drawBack(canvas);
 		                    
 	                    	p.setStyle(Paint.Style.FILL);
 		                    p.setColor(Color.WHITE);
@@ -87,125 +89,161 @@ public class DrawThread extends Thread{
 		                    p.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.BOLD));
 		                    p.setAntiAlias(true);
 		                    canvas.drawText(title,canvas.getHeight()/10,canvas.getHeight()/10,p);
+		                    
+		                    //Draw chart info
 	                    	drawPoly(canvas, Color.GREEN, polySectors);
-	                    	Log.i("DEBUG", "h:" + String.valueOf(canvas.getHeight()) + " w:" + String.valueOf(canvas.getWidth()));
+	                    	                   	
+	                    	//draw Axis	    		            
+	                    	drawAxis(canvas);
+		                    
+		                    //draw label on axis X	                    	
+	                    	drawLabelHour(canvas);
+		        	        		                    
+		                    //draw point circle
 	                    	
-	                    	
-	                    	height = canvas.getHeight() - Contract.MARGIN_LEFT;
-	    		            
-	                    	p.setColor(Color.GRAY);
-		                    p.setStyle(Paint.Style.STROKE);
-		                    p.setStrokeWidth(2);
-		                    canvas.drawLine(Contract.MARGIN_LEFT, Contract.PADDING_LEFT_RIGHT, Contract.MARGIN_LEFT, height, p);
-		                    canvas.drawLine(Contract.MARGIN_LEFT, height, canvas.getWidth() - Contract.MARGIN_LEFT,  height , p);
+	                    	drawCircle(canvas, polySectors);
 		                    
-		        	        p.setStyle(Paint.Style.FILL);
-		                    p.setColor(Color.WHITE);
-		                    p.setAntiAlias(true);
-		                    p.setTextSize(25);
-		                    p.setShadowLayer(1.0f, 2.0f, 2.0f, Color.BLACK);
 		                    
-		                	int offsetText = Contract.MARGIN_LEFT;
-		                	
-		                	int delta = (canvas.getWidth() - Contract.PADDING_LEFT_RIGHT)/(nodes.size()-1);
-		                	
-		                    for(int k = 0; k < nodes.size(); k++){
-		                    	if(k == (nodes.size()-1)) offsetText = - Contract.MARGIN_LEFT*2;
-		                    	canvas.drawText(String.valueOf(nodes.get(k).x),delta*k + offsetText, canvas.getHeight() - Contract.MARGIN_LEFT,p);
-		                    }
-		                    
-		                    for(int k = 0; k < polySectors.size(); k++){
-		                    	p.reset();
-		                    	p.setStyle(Paint.Style.FILL);
-		                    	p.setShader(new RadialGradient(0, 0, 5, 0xffffff00,  0xffff6e02, Shader.TileMode.CLAMP));
-		            	        canvas.drawCircle(polySectors.get(k).getPoint(1).x, polySectors.get(k).getPoint(1).y, 5, p);
-		                    }
-		                    
+		                    drawParameters(canvas, polySectors);
+
 		                    
                 	} else break;
-
+                    //runFlag = false;
                 }
             }
             finally {
                 if (canvas != null) {
-                    // отрисовка выполнена. выводим результат на экран
                     surfaceHolder.unlockCanvasAndPost(canvas);
                 }
             }
+            runFlag = false;
+            
         }
     }
     
     private void drawBack(Canvas canvas){
     	
     	Paint polyPaint = new Paint();
-    	Path polyPath = new Path();
-    	int delta = (canvas.getWidth() - Contract.PADDING_LEFT_RIGHT)/(nodes.size()-1);
-    	//polyPath.moveTo(Contract.MARGIN_LEFT, Contract.MARGIN_LEFT);
+    	int delta = (canvas.getWidth() - Contract.PADDING*2)/(nodes.size()-1);
         
     	polyPaint.setStyle(Style.FILL);
     	polyPaint.setShader(new LinearGradient(0,0,0,canvas.getHeight(),0xff727272,0xffffffff, Shader.TileMode.CLAMP));
-    	//p.setColor(Color.YELLOW);
     	
-        for (int i = 0; i < 4; i++) {
-            //polyPath.lineTo(i*delta, canvas.getHeight() - Contract.MARGIN_LEFT);
-        	int left = i*delta;
-        	int right = (i+1)*delta;
-        	if(i==0) left = left + Contract.MARGIN_LEFT;
-        	if(i==3) right = (i+1)*delta - Contract.MARGIN_LEFT;
-            canvas.drawRect(left, Contract.PADDING_LEFT_RIGHT, right, canvas.getHeight() - Contract.MARGIN_LEFT, polyPaint);
+        for (int i = 0; i < nodes.size()-1; i++) {
+        	int left = i*delta + offsetX;
+        	int right = (i+1)*delta + offsetX ;
+        	if ( (i & 1) == 0 ) polyPaint.setShader(new LinearGradient(0,0,0,canvas.getHeight(),0xff727272,0xffffffff, Shader.TileMode.CLAMP));
+        	else polyPaint.setShader(new LinearGradient(0,0,0,canvas.getHeight(),0xffffffff,0xff727272, Shader.TileMode.CLAMP));
+            canvas.drawRect(left, offsetY, right, canvas.getHeight() - offsetY, polyPaint);
         }
-        //polyPath.lineTo(points.get(0).x, points.get(0).y);
+        
+    }
+    
+    private void drawAxis(Canvas canvas){
+    	p.setColor(Color.GRAY);
+        p.setStyle(Paint.Style.STROKE);
+        p.setStrokeWidth(2);
+        canvas.drawLine(offsetX, offsetY, offsetX, canvas.getHeight() - offsetY, p);
+        canvas.drawLine(offsetX, canvas.getHeight() - offsetY, canvas.getWidth() - offsetX,  canvas.getHeight() - offsetY , p);
+    }
+    
+    private void drawLabelHour(Canvas canvas){
+    	p.setStyle(Paint.Style.FILL);
+        p.setColor(Color.WHITE);
+        p.setAntiAlias(true);
+        p.setTextSize(25);
+        p.setShadowLayer(1.0f, 2.0f, 2.0f, Color.BLACK);
+        
+    	int offsetText = Contract.MARGIN_LEFT;		                	
+    	int delta = (canvas.getWidth() - Contract.PADDING_LEFT_RIGHT)/(nodes.size()-1);
+    	
+        for(int k = 0; k < nodes.size(); k++){			                    	
+        	if(k == (nodes.size()-1)) offsetText = - Contract.MARGIN_LEFT*3;
+        	canvas.drawText(String.valueOf(nodes.get(k).x),delta*k + offsetText, canvas.getHeight() - Contract.MARGIN_LEFT,p);
+        }
+    }
+    
+    private void drawCircle(Canvas canvas, List<PolySector> polySectors){
+    	
+    	p.reset();
+    	p.setStyle(Paint.Style.FILL);
+    	p.setShader(new RadialGradient(0, 0, 5, 0xffffff00,  0xffff6e02, Shader.TileMode.CLAMP));
+    	
+    	for(int k = 0; k < polySectors.size() + 1; k++){
+       	
+        	int x, y;
 
-        // draw
-        //canvas.drawPath(polyPath, p);
+    		if(k == (polySectors.size())) {
+    			x = polySectors.get(k-1).getPoint(2).x + offsetX;
+    			y = polySectors.get(k-1).getPoint(2).y + offsetY;
+    		} else{
+    			x = polySectors.get(k).getPoint(1).x + offsetX;
+    			y = polySectors.get(k).getPoint(1).y + offsetY;
+    		}
+        	
+	        canvas.drawCircle(x, y, 5, p);
+        }
+    }
+    
+    private void drawParameters(Canvas canvas, List<PolySector> polySectors){
+    	p.reset();
+    	p.setStyle(Paint.Style.FILL);
+        p.setColor(Color.WHITE);
+        p.setAntiAlias(true);
+        p.setTextSize(15);
+        p.setShadowLayer(1.0f, 2.0f, 2.0f, Color.BLACK);
+        
+        int offsetText = Contract.MARGIN_LEFT;		                	
+    	int delta = (canvas.getWidth() - Contract.PADDING_LEFT_RIGHT)/(nodes.size()-1);
+    	
+    	for(int k = 0; k < nodes.size(); k++){
+    		
+    		int x, y;
+
+    		if(k == (nodes.size()-1)) {
+      			offsetText = - Contract.MARGIN_LEFT*5;
+    			x = polySectors.get(k-1).getPoint(2).x + offsetX + offsetText;
+    			y = polySectors.get(k-1).getPoint(2).y - offsetY ;
+    		}else{
+    		x = polySectors.get(k).getPoint(1).x + offsetX + offsetText;
+    		y = polySectors.get(k).getPoint(1).y - offsetY;
+    		}
+        	canvas.drawText(String.valueOf(nodes.get(k).y),x, y, p);
+	     
+        }
     }
     
     private void drawPoly(Canvas canvas, int color, List<PolySector> polySectors) {
         // line at minimum...
     	List<Point> points;
-    	Paint polyPaint = new Paint();
     	Path polyPath = new Path();
     	
 
     	for( int j = 0; j < polySectors.size(); j++){
-    	
-	        /*if (points.size() < 2) {
-	            return;
-	        }*/
-    		
-    		
-    		
+		
     		points = polySectors.get(j).getArray();
-	        // paint
-    		//circle draw
-	       // p.setShader(new RadialGradient(0, 0, 5, 0xffffff00,  0xffff6e02, Shader.TileMode.CLAMP));
-	        //canvas.drawCircle(points.get(1).x, points.get(1).y, 5, p);
-	            
-
+    		
 	        // path draw
     		p.setStyle(Style.FILL);
     		p.setAntiAlias(true);
 	        if ( (j & 1) == 0 ) p.setShader(new LinearGradient(0,points.get(0).y,0,points.get(1).y,0xfffed64d,0xfffff3b4, Shader.TileMode.CLAMP));       
 	        else p.setShader(new LinearGradient(0,points.get(0).y,0,points.get(1).y,0xffb2cde4,0xffe0ebee, Shader.TileMode.CLAMP));
 
-	        polyPath.moveTo(points.get(0).x, points.get(0).y);
+	        polyPath.moveTo(points.get(0).x + offsetX, points.get(0).y + offsetY);
 	        
 	        for (int i = 0; i < points.size(); i++) {
-	            polyPath.lineTo(points.get(i).x, points.get(i).y);
+	            polyPath.lineTo(points.get(i).x + offsetX, points.get(i).y + offsetY);
 	            
 	        }
-	        polyPath.lineTo(points.get(0).x, points.get(0).y);
+	        polyPath.lineTo(points.get(0).x + offsetX, points.get(0).y + offsetY);
 	
 	        // draw
 	        canvas.drawPath(polyPath, p);
 	        polyPath.reset();
-	        
-
-                                       
+                                
 	        p.reset();
 
 	    }
-    	runFlag = false;
     }
     
 }

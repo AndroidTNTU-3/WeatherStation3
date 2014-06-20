@@ -16,6 +16,7 @@ import com.unrealedz.wstation.entity.ForecastDay;
 import com.unrealedz.wstation.fragments.FragmentHumidity;
 import com.unrealedz.wstation.fragments.FragmentPressure;
 import com.unrealedz.wstation.fragments.FragmentTemperature;
+import com.unrealedz.wstation.utils.ChartDataBuilder;
 import com.unrealedz.wstation.utils.Contract;
 import com.unrealedz.wstation.utils.Utils;
 
@@ -27,51 +28,36 @@ public class ActivityCharts extends Activity {
     private FragmentTransaction fTrans;
     
     private String date;
-    private ForecastDay forecastDay;
-    private List<ForecastDay> forecastDays;
-    private List<Point> nodes;
-
+  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charts);
         
-        date = getIntent().getExtras().getString("date");
-
-		getForecastDay();
+        if (savedInstanceState == null ) {
+        	date = getIntent().getExtras().getString("date");
+        	refresh();
+        }      
+    }
+    
+    private void refresh(){
         fragmentTemperature = new FragmentTemperature();
         fragmentPressure = new FragmentPressure();
         fragmentHumidity = new FragmentHumidity();
         
-    	nodes = Utils.getTemperatureNodes(forecastDays);
-        fragmentTemperature.setNodes(nodes, Contract.TEMPERATURE);
+        Bundle bundle = new Bundle();
+        bundle.putString("date", date );
         
-    	nodes = Utils.getPressureNodes(forecastDays);
-        fragmentPressure.setNodes(nodes, Contract.PRESSURE);
-        for(Point p: nodes){
-        	Log.i("DEBUG", "x: " + p.x + " y: " + p.y);
-        }
-        
-        nodes = Utils.getHumidityNodes(forecastDays);
-        fragmentHumidity.setNodes(nodes, Contract.HUMIDITY);
-
-        
+        fragmentTemperature.setArguments(bundle);
+        fragmentPressure.setArguments(bundle);
+        fragmentHumidity.setArguments(bundle);
+              
         fTrans = getFragmentManager().beginTransaction();
         fTrans.add(R.id.fragTemp, fragmentTemperature);
         fTrans.add(R.id.fragPressure, fragmentPressure);
         fTrans.add(R.id.fragHumidity, fragmentHumidity);
         fTrans.commit();
-
     }
-
-
-    private void getForecastDay() {
-    	
-    	DaoWeek dataWeekHelper = new DaoWeek(this);		
-    	forecastDays = dataWeekHelper.getForecastDayHours(date);//Get current day with hours forecast
-
-	}
-
 
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -91,5 +77,19 @@ public class ActivityCharts extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+    
+    @Override
+	protected void onSaveInstanceState(Bundle state) {
+	    super.onSaveInstanceState(state);
+	    state.putString("date", date);
+	}
+	
+	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+	    super.onRestoreInstanceState(savedInstanceState);
+	    if (savedInstanceState != null)
+	    date = savedInstanceState.getString("date"); //get date
+	    refresh();
+	}
     
 }

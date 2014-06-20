@@ -3,7 +3,7 @@
 
     <string name="app_name">WStation</string>
     <string name="title_activity_detail_day">Погода на день</string>
-        <string name="title_activity_preference">Налаштування</string>
+    <string name="title_activity_preference">Налаштування</string>
     <string name="action_settings">Settings</string>
     <string name="action_refresh">Refresh</string>
     <string name="download">завантаження...</string>
@@ -47,6 +47,8 @@
 	<string name="summary_cat_location">Параметри визначення розташування</string>
 	<string name="providers">Провайдер</string>
 	<string name="summary_providers">Вибір провайдера розташування</string>
+	
+	<string name="title_activity_charts">Параметри погоди</string>
 	
 	<string name="power_category">Збереження енергії</string>
     <string name="power_refresh_category">Параметри періоду оновлення</string>

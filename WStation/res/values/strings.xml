@@ -113,6 +113,6 @@
     
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="humidity_fragment">Humidity fragment</string>
-    <string name="title_activity_charts">Charts</string>
+    <string name="title_activity_charts">Parameters chart </string>
 
 </resources>

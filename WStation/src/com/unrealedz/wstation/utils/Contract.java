@@ -10,6 +10,7 @@ public class Contract {
 	public static final int HUMIDITY = 2;
 	
 	public static final int PADDING_LEFT_RIGHT = 10;
+	public static final int PADDING = 5;
 	public static final int MARGIN_LEFT = 5;
 	public static final int MARGIN_TOP = 5;
 
