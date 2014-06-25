@@ -12,7 +12,8 @@ import android.view.SurfaceView;
 public class ChartView extends SurfaceView implements SurfaceHolder.Callback {
 
     private DrawThread drawThread;
-    List<Point> nodes;
+    List<Point> nodesMin;
+    List<Point> nodesMax;
     private int titleId;
     
     public ChartView(Context context) {
@@ -20,16 +21,17 @@ public class ChartView extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
     }
     
-    public ChartView(Context context, List<Point> nodes, int titleId) {
+    public ChartView(Context context, List<Point> nodesMax, List<Point> nodesMin, int titleId) {
         super(context);
         getHolder().addCallback(this);
-        this.nodes = nodes;
+        this.nodesMax = nodesMax;
+        this.nodesMin = nodesMin;
         this.titleId = titleId;
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {    
-        drawThread = new DrawThread(getHolder(), nodes, titleId);
+        drawThread = new DrawThread(getHolder(), nodesMax, nodesMin, titleId);
         drawThread.setRunning(true);
         drawThread.start();
     }

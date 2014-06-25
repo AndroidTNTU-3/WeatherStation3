@@ -56,6 +56,12 @@
 	<string name="accept">Accept</string>
     <string name="no_network">There are problems retrieving the new forecast. Check your network status</string>
     <string name="info">Info</string>
+    
+    <!-- Charts -->
+    <string name="temperature_chart">Temperature chart</string>
+    <string name="pressure_chart">Pressure chart</string>
+    <string name="humidity_chart">Humidity chart</string>
+    <!-- Charts -->
 	
     <string-array name="language">
         <item>English</item>

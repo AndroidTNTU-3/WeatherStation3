@@ -12,17 +12,25 @@ import com.unrealedz.wstation.entity.PolySector;
 
 public class ChartDataBuilder {
 	
-	private static final double MULT_Y_NARROW = 0.9;								//narrow multiplier;
 	
-	public static List<Point> getTemperatureNodes(List<ForecastDay> forecastDays) {
+	
+	public static List<Point> getTemperatureNodesMax(List<ForecastDay> forecastDays) {
 		List<Point> nodes = new ArrayList<Point>();
 		for(ForecastDay fd: forecastDays){
 			nodes.add(new Point(fd.getHour(), fd.getTemperatureMax()));
+		}		
+		return nodes;
+	}
+	
+	public static List<Point> getTemperatureNodesMin(List<ForecastDay> forecastDays) {
+		List<Point> nodes = new ArrayList<Point>();
+		for(ForecastDay fd: forecastDays){
+			nodes.add(new Point(fd.getHour(), fd.getTemperatureMin()));			
 		}
 		return nodes;
 	}
 	
-	public static List<Point> getPressureNodes(List<ForecastDay> forecastDays) {
+	public static List<Point> getPressureNodesMax(List<ForecastDay> forecastDays) {
 		List<Point> nodes = new ArrayList<Point>();
 		for(ForecastDay fd: forecastDays){
 			nodes.add(new Point(fd.getHour(), fd.getPressureMax()));
@@ -30,10 +38,26 @@ public class ChartDataBuilder {
 		return nodes;
 	}
 	
-	public static List<Point> getHumidityNodes(List<ForecastDay> forecastDays) {
+	public static List<Point> getPressureNodesMin(List<ForecastDay> forecastDays) {
+		List<Point> nodes = new ArrayList<Point>();
+		for(ForecastDay fd: forecastDays){
+			nodes.add(new Point(fd.getHour(), fd.getPressureMin()));
+		}
+		return nodes;
+	}
+	
+	public static List<Point> getHumidityNodesMax(List<ForecastDay> forecastDays) {
 		List<Point> nodes = new ArrayList<Point>();
 		for(ForecastDay fd: forecastDays){
 			nodes.add(new Point(fd.getHour(), fd.getHumidityMax()));
+		}
+		return nodes;
+	}
+	
+	public static List<Point> getHumidityNodesMin(List<ForecastDay> forecastDays) {
+		List<Point> nodes = new ArrayList<Point>();
+		for(ForecastDay fd: forecastDays){
+			nodes.add(new Point(fd.getHour(), fd.getHumidityMin()));
 		}
 		return nodes;
 	}
@@ -45,34 +69,37 @@ public class ChartDataBuilder {
 		List<Point> points = new ArrayList<Point>();
 		List<Point> sortedPoints = new ArrayList<Point>(nodes);
 		List<PolySector> newPoints = new ArrayList<PolySector>();  //polygons list
-			
+		
+		if(newPoints.size() != 0) newPoints.clear();
+		
 		Collections.sort(sortedPoints, new ValueSort());
 		
 		int MaxValue = sortedPoints.get(sortedPoints.size() - 1).y;
 		int MinValue = sortedPoints.get(0).y;
-		int heightAxis = height - height/5;
-		double multiplier = 0;
+		int heightAxis = height - Contract.PADDING_LEFT_RIGHT;
 
-		
-		
-		multiplier = heightAxis/((MaxValue-MinValue))*MULT_Y_NARROW;	
-				
+	
+		float multiplier = (float) (((float)heightAxis/(MaxValue-MinValue))*Contract.MULT_Y_NARROW);	
+		Log.i("DEBUG:", "multiplier = " + String.valueOf(multiplier));
 		width -= Contract.PADDING_LEFT_RIGHT;
 		height -= Contract.PADDING_LEFT_RIGHT;
 		
 		int deltaHour = width/(nodes.size()-1);
 		
-		int offset = (int) (heightAxis - (MaxValue*multiplier - MinValue*multiplier))/2;				//offset point relative X axis to up(align to middle Y axis)
-		
+		int offset = (int) Math.round(((float)heightAxis - ((float)(MaxValue - MinValue)*multiplier))/2);				//offset point relative X axis to up(align to middle Y axis)
+		Log.i("DEBUG:", "offset_1 = " + String.valueOf(offset));
+		//offset = 0;
+		//int offsetOnDegree = (int) ((heightAxis - offset*2)/multiplier);
+		//int offsetOnPx = (int) (heightAxis - offsetOnDegree*multiplier);
+		//if ((MinValue - offsetOnDegree) < 0)  offset = offset - offsetOnPx;
 		int i = 0;
 		for (Point p: nodes){
-			
-			Point point = new Point();
+			Point point = new Point();		
 			point.x = deltaHour*i;
-			point.y = (int) ((p.y-MinValue)*multiplier + offset);		
+			point.y = (int) (Math.round(multiplier*(p.y-MinValue)) + offset);
 			points.add(point);
 			i++;
-		}
+		}	
 		
 		//set polygons
 			for (int a = 0; a < points.size() - 1 ; a++) {
@@ -108,6 +135,7 @@ public class ChartDataBuilder {
 				newPoints.add(ps);
 				
 			}
+
 			return newPoints;
 	}
 

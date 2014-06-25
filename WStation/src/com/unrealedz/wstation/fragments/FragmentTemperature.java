@@ -13,6 +13,7 @@ import com.unrealedz.wstation.utils.Contract;
 import android.app.Fragment;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,8 @@ import android.view.ViewGroup;
  */
 public class FragmentTemperature extends Fragment {
 
-	List<Point> nodes;
+	List<Point> nodesMax;
+	List<Point> nodesMin;
 	private int titleId;
 	private List<ForecastDay> forecastDays;
 	private String date;
@@ -41,11 +43,11 @@ public class FragmentTemperature extends Fragment {
         //return inflater.inflate(R.layout.fragment_temperature, container, false);
     	date = getArguments().getString("date");
     	getForecastDay();
-        return new ChartView(getActivity(), nodes, Contract.TEMPERATURE);
+        return new ChartView(getActivity(), nodesMax, nodesMin, Contract.TEMPERATURE);
     }
     
     public void setNodes(List<Point> nodes, int titleId){
-    	this.nodes = nodes;
+    	this.nodesMax = nodesMax;
     	this.titleId = titleId;
     }
 
@@ -53,6 +55,8 @@ public class FragmentTemperature extends Fragment {
     	
     	DaoWeek dataWeekHelper = new DaoWeek(getActivity());		
     	forecastDays = dataWeekHelper.getForecastDayHours(date);//Get current day with hours forecast
-    	nodes = ChartDataBuilder.getTemperatureNodes(forecastDays);
+    	nodesMax = ChartDataBuilder.getTemperatureNodesMax(forecastDays);
+    	nodesMin = ChartDataBuilder.getTemperatureNodesMin(forecastDays);
+
 	}
 }

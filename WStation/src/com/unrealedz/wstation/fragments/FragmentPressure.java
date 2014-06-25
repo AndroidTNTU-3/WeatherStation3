@@ -25,7 +25,8 @@ import android.view.ViewGroup;
 
 public class FragmentPressure extends Fragment {
 
-	List<Point> nodes;
+	List<Point> nodesMax;
+	List<Point> nodesMin;
 	private int titleId;
 	private ForecastDay forecastDay;
 	private List<ForecastDay> forecastDays;
@@ -42,11 +43,11 @@ public class FragmentPressure extends Fragment {
        // return inflater.inflate(R.layout.fragment_pressure, container, false);
     	date = getArguments().getString("date");
     	getForecastDay();
-       return new ChartView(getActivity(), nodes, Contract.PRESSURE);
+       return new ChartView(getActivity(), nodesMax, nodesMin, Contract.PRESSURE);
     }
 
     public void setNodes(List<Point> nodes, int titleId){
-    	this.nodes = nodes;
+    	this.nodesMax = nodesMax;
     	this.titleId = titleId;
     }
     
@@ -54,7 +55,8 @@ public class FragmentPressure extends Fragment {
     	
     	DaoWeek dataWeekHelper = new DaoWeek(getActivity());		
     	forecastDays = dataWeekHelper.getForecastDayHours(date);//Get current day with hours forecast
-    	nodes = ChartDataBuilder.getPressureNodes(forecastDays);
+    	nodesMax = ChartDataBuilder.getPressureNodesMax(forecastDays);
+    	nodesMin = ChartDataBuilder.getPressureNodesMin(forecastDays);
 	}
 
 }

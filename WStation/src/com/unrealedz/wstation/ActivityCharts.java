@@ -5,11 +5,14 @@ import java.util.List;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import com.unrealedz.wstation.bd.DaoWeek;
 import com.unrealedz.wstation.entity.ForecastDay;
@@ -26,13 +29,25 @@ public class ActivityCharts extends Activity {
     private FragmentPressure fragmentPressure;
     private FragmentHumidity fragmentHumidity;
     private FragmentTransaction fTrans;
+    TextView tvTemperatureLb;
+    TextView tvPressureLb;
+    TextView tvHumidityLb;
     
     private String date;
+    
+    private SharedPreferences preferences;
+    private Boolean fahrenheit;
+    
+    String tempUnitValue;
   
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charts);
+        
+        tvTemperatureLb = (TextView) findViewById(R.id.tvChartTemperatureLb);
+        tvPressureLb = (TextView) findViewById(R.id.tvChartPressureLb);
+        tvHumidityLb = (TextView) findViewById(R.id.tvChartHumidityLb);
         
         if (savedInstanceState == null ) {
         	date = getIntent().getExtras().getString("date");
@@ -57,7 +72,26 @@ public class ActivityCharts extends Activity {
         fTrans.add(R.id.fragPressure, fragmentPressure);
         fTrans.add(R.id.fragHumidity, fragmentHumidity);
         fTrans.commit();
+        
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        loadPreferences();
+        
+        String temperatureText = getString(R.string.temperature_chart) + " (" + tempUnitValue + "°)";
+        String pressureText = getString(R.string.pressure_chart) + " (" + getString(R.string.pressureUnit) + ")";
+        String humidity = getString(R.string.humidity_chart) +  " (%)";
+        tvTemperatureLb.setText(temperatureText);
+        tvPressureLb.setText(pressureText);
+        tvHumidityLb.setText(humidity);
     }
+    
+  //loading preferences
+  	private void loadPreferences() {
+  		preferences = PreferenceManager.getDefaultSharedPreferences(this);
+  		fahrenheit = preferences.getBoolean("units_temp", false);
+  		if(!fahrenheit) tempUnitValue = "C";
+  		else tempUnitValue = "F";
+  		
+  	}
 
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {

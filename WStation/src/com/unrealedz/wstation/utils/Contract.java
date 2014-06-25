@@ -13,5 +13,6 @@ public class Contract {
 	public static final int PADDING = 5;
 	public static final int MARGIN_LEFT = 5;
 	public static final int MARGIN_TOP = 5;
+	public static final float MULT_Y_NARROW = 0.7f;								//narrow multiplier;
 
 }

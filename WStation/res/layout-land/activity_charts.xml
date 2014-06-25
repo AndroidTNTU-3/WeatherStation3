@@ -3,15 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/black"
     tools:context="alex.weathercharts.ActivityCharts">
+
+    <TextView
+        android:id="@+id/tvChartTemperatureLb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_small"        
+        android:text="" />
 
     <FrameLayout android:id="@+id/fragTemp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         tools:context=".FragmentTemperature" >
-
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvChartPressureLb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_small" 
+        android:text="" />
 
     <FrameLayout android:id="@+id/fragPressure"
         android:layout_width="match_parent"
@@ -19,6 +35,14 @@
         android:layout_weight="1"
         tools:context=".FragmentPressure" >
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvChartHumidityLb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_small" 
+        android:text="" />
 
     <FrameLayout
         android:id="@+id/fragHumidity"

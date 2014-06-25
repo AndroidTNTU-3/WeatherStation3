@@ -26,7 +26,8 @@ import android.view.ViewGroup;
  */
 public class FragmentHumidity extends Fragment {
 
-	List<Point> nodes;
+	List<Point> nodesMax;
+	List<Point> nodesMin;
 	private int titleId;
 	private ForecastDay forecastDay;
 	private List<ForecastDay> forecastDays;
@@ -43,12 +44,12 @@ public class FragmentHumidity extends Fragment {
     	Log.i("DEBUG Frag:", "On CreateView");
     	date = getArguments().getString("date");
     	getForecastDay();
-        return new ChartView(getActivity(), nodes, Contract.HUMIDITY);
+        return new ChartView(getActivity(), nodesMax, nodesMin, Contract.HUMIDITY);
     }
 
-    public void setNodes(List<Point> nodes, int titleId){
+    public void setNodes(List<Point> nodesMax, int titleId){
     	Log.i("DEBUG Frag:", "Set node");
-    	this.nodes = nodes;
+    	this.nodesMax = nodesMax;
     	this.titleId = titleId;
     }
     
@@ -56,6 +57,8 @@ public class FragmentHumidity extends Fragment {
     	
     	DaoWeek dataWeekHelper = new DaoWeek(getActivity());		
     	forecastDays = dataWeekHelper.getForecastDayHours(date);//Get current day with hours forecast
-    	nodes = ChartDataBuilder.getHumidityNodes(forecastDays);
+    	nodesMax = ChartDataBuilder.getHumidityNodesMax(forecastDays);
+    	nodesMin = ChartDataBuilder.getHumidityNodesMin(forecastDays);
+    	
 	}
 }
