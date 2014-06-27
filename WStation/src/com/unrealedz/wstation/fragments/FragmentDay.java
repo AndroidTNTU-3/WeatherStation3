@@ -31,6 +31,7 @@ public class FragmentDay extends Fragment {
 	TextView pressureTitle;
 	TextView wind;
 	TextView windTitle;
+	TextView tvDate;
 	ImageView imageView;
 	Context context;
 		
@@ -49,6 +50,7 @@ public class FragmentDay extends Fragment {
 	String pictureName;
 	String cityName;
 	String mRegion;
+	String date;
 	
 	SharedPreferences preferences;
 	Boolean fahrenheit;
@@ -62,6 +64,7 @@ public class FragmentDay extends Fragment {
 		city = (TextView) v.findViewById(R.id.tvCityDay);
 		region = (TextView) v.findViewById(R.id.tvRegionDay);
 		selectedHour = (TextView) v.findViewById(R.id.tvSelectedHour);
+		tvDate = (TextView) v.findViewById(R.id.tvDetailDayDate);
 		temperatureMin = (TextView) v.findViewById(R.id.tvDayTmin);
 		temperatureMax = (TextView) v.findViewById(R.id.tvDayTmax);
 		cloud = (TextView) v.findViewById(R.id.tvCloudHour);
@@ -101,6 +104,7 @@ public class FragmentDay extends Fragment {
 
 	public void setData(ForecastDay forecastDay) {
 		hours = forecastDay.getHour();
+		date = Utils.getStringDate(forecastDay.getDate());
 		tmin = forecastDay.getTemperatureMin();
 		tmax = forecastDay.getTemperatureMax();
 		cloudID = forecastDay.getCloudId();
@@ -137,6 +141,7 @@ public class FragmentDay extends Fragment {
 			city.setText(cityName);
 			region.setText(mRegion);
 			selectedHour.setText(String.valueOf(hours) + ":00");
+			tvDate.setText(date);
 			temperatureMin.setText(String.valueOf(tmin) + "°");
 			temperatureMax.setText(String.valueOf(tmax) + "°");
 			cloud.setText(Utils.getCloud(cloudID, context));

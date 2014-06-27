@@ -55,8 +55,9 @@ public class FragmentTemperature extends Fragment {
     	
     	DaoWeek dataWeekHelper = new DaoWeek(getActivity());		
     	forecastDays = dataWeekHelper.getForecastDayHours(date);//Get current day with hours forecast
-    	nodesMax = ChartDataBuilder.getTemperatureNodesMax(forecastDays);
-    	nodesMin = ChartDataBuilder.getTemperatureNodesMin(forecastDays);
+    	ChartDataBuilder chartDataBuilder = new ChartDataBuilder();
+    	nodesMax = chartDataBuilder.getTemperatureNodesMax(forecastDays);
+    	nodesMin = chartDataBuilder.getTemperatureNodesMin(forecastDays);
 
 	}
 }

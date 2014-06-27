@@ -4,17 +4,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.util.Log;
 
 import com.unrealedz.wstation.entity.ForecastDay;
 import com.unrealedz.wstation.entity.PolySector;
 
 public class ChartDataBuilder {
+		
+	private int maxValue;
+	private int minValue;
+	private int heightAxis;
+	private float multiplier;
+	private int offset;
 	
+	List<Point> points;
 	
-	
-	public static List<Point> getTemperatureNodesMax(List<ForecastDay> forecastDays) {
+	public List<Point> getTemperatureNodesMax(List<ForecastDay> forecastDays) {
 		List<Point> nodes = new ArrayList<Point>();
 		for(ForecastDay fd: forecastDays){
 			nodes.add(new Point(fd.getHour(), fd.getTemperatureMax()));
@@ -22,7 +31,7 @@ public class ChartDataBuilder {
 		return nodes;
 	}
 	
-	public static List<Point> getTemperatureNodesMin(List<ForecastDay> forecastDays) {
+	public List<Point> getTemperatureNodesMin(List<ForecastDay> forecastDays) {
 		List<Point> nodes = new ArrayList<Point>();
 		for(ForecastDay fd: forecastDays){
 			nodes.add(new Point(fd.getHour(), fd.getTemperatureMin()));			
@@ -30,7 +39,7 @@ public class ChartDataBuilder {
 		return nodes;
 	}
 	
-	public static List<Point> getPressureNodesMax(List<ForecastDay> forecastDays) {
+	public List<Point> getPressureNodesMax(List<ForecastDay> forecastDays) {
 		List<Point> nodes = new ArrayList<Point>();
 		for(ForecastDay fd: forecastDays){
 			nodes.add(new Point(fd.getHour(), fd.getPressureMax()));
@@ -38,7 +47,7 @@ public class ChartDataBuilder {
 		return nodes;
 	}
 	
-	public static List<Point> getPressureNodesMin(List<ForecastDay> forecastDays) {
+	public List<Point> getPressureNodesMin(List<ForecastDay> forecastDays) {
 		List<Point> nodes = new ArrayList<Point>();
 		for(ForecastDay fd: forecastDays){
 			nodes.add(new Point(fd.getHour(), fd.getPressureMin()));
@@ -46,7 +55,7 @@ public class ChartDataBuilder {
 		return nodes;
 	}
 	
-	public static List<Point> getHumidityNodesMax(List<ForecastDay> forecastDays) {
+	public List<Point> getHumidityNodesMax(List<ForecastDay> forecastDays) {
 		List<Point> nodes = new ArrayList<Point>();
 		for(ForecastDay fd: forecastDays){
 			nodes.add(new Point(fd.getHour(), fd.getHumidityMax()));
@@ -54,49 +63,53 @@ public class ChartDataBuilder {
 		return nodes;
 	}
 	
-	public static List<Point> getHumidityNodesMin(List<ForecastDay> forecastDays) {
+	public List<Point> getHumidityNodesMin(List<ForecastDay> forecastDays) {
 		List<Point> nodes = new ArrayList<Point>();
 		for(ForecastDay fd: forecastDays){
 			nodes.add(new Point(fd.getHour(), fd.getHumidityMin()));
 		}
 		return nodes;
 	}
-
-	public static List<PolySector> getChartPoint(int height, int width,
-			List<Point> nodes) {
-		
-		//if (nodes.size() != 0){
-		List<Point> points = new ArrayList<Point>();
+	
+	private void getMinMaxValue(int height, List<Point> nodes){ 
 		List<Point> sortedPoints = new ArrayList<Point>(nodes);
-		List<PolySector> newPoints = new ArrayList<PolySector>();  //polygons list
-		
-		if(newPoints.size() != 0) newPoints.clear();
-		
 		Collections.sort(sortedPoints, new ValueSort());
 		
-		int MaxValue = sortedPoints.get(sortedPoints.size() - 1).y;
-		int MinValue = sortedPoints.get(0).y;
-		int heightAxis = height - Contract.PADDING_LEFT_RIGHT;
-
+		heightAxis = height - Contract.PADDING_TOP - Contract.PADDING_BOTTOM;
+		maxValue = sortedPoints.get(sortedPoints.size() - 1).y;
+		minValue = sortedPoints.get(0).y;		
+	}
 	
-		float multiplier = (float) (((float)heightAxis/(MaxValue-MinValue))*Contract.MULT_Y_NARROW);	
-		Log.i("DEBUG:", "multiplier = " + String.valueOf(multiplier));
+	private float getMultiplier(){
+		return (float) (((float)heightAxis/(maxValue-minValue))*Contract.MULT_Y_NARROW);
+	}
+	
+	private int getOffset(){
+		return (int) Math.round(((float)heightAxis - ((float)(maxValue - minValue)*multiplier))/2);
+	}
+	
+	public List<PolySector> getChartPoint(int height, int width,
+			List<Point> nodes) {
+		
+		getMinMaxValue(height, nodes);
+		points = new ArrayList<Point>();
+		List<PolySector> newPoints = new ArrayList<PolySector>();  //polygons list
+		
+		if(newPoints.size() != 0) newPoints.clear();	
+
+		multiplier = getMultiplier();
+		offset = getOffset();
+		
 		width -= Contract.PADDING_LEFT_RIGHT;
-		height -= Contract.PADDING_LEFT_RIGHT;
+		height =  height - Contract.PADDING_TOP - Contract.PADDING_BOTTOM ;
 		
-		int deltaHour = width/(nodes.size()-1);
-		
-		int offset = (int) Math.round(((float)heightAxis - ((float)(MaxValue - MinValue)*multiplier))/2);				//offset point relative X axis to up(align to middle Y axis)
-		Log.i("DEBUG:", "offset_1 = " + String.valueOf(offset));
-		//offset = 0;
-		//int offsetOnDegree = (int) ((heightAxis - offset*2)/multiplier);
-		//int offsetOnPx = (int) (heightAxis - offsetOnDegree*multiplier);
-		//if ((MinValue - offsetOnDegree) < 0)  offset = offset - offsetOnPx;
+		float deltaHour = width/(nodes.size()-1);
+			
 		int i = 0;
 		for (Point p: nodes){
 			Point point = new Point();		
-			point.x = deltaHour*i;
-			point.y = (int) (Math.round(multiplier*(p.y-MinValue)) + offset);
+			point.x = Math.round(deltaHour*i);
+			point.y = (int) (Math.round(multiplier*(p.y-minValue)) + offset);
 			points.add(point);
 			i++;
 		}	
@@ -138,7 +151,41 @@ public class ChartDataBuilder {
 
 			return newPoints;
 	}
-
+	
+	public List<Integer> getDivision(int height, int width,
+			List<Point> nodes, int amountYParameter) {
+		List<Integer> divisionPoints = new ArrayList<Integer>();
+		
+        float deltaT = (float) heightAxis/amountYParameter;
+    		
+    	for (int i = 0; i < amountYParameter + 1 ; i++){
+    		int markerYPos = Math.round(deltaT*i) + Contract.PADDING_TOP;	
+    		divisionPoints.add(markerYPos);
+    	}
+		return divisionPoints;
+		
+	}
+	
+	public List<Float> getDivisionValue(int amountYParameter){
+		List<Float> paramValues = new ArrayList<Float>();
+		
+		int minAxisValue = (int) (minValue - Math.round(offset/multiplier));
+        int maxAxisValue = (int) (maxValue + Math.round(offset/multiplier));
+        
+        float deltaValue = (float)(maxAxisValue - minAxisValue)/amountYParameter;
+    	float currentValue = maxAxisValue;
+    	    	
+    	for(int i = 0; i < amountYParameter + 1; i++){
+    		paramValues.add(currentValue);
+    		currentValue = currentValue - deltaValue;
+    	}
+    	
+		return paramValues; 
+	}
+	
+	public List<Point> getPoints(){
+		return points;
+	}
 
 
 }

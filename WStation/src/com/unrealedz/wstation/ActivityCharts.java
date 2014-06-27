@@ -4,14 +4,20 @@ import java.util.List;
 
 import android.app.Activity;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.unrealedz.wstation.bd.DaoWeek;
@@ -32,7 +38,7 @@ public class ActivityCharts extends Activity {
     TextView tvTemperatureLb;
     TextView tvPressureLb;
     TextView tvHumidityLb;
-    
+     
     private String date;
     
     private SharedPreferences preferences;
@@ -44,7 +50,7 @@ public class ActivityCharts extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_charts);
-        
+              
         tvTemperatureLb = (TextView) findViewById(R.id.tvChartTemperatureLb);
         tvPressureLb = (TextView) findViewById(R.id.tvChartPressureLb);
         tvHumidityLb = (TextView) findViewById(R.id.tvChartHumidityLb);
@@ -52,9 +58,9 @@ public class ActivityCharts extends Activity {
         if (savedInstanceState == null ) {
         	date = getIntent().getExtras().getString("date");
         	refresh();
-        }      
+        }
     }
-    
+         
     private void refresh(){
         fragmentTemperature = new FragmentTemperature();
         fragmentPressure = new FragmentPressure();

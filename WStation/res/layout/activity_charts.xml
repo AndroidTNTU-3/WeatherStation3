@@ -11,7 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:textSize="@dimen/text_size_small"        
+        android:textSize="@dimen/text_size_small" 
+        android:paddingLeft="10dp"       
         android:text="" />
 
     <FrameLayout android:id="@+id/fragTemp"
@@ -27,6 +28,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_small" 
+        android:paddingLeft="10dp"
         android:text="" />
 
     <FrameLayout android:id="@+id/fragPressure"
@@ -42,6 +44,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_small" 
+        android:paddingLeft="10dp"
         android:text="" />
 
     <FrameLayout

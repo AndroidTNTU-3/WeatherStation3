@@ -36,7 +36,17 @@
        
    </LinearLayout>
    
-          <TextView
+
+
+   <ImageView
+       android:id="@+id/imageDay"
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:layout_below="@+id/linearlayoutLocationHour"
+       android:layout_centerHorizontal="true"
+       android:src="@drawable/_4_short_rain_bigest" />
+   
+             <TextView
            android:id="@+id/tvSelectedHour"
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
@@ -47,14 +57,21 @@
        	   android:paddingTop="10dp"
        	   android:textStyle="bold"
            android:textSize="@dimen/text_size_medium" />
-
-   <ImageView
-       android:id="@+id/imageDay"
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_below="@+id/linearlayoutLocationHour"
-       android:layout_centerHorizontal="true"
-       android:src="@drawable/_4_short_rain_bigest" />
+          
+         <TextView
+           android:id="@+id/tvDetailDayDate"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text=""
+           android:shadowColor="@color/white"
+           android:shadowDx="-1"
+           android:shadowDy="1"
+           android:shadowRadius="0.01"
+           android:layout_alignParentRight="true"
+           android:layout_below="@+id/tvSelectedHour"
+           android:paddingRight="20dp"
+           android:textColor="@color/darkgray"
+           android:textSize="@dimen/text_size_small" />
 
    <TextView
        android:id="@+id/tvCloudHour"

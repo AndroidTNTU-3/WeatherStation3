@@ -55,8 +55,9 @@ public class FragmentPressure extends Fragment {
     	
     	DaoWeek dataWeekHelper = new DaoWeek(getActivity());		
     	forecastDays = dataWeekHelper.getForecastDayHours(date);//Get current day with hours forecast
-    	nodesMax = ChartDataBuilder.getPressureNodesMax(forecastDays);
-    	nodesMin = ChartDataBuilder.getPressureNodesMin(forecastDays);
+    	ChartDataBuilder chartDataBuilder = new ChartDataBuilder();
+    	nodesMax = chartDataBuilder.getPressureNodesMax(forecastDays);
+    	nodesMin = chartDataBuilder.getPressureNodesMin(forecastDays);
 	}
 
 }

@@ -57,8 +57,9 @@ public class FragmentHumidity extends Fragment {
     	
     	DaoWeek dataWeekHelper = new DaoWeek(getActivity());		
     	forecastDays = dataWeekHelper.getForecastDayHours(date);//Get current day with hours forecast
-    	nodesMax = ChartDataBuilder.getHumidityNodesMax(forecastDays);
-    	nodesMin = ChartDataBuilder.getHumidityNodesMin(forecastDays);
+    	ChartDataBuilder chartDataBuilder = new ChartDataBuilder();
+    	nodesMax = chartDataBuilder.getHumidityNodesMax(forecastDays);
+    	nodesMin = chartDataBuilder.getHumidityNodesMin(forecastDays);
     	
 	}
 }

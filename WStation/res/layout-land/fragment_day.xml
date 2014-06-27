@@ -43,14 +43,35 @@
            		android:shadowRadius="0.01"
                 android:textSize="@dimen/text_size_small" />
             
+            
+       <LinearLayout
+            android:id="@+id/linearlayoutDateHour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:orientation="vertical">
+                 
              <TextView
                 android:id="@+id/tvSelectedHour"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
+                android:layout_height="wrap_content"            
                 android:text=""
                 android:textStyle="bold"
            		android:textSize="@dimen/text_size_medium"  />
+             
+             <TextView
+                android:id="@+id/tvDetailDayDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:shadowColor="@color/white"
+          		android:shadowDx="-1"
+           		android:shadowDy="1"
+           		android:shadowRadius="0.01"
+                android:text=""
+                android:textColor="@color/darkgray"
+                android:textSize="@dimen/text_size_small" />
+             </LinearLayout>
+
         </LinearLayout>
     
       <LinearLayout
