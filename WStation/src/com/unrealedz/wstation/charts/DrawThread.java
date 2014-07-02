@@ -116,8 +116,7 @@ public class DrawThread extends Thread{
 		                    chartDrawerMax.drawPoly(canvas, polySectorsMax);
 		                    chartDrawerMax.drawCircle(canvas);		                    		                    
 		                    chartDrawerMax.drawParameters(canvas, nodesMax);
-		                    drawMidGrad(canvas);
-		                    drawMidGrad1(canvas);
+		                    gradientGenerator(canvas);
 		                    
 		                    
 		                   /* chartDrawerMin = new ChartDrawer();
@@ -162,8 +161,8 @@ public class DrawThread extends Thread{
         for (int i = 0; i < nodesMax.size()-1; i++) {
         	int left = i*delta + Contract.PADDING_LEFT;
         	int right = (i+1)*delta + Contract.PADDING_RIGHT ;
-        	if ( (i & 1) == 0 ) polyPaint.setShader(new LinearGradient(0,0,0,canvas.getHeight(),0xff727272,0xffffffff, Shader.TileMode.CLAMP));
-        	else polyPaint.setShader(new LinearGradient(0,0,0,canvas.getHeight(),0xffffffff,0xff727272, Shader.TileMode.CLAMP));
+        	if ( (i & 1) == 0 ) polyPaint.setShader(new LinearGradient(0,0,0,canvas.getHeight(),0xffaaaaaa,0xffffffff, Shader.TileMode.CLAMP));
+        	else polyPaint.setShader(new LinearGradient(0,0,0,canvas.getHeight(),0xffffffff,0xffaaaaaa, Shader.TileMode.CLAMP));
             canvas.drawRect(left, topEdge, right, bottomEdge, polyPaint);
         }
         
@@ -242,15 +241,12 @@ public class DrawThread extends Thread{
         	p.reset();
         	p.setStyle(Paint.Style.FILL);
         	p.setAntiAlias(true);
-        	//p.setShader(new RadialGradient(0, 0, 5.0f, 0xffff6e02, 0xffffff00, Shader.TileMode.CLAMP));
-        	//p.setShader(new RadialGradient(1, 1, 5.0f, 0xFFFFFFFF, 0xFF000000, Shader.TileMode.MIRROR));
+        	
         	List<Point> points = chartDataBuilder.getPoints();
         	
-        	for(int k = 0; k < points.size(); k++){
-       		
+        	for(int k = 0; k < points.size(); k++){       		
         		int y = bottomEdge - points.get(k).y;
-	        	int x = Contract.PADDING_LEFT + points.get(k).x;	            		
-         		
+	        	int x = Contract.PADDING_LEFT + points.get(k).x;	            		         		
         		p.setShader(new RadialGradient(x-2, y-2, 4.0f, 0xffffff00, 0xffff6e02, Shader.TileMode.CLAMP));
     	        canvas.drawCircle(x, y, 5, p);
             }
@@ -338,88 +334,59 @@ public class DrawThread extends Thread{
      * get a text bounds size
      */
     
-    private void drawMidGrad(Canvas canvas){
-    	
-    	int h = canvas.getHeight() - Contract.PADDING_TOP - Contract.PADDING_BOTTOM;   	
+    private void gradientGenerator(Canvas canvas){
     	Path polyPath = new Path();
     	List<Point> points = chartDataBuilder.getPoints();
+    	int h = canvas.getHeight() - Contract.PADDING_TOP - Contract.PADDING_BOTTOM; 
     	
-    	float deltaX = (float)(points.get(1).x - points.get(0).x)/3;
-    	float deltaY = (float)(points.get(1).y - points.get(0).y)/3;
-    	Log.i("DEBUG","deltaY: " + String.valueOf(deltaY));
-    	List<Point> points1 = new ArrayList<Point>();
-    	points1.add(new Point(Math.round(deltaX),  h));
-    	points1.add(new Point(Math.round(deltaX), h - points.get(0).y - Math.round(deltaY)));
-    	points1.add(new Point(points.get(1).x - Math.round(deltaX), h - points.get(1).y + Math.round(deltaY)));
-    	points1.add(new Point(points.get(1).x  - Math.round(deltaX) ,  h));
-    	p.reset();
-    	p.setStyle(Style.FILL);
-		p.setAntiAlias(true);
-				
-		for( int j = 0; j < points.size(); j++){
-			
-			int maxY = 0;
+    	for (int i = 0; i < points.size() - 1; i++){
+    		
+        	float deltaX = (float)(points.get(i + 1).x - points.get(i).x)/3;
+        	float deltaY = (float)(points.get(i + 1).y - points.get(i).y)/3;
+        	
+        	List<Point> gradPoints = new ArrayList<Point>();
+        	gradPoints.add(new Point(points.get(i).x + Math.round(deltaX),  h));
+        	gradPoints.add(new Point(points.get(i).x + Math.round(deltaX), h - points.get(i).y - Math.round(deltaY)));
+        	gradPoints.add(new Point(points.get(i + 1).x - Math.round(deltaX), h - points.get(i + 1).y + Math.round(deltaY)));
+        	gradPoints.add(new Point(points.get(i + 1).x  - Math.round(deltaX) ,  h));
+        	p.reset();
+        	p.setStyle(Style.FILL);
+    		p.setAntiAlias(true);
+    					
+			/*
+			 * get a higher point in section;
+			 */
+    		
+    		int maxY = 0;
     		if (points.get(1).y < points.get(2).y) maxY = points.get(1).y; 
     		else maxY = points.get(2).y;
-    		p.setShader(new LinearGradient(0,points.get(0).y,0,maxY,0xfffff880,0xfffbc948, Shader.TileMode.CLAMP)); 
     		
-    		polyPath.moveTo(points1.get(0).x + Contract.PADDING_LEFT, points1.get(0).y + offsetY);
-	        
-	        for (int i = 0; i < points1.size(); i++) {
-	            polyPath.lineTo(points1.get(i).x + Contract.PADDING_LEFT, points1.get(i).y + offsetY);
-	            
-	        }
-	        polyPath.lineTo(points1.get(0).x + Contract.PADDING_LEFT, points1.get(0).y + offsetY);
-	
-	        // draw
-	        canvas.drawPath(polyPath, p);
-	        polyPath.reset();
+			/*
+			 * change a color gradient for odd & even strips
+			 */
     		
-		}
+    		if ( (i & 1) == 0 ) p.setShader(new LinearGradient(0,points.get(0).y,0, maxY,0xfffff880,0xfffbc948, Shader.TileMode.CLAMP)); 
+    		else p.setShader(new LinearGradient(0,points.get(0).y,0,maxY,0xffdae1ee, 0xffa8c1d7, Shader.TileMode.CLAMP));
+
+    		
+    		for( int j = 0; j < points.size(); j++){
+       		
+        		polyPath.moveTo(gradPoints.get(0).x + Contract.PADDING_LEFT, gradPoints.get(0).y + offsetY);
+    	        
+    	        for (int k = 0; k < gradPoints.size(); k++) {
+    	            polyPath.lineTo(gradPoints.get(k).x + Contract.PADDING_LEFT, gradPoints.get(k).y + offsetY);   	            
+    	        }
+    	        polyPath.lineTo(gradPoints.get(0).x + Contract.PADDING_LEFT, gradPoints.get(0).y + offsetY);
     	
+    	        // draw
+    	        canvas.drawPath(polyPath, p);
+    	        polyPath.reset();
+        		
+    		}
+    		
+    	}
     }
-    
-private void drawMidGrad1(Canvas canvas){
-    	
-    	int h = canvas.getHeight() - Contract.PADDING_TOP - Contract.PADDING_BOTTOM;   	
-    	Path polyPath = new Path();
-    	List<Point> points = chartDataBuilder.getPoints();
-    	
-    	float deltaX = (float)(points.get(3).x - points.get(2).x)/3;
-    	float deltaY = (float)(points.get(3).y - points.get(2).y)/3;
-    	Log.i("DEBUG","deltaY: " + String.valueOf(deltaY));
-    	List<Point> points1 = new ArrayList<Point>();
-    	points1.add(new Point(points.get(2).x + Math.round(deltaX),  h));
-    	points1.add(new Point(points.get(2).x + Math.round(deltaX), h - points.get(2).y - Math.round(deltaY)));
-    	points1.add(new Point(points.get(3).x - Math.round(deltaX), h - points.get(3).y + Math.round(deltaY)));
-    	points1.add(new Point(points.get(3).x  - Math.round(deltaX) ,  h));
-    	p.reset();
-    	p.setStyle(Style.FILL);
-		p.setAntiAlias(true);
-				
-		for( int j = 0; j < points.size(); j++){
-			
-			int maxY = 0;
-    		if (points.get(1).y < points.get(2).y) maxY = points.get(1).y; 
-    		else maxY = points.get(2).y;
-    		p.setShader(new LinearGradient(0,points.get(0).y,0,maxY,0xfffff880,0xfffbc948, Shader.TileMode.CLAMP)); 
-    		
-    		polyPath.moveTo(points1.get(0).x + Contract.PADDING_LEFT, points1.get(0).y + offsetY);
-	        
-	        for (int i = 0; i < points1.size(); i++) {
-	            polyPath.lineTo(points1.get(i).x + Contract.PADDING_LEFT, points1.get(i).y + offsetY);
-	            
-	        }
-	        polyPath.lineTo(points1.get(0).x + Contract.PADDING_LEFT, points1.get(0).y + offsetY);
-	
-	        // draw
-	        canvas.drawPath(polyPath, p);
-	        polyPath.reset();
-    		
-		}
-    	
-    }
-    
+          
     private int getTextHeight(Paint p, String text){
     	Rect bounds = new Rect();
     	p.getTextBounds(text, 0, text.length(), bounds);
