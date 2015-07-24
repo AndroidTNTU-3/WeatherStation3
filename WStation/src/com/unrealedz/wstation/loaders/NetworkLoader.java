@@ -1,21 +1,24 @@
 package com.unrealedz.wstation.loaders;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.xmlpull.v1.XmlPullParserException;
 
 import com.unrealedz.wstation.factory.FactoryLoader;
-
 import com.unrealedz.wstation.utils.Contract;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.Toast;
 
-public class NetworkLoader extends AsyncTask<String, Void, String>{
+public class NetworkLoader extends AsyncTask<String, Void, InputStream>{
 		
 	Context context;
-			
+	private InputStream stream;
+	private FactoryLoader factory;
 	public static interface LoaderCallBack{
+		public void weatherServiseNotAvalable();
 		public void setLocationInfo();
 		public void setLastUpdate();
 		public void setWeekList();
@@ -41,46 +44,35 @@ public class NetworkLoader extends AsyncTask<String, Void, String>{
 	 */
 
 	@Override
-	protected String doInBackground(String... params) {
+	protected InputStream doInBackground(String... params) {
 		String keyLoader = params[0]; 
 		int key = 0;
 		
 		if (keyLoader.equals(Contract.GET_CITY_DB)) key = FactoryLoader.CITY;
 		else if (keyLoader.equals(Contract.GET_FORECAST)) key = FactoryLoader.FORECAST;
 		
-				FactoryLoader factory = FactoryLoader.getFactoryLoader(key);
-				factory.getStream(params[1]);
+				factory = FactoryLoader.getFactoryLoader(key);
+				stream = factory.getStream(params[1]);
 				try {
-					
-					factory.processing(context);
-					
+					if(stream != null)
+						factory.processing(context);					
 				} catch (XmlPullParserException e) {
 					e.printStackTrace();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}	
-		return keyLoader;
+		return stream;
 	}
 		
 	
 	@Override
-    protected void onPostExecute(String result) {
+    protected void onPostExecute(InputStream result) {
       super.onPostExecute(result);
-      
-      if (result.equals(Contract.GET_CITY_DB)){
-    	  
-    	  if (loaderCallBack != null){
-    			 loaderCallBack.onLoadCityDB();			//notification for service(cities data is loaded)
-    	  }    	          
-
-      } else if(result.equals(Contract.GET_FORECAST)){
-    	  
-    	  if (loaderCallBack != null){					//notification for service(forecast data is loaded)
-        	  loaderCallBack.setLocationInfo();
-        	  loaderCallBack.setLastUpdate();
-        	  loaderCallBack.setWeekList();
-          } 		  
-      }
+      if (loaderCallBack != null){
+	      if(result != null){	      
+		    	  factory.successfullyNitification(loaderCallBack);			//notification for the service(a cities data is loaded)
+	      }else loaderCallBack.weatherServiseNotAvalable();	
+      }      
 	}	
 	
 	public void setLoaderCallBack(LoaderCallBack loaderCallBack) {

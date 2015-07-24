@@ -1,6 +1,5 @@
 package com.unrealedz.wstation;
 
-import com.unrealedz.wstation.UpdateService.IUpdateServiceCallBack;
 import com.unrealedz.wstation.bd.DaoWeek;
 import com.unrealedz.wstation.bd.DbHelper;
 import com.unrealedz.wstation.entity.City;
@@ -26,7 +25,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
 
-public class MainActivity extends Activity implements IUpdateServiceCallBack{
+public class MainActivity extends Activity implements UpdateServiceCallBack{
 	
 	FragmentCurrent fragCurrent;
 	FragmentList fragList;
@@ -72,16 +71,16 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 		        updateService.setOnUpdateServiceCallBack(MainActivity.this);
 		        bound = true;		
 		        //if (isRunning) {
-		        if (screenOrienrtation == 0){						//loading data if the orientation has not been changed
-		        													// 1 // Load data from DB
+		        if (screenOrienrtation == 0){						//loading a data if a device orientation has not been changed
+		        													// 1 // Load a data from DB
 		        	getDataFromDB();
-		        													// 2 // after this load data from Net if device is online
+		        													// 2 // after load The data from Net if a device is online
 		        	if (UtilsNet.isOnline(getApplicationContext())){
 		        		updateService.cityLoad();
-		        		fragInfo.setProgressBar(true);  			//show progress while loading data
+		        		fragInfo.setProgressBar(true);  			//show a progress while loading the data
 		        	}
 
-		        } else {											//loading data if the orientation has been changed
+		        } else {											//loading the data if the device orientation has been changed
 		        	getDataFromDB();
 		        }
 		        //}
@@ -101,7 +100,7 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
     	updateService.setLastUpdate();
     	updateService.setWeekList();
     }
-    
+
     
     //check Internet connection on first start application
     private void isDataEmpty(){
@@ -142,12 +141,12 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	    super.onResume();
 	}
 
-	//CallBack: set data to fragments (Current forecast and the city location info)
+	//CallBack: set a data to fragments (The current forecast and the city location info)
 	@Override	public void onLocationCurrentPrepared(City city,
 			CurrentForecast currentForecast) {
 		
-		fragCurrent.setData(city, currentForecast); //Current forecast
-		fragList.setCity(city);						//send the city location info to ListView (for open activity_detail_day)
+		fragCurrent.setData(city, currentForecast); //The Current forecast
+		fragList.setCity(city);						//send the city location info to a ListView (for open activity_detail_day)
 		
 	}
 	
@@ -164,8 +163,13 @@ public class MainActivity extends Activity implements IUpdateServiceCallBack{
 	@Override
 	public void onForecastPrepared() {
 		fragList.setDataToList();
-		fragInfo.setProgressBar(false); //hide progress while loading data
+		hideProgress();
 	}	
+	
+	@Override
+	public void hideProgress(){
+		fragInfo.setProgressBar(false); //hide progress while loading data
+	}
 		
 	@Override
     public boolean onCreateOptionsMenu(Menu menu) {

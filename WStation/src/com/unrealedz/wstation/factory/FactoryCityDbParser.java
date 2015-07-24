@@ -5,10 +5,12 @@ import java.io.IOException;
 import org.xmlpull.v1.XmlPullParserException;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.unrealedz.wstation.bd.DaoCityDb;
 import com.unrealedz.wstation.bd.DaoCityDbVersion;
 import com.unrealedz.wstation.entity.CitiesDB;
+import com.unrealedz.wstation.loaders.NetworkLoader.LoaderCallBack;
 import com.unrealedz.wstation.parsers.CityDbParser;
 
 public class FactoryCityDbParser extends FactoryLoader{
@@ -60,6 +62,12 @@ public class FactoryCityDbParser extends FactoryLoader{
 
 		daoCity.cleanOldRecords();
 		daoCity.insertCitiesDB(citiesDB);
+	}
+	
+	@Override
+	public void successfullyNitification(LoaderCallBack loaderCallBack){
+		Log.i("DEBUG:", "In succsefull");   
+		loaderCallBack.onLoadCityDB();
 	}
 
 }

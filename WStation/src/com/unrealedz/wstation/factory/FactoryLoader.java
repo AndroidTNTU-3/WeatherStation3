@@ -11,7 +11,11 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.xmlpull.v1.XmlPullParserException;
 
+import com.unrealedz.wstation.loaders.NetworkLoader.LoaderCallBack;
+
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
 public abstract class FactoryLoader {
 	
@@ -34,7 +38,7 @@ public abstract class FactoryLoader {
 	 * Load stream with URL
 	 */
 	
-	public void getStream(String url){
+	public InputStream getStream(String url){
 		
 		HttpClient client = new DefaultHttpClient();
 		
@@ -47,24 +51,25 @@ public abstract class FactoryLoader {
 		try {
 			
 			response = (HttpResponse) client.execute(httpRequest);
-			HttpEntity entity = response.getEntity();		
-			stream = entity.getContent();
-			
+			HttpEntity entity = response.getEntity();	
+			stream = entity.getContent();			
 		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
+		
+		return stream;
 
 	}
 	
 	/*
-	 * Abstract method for
-	 * process parse a data from a stream and store in DataBase
+	 * The abstract method for
+	 * parsing a data from a stream and store in DataBase
 	 */
 	
 	public abstract void processing(Context context) throws XmlPullParserException, IOException;
+	
+	public abstract void successfullyNitification(LoaderCallBack loaderCallBack);
 
 }

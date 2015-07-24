@@ -29,7 +29,8 @@ public class CityDbParser {
 		
 		factory = XmlPullParserFactory.newInstance();
 		xpp = factory.newPullParser();
-		xpp.setInput(stream, null);
+		if(stream == null) Log.i("DEBUG:", "stream is null");
+			xpp.setInput(stream, null);
 		
 		xpp.nextTag();
 			xpp.require(XmlPullParser.START_TAG, namespace, "city");

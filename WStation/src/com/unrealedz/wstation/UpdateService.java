@@ -33,28 +33,21 @@ import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.RemoteViews;
+import android.widget.Toast;
 
 public class UpdateService extends IntentService implements LoaderCallBack, LocationLoaderCallBack {
 		
 
 	public static final String FROM_WIDGET = "com.unrealedz.wstation.FROM_WIDGET";
 	private static final String NAME = "UpdateService";	
-	private String url = "http://xml.weather.co.ua/1.2/forecast/23?dayf=5&lang=uk";
-	
-	public interface IUpdateServiceCallBack {
-		//public void onForecastPrepared(Cursor cursor);
-		public void onForecastPrepared();
-		public void onLocationCurrentPrepared(City city, CurrentForecast currentForecast);
-		public void onLastUpdatePrepared(CurrentForecast currentForecast);
-	}
-	
+	private String url = "http://xml.weather.co.ua/1.2/forecast/23?dayf=5&lang=uk";	
 	
 	public UpdateService() {
 		super(NAME);
 		// TODO Auto-generated constructor stub
 	}
 	
-	IUpdateServiceCallBack usCallBack;
+	UpdateServiceCallBack usCallBack;
 	ForecastBinder binder = new ForecastBinder();
 		
 	private NetworkLoader nLoader;
@@ -129,7 +122,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
  
     }
  		
-    // 1 // Loader of DataBase cities //
+    // 1 // A loader of DataBase of cities //
 	public void cityLoad(){
 	   		cLoader = new NetworkLoader(this);
 	   		cLoader.setLoaderCallBack(this);
@@ -138,7 +131,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	
 
 
-	// 2 //CallBack from NetworkLoader if the citiesDB is loaded
+	// 2 //CallBack from The nNetworkLoader if the citiesDB is loaded
 	@Override
 	public void onLoadCityDB() {
 		locationLoader = new LocationLoader(context);
@@ -153,7 +146,7 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	}
 	
 	
-	// 3 //CallBack from LocationLoader if a current city code is get
+	// 3 //CallBack from LocationLoader if a current city code is received
 	@Override
 	public void setLocation(String cityId) {
 		//int cityId = 23; //Kyiv code from dummy 
@@ -170,8 +163,8 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
     	if (UtilsNet.isOnline(context)) nLoader.execute(Contract.GET_FORECAST, url);
 	}
 	
-	// 5 // Get object of city location and current forecast //
-	//      Send data to activity fragments and widget       // 
+	// 5 // Get a object of city location and a current forecast //
+	//      Send a data to a activity fragments and a widget       // 
 	@Override
 	public void setLocationInfo() {
 		
@@ -183,11 +176,11 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 	    
 	    if (city != null && currentForecast != null){
  
-	    	if (!isWidget){														//if it activity - sent data to MainActivity
+	    	if (!isWidget){														//if it is activity - sent a data to the MainActivity
 	    		if (UtilsNet.isRunning(context)){
 	    			usCallBack.onLocationCurrentPrepared(city, currentForecast);	
 	    		}
-	    	} else sendInfoWidget(city, currentForecast);						//if widget - sent data to widget
+	    	} else sendInfoWidget(city, currentForecast);						//if it is widget - sent a data to a widget
 	    } else Log.i("DEBUG:", "Is null"); 
 	    daoCityCurrent.closeDb();
 	    
@@ -286,8 +279,16 @@ public class UpdateService extends IntentService implements LoaderCallBack, Loca
 		 daoWeek.closeDb();
 	}
 	
+	public void weatherServiseNotAvalable(){
+		Toast.makeText(getApplicationContext(),
+	            "Weather Service is not avalable",
+	            Toast.LENGTH_SHORT).show();
+		usCallBack.hideProgress();
+		stopSelf();
+	}
+	
 	//registered observers
-	public void setOnUpdateServiceCallBack(IUpdateServiceCallBack usCallBack) {		
+	public void setOnUpdateServiceCallBack(UpdateServiceCallBack usCallBack) {		
 		this.usCallBack = usCallBack;
 	}
 

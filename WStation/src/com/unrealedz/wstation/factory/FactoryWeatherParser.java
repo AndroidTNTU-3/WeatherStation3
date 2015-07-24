@@ -10,6 +10,7 @@ import com.unrealedz.wstation.bd.DaoCityCurrent;
 import com.unrealedz.wstation.bd.DaoDay;
 import com.unrealedz.wstation.bd.DaoWeek;
 import com.unrealedz.wstation.entity.Forecast;
+import com.unrealedz.wstation.loaders.NetworkLoader.LoaderCallBack;
 import com.unrealedz.wstation.parsers.WeatherParser;
 
 public class FactoryWeatherParser extends FactoryLoader {
@@ -49,6 +50,13 @@ public class FactoryWeatherParser extends FactoryLoader {
 			}
 		}
 				
+	}
+	
+	@Override
+	public void successfullyNitification(LoaderCallBack loaderCallBack){
+		loaderCallBack.setLocationInfo();
+   	  	loaderCallBack.setLastUpdate();
+   	  	loaderCallBack.setWeekList();
 	}
 
 }
